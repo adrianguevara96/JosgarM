@@ -1,0 +1,101 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                  <h1>Iniciar Sesión</h1>
+                  <p class="text-muted">Inicie sesión en su cuenta</p>
+                  <!--   INICIO DE FORMULARIO   -->
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                    <!--   EMAIL  -->
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                      <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input formControlName="email" type="text" class="form-control" placeholder="Correo Electrónico" [pattern]="emailPattern" required>
+                      </div>
+                    </div>
+                    <div class="input-group mb-2">
+                      <div *ngIf="loginForm.controls['email'].invalid &&(loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="text-danger">
+                        <div *ngIf="loginForm.controls['email'].errors.required">
+                          Por favor, ingrese un correo electrónico.
+                        </div>
+                        <div *ngIf="loginForm.controls['email'].errors.pattern">
+                          Por favor, ingrese un correo electrónico válido.
+                        </div>
+                      </div>
+                    </div>
+                    <!--   PASSWORD   -->
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                      <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="icon-lock"></i></span>
+                        </div>
+                        <input formControlName="password" type="password" class="form-control" placeholder="Contraseña" required>
+                      </div>
+                    </div>
+                    <div class="input-group mb-2">
+                      <div *ngIf="loginForm.controls['password'].invalid &&(loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="text-danger">
+                        <div *ngIf="loginForm.controls['password'].errors.required">
+                          Por favor, ingrese una contraseña.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <button type="submit" class="btn btn-primary px-4">Ingresar</button>
+                      </div>
+                      <div class="col-6 text-right">
+                        <button type="button" class="btn btn-link px-0" data-toggle="modal" (click)="primaryModal.show()">¿Olvidó su contraseña?</button>
+                      </div>
+                      <!--  M O D A L   D E   R E C U P E R A R   C O N T R A S E N A  -->
+                      <div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-primary" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Recuperar Contraseña</h4>
+                              <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="icon-user"></i></span>
+                                </div>
+                                <input [(ngModel)]="emailforpassforgot" name="emailforpassforgot" type="email" class="form-control" placeholder="Correo electrónico" autocomplete="username" required>
+                              </div>
+                              <p class="text-muted">Por favor, introduzca el correo electrónico asociado a su cuenta para recuperar su contraseña.</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Cerrar</button>
+                              <button type="button" class="btn btn-primary">Recuperar Contraseña</button>
+                            </div>
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+                      <!--  ##########################################################  -->
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+                <div class="card-body text-center">
+                  <div>
+                    <h2>Regístrate</h2>
+                    <p>¿Aún no posee una cuenta en Inversiones & Servicios Josgar M C.A? ¿Qué esperas?, regístrese para disfrutar de nuestros servicios.</p>
+                    <button type="button" [routerLink]="['/register']" class="btn btn-primary active mt-3">Crear Cuenta</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+</div>

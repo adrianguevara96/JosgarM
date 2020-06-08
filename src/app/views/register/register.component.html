@@ -1,0 +1,108 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <h1>Regístrate</h1>
+              <p class="text-muted">Cree su cuenta de usuario.</p>
+                <form [formGroup]="angForm" (ngSubmit)="onSubmit()" novalidate>
+                  <!--   RAZON   SOCIAL  -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-building-o"></i></span>
+                      </div>
+                      <input formControlName="razonsocial" type="text" class="form-control" placeholder="Razón Social" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['razonsocial'].invalid &&(angForm.controls['razonsocial'].dirty || angForm.controls['razonsocial'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['razonsocial'].errors.required">
+                        Por favor, ingrese el nombre de su empresa.
+                      </div>
+                    </div>
+                  </div>
+                  <!--   EMAIL   -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">@</span>
+                      </div>
+                      <input formControlName="email" type="email" class="form-control" placeholder="Correo Electrónico" [pattern]="emailPattern" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['email'].invalid &&(angForm.controls['email'].dirty || angForm.controls['email'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['email'].errors.required">
+                        Por favor, ingrese un correo electrónico.
+                      </div>
+                      <div *ngIf="angForm.controls['email'].errors.pattern">
+                        Por favor, ingrese un correo electrónico válido.
+                      </div>
+                    </div>
+                  </div>
+                  <!--   PASSWORD   -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <input formControlName="password" type="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['password'].invalid &&(angForm.controls['password'].dirty || angForm.controls['password'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['password'].errors.required">
+                        Por favor, ingrese una contraseña.
+                      </div>
+                    </div>
+                  </div>
+                  <!--   REPASSWORD   -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <input formControlName="repassword" type="password" class="form-control" placeholder="Repita su constraseña" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['repassword'].invalid &&(angForm.controls['repassword'].dirty || angForm.controls['repassword'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['repassword'].errors.required">
+                        Por favor, repita la contraseña.
+                      </div>
+                    </div>
+                    <div *ngIf="angForm.controls['repassword'].value != angForm.controls['password'].value" class="text-danger">
+                      Por favor, ambas contraseñas deben coincidir.
+                    </div>
+                  </div>
+                  <!--   BOTON DE REGISTRAR   -->
+                  <button type="submit" class="btn btn-block btn-success">Registrarse</button>
+                  <div class="col-12 text-center">
+                    <button type="button" class="btn btn-link px-0" [routerLink]="['/login']">¿Ya posee una cuenta? Iniciar Sesión.</button>
+                  </div>
+                  <!--   FIN DEL FORMULARIO   -->
+                </form>
+                <!--
+                  <p>Form value: {{ angForm.value | json }}</p>
+                  <p>Form status: {{ angForm.status | json }}</p>
+                -->
+            </div>
+            <!--<div class="card-footer p-4">
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
