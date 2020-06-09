@@ -15,7 +15,8 @@ export class LoginComponent {
   //Validador de email
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"; 
   loginForm: FormGroup;
-  
+  passwordforgotForm: FormGroup;
+
   emailforpassforgot:string;
   
   constructor(
@@ -31,6 +32,9 @@ export class LoginComponent {
       email: ["", Validators.required],
       password: ["", Validators.required]
     });
+    this.passwordforgotForm = this.formBuilder.group({
+      emailforpassforgot: ["", Validators.required]
+    })
   }
   onSubmit() {
     if (this.loginForm.valid) {
@@ -45,11 +49,11 @@ export class LoginComponent {
       alert("FILL ALL FIELDS");
     }
   }
-  validate(){
-    if(this.loginForm.controls["email"].value == "admin" && this.loginForm.controls["password"].value == "admin"){
-      this.router.navigate(['/dashboard']);
+  onSubmitpassword(){
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
     }else{
-      alert("Credenciales Incorrectas.");
+      alert("FILL FIELD");
     }
   }
 }

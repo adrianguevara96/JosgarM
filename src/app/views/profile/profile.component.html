@@ -1,1 +1,106 @@
-<p>profile works!</p>
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Perfil de Usuario
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label for="nombres">Nombre(s)</label>
+                            <input type="text" class="form-control" id="nombres" placeholder="Ingrese su(s) nombre(s)">
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="apellidos">Apellido(s)</label>
+                            <input type="text" class="form-control" id="apellidos" placeholder="Ingrese su(s) apellido(s)">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label for="codigoareatlfijo">Código Área</label>
+                            <select id="codigoareatlfijo" name="codigoareatlfijo" class="form-control">
+                                <option *ngFor="let codfijo of codigoAreafijo" [value]="codfijo.id">
+                                    {{codfijo.codigo}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="tlfijo">Tlf. Fijo</label>
+                            <input type="text" maxlength="7" pattern="[0-9]" class="form-control" id="tlfijo" placeholder="Tlf. Fijo">
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="codigoareatlmovil">Código Área</label>
+                            <select id="codigoareatlmovil" name="codigoareatlmovil" class="form-control">
+                                <option *ngFor="let codmovil of codigoAreamovil" [value]="codmovil.id">
+                                    {{codmovil.codigo}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="tlmovil">Tlf. Móvil</label>
+                            <input type="text" maxlength="7" pattern="[0-9]" class="form-control" id="tlmovil" placeholder="Tlf. Móvil">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-2">
+                            <label for="identificacion">I.D</label>
+                            <select id="identificacion" name="identificacion" class="form-control">
+                                <option *ngFor="let identif of id" [value]="identif.id">
+                                    {{identif.valor}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="rif">RIF</label>
+                            <input type="text" class="form-control" id="rif" placeholder="Ingrese su RIF">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="razonsocial">Razón Social</label>
+                            <input type="text" class="form-control" id="razonsocial" placeholder="Ingrese su nombre de empresa">
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="mercancia">Tipo Mercancía</label>
+                            <select id="mercancia" name="mercancia" class="form-control">
+                                <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
+                                    {{tipomer.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label for="dirfiscal">Dirección Fiscal</label>
+                            <input type="text" class="form-control" id="dirfiscal" placeholder="Ingrese su dir. fiscal">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="estado">Estado</label>
+                            <select id="estado" name="estado" class="form-control">
+                                <option *ngFor="let esta of estado" [value]="esta.id">
+                                    {{esta.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="ciudad">Ciudad</label>
+                            <select id="ciudad" name="ciudad" class="form-control">
+                                <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                    {{ciu.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <button type="submit" class="btn btn-block btn-success">Actualizar Datos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
