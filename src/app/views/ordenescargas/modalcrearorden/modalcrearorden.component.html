@@ -1,0 +1,90 @@
+<div class="animated fadeIn">
+    <div class="card" style="margin-bottom: 0px;">
+        <div class="card-header">
+            <h3>Agregar Relación de Despacho</h3>
+        </div>
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-9">
+                            <h4>Facturas</h4>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-success btn-sm btn-pill" (click)="agregarFila()" tooltip="Añadir fila" placement="left">
+                                <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
+                            </button>
+                            <button class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
+                                <svg-icon src="assets/less.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <table class="table table-sm">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Bultos</th>
+                                <th scope="col">Valor</th>
+                                <th scope="col">RIF</th>
+                                <th scope="col">Razón Social</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Ciudad</th>
+                                <th scope="col">Direccion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let fact of facturas; let i = index" (click)="editarRow(i)">
+                                <th scope="row">{{i+1}}</th>
+                                <td>
+                                    <span *ngIf="!fact.editable">{{fact.bultos}}</span>
+                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
+                                </td>
+                                <td>
+                                    <span *ngIf="!fact.editable">{{fact.valor}}</span>
+                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
+                                </td>
+                                <td>
+                                    <span *ngIf="!fact.editable">{{fact.RIF}}</span>
+                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
+                                </td>
+                                <td>
+                                    <span *ngIf="!fact.editable">{{fact.RazonSocial}}</span>
+                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                </td>
+                                <td>
+                                    <select id="text-input" class="form-control">
+                                        <option *ngFor="let esta of Estados" [value]="esta.id" ngDefaultControl [(ngModel)]="facturas[i].Estado">
+                                            {{esta.nombre}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="text-input" class="form-control">
+                                        <option *ngFor="let ciu of Ciudades" [value]="ciu.id" ngDefaultControl [(ngModel)]="facturas[i].Ciudad">
+                                            {{ciu.nombre}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <span *ngIf="!fact.editable">{{fact.Dir}}</span>
+                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-row">
+                <div class="col-12" align="center">
+                    <button class="btn btn-primary" (click)="crearRelacion()">Crear</button>
+                    <button class="btn btn-danger" >Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

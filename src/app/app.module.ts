@@ -25,6 +25,9 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -44,6 +47,9 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalcrearordenComponent } from './views/ordenescargas/modalcrearorden/modalcrearorden.component';
 /*import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
 import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
 import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
@@ -68,7 +74,11 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
-    CommonModule
+    CommonModule,
+    HttpClientModule, 
+    AngularSvgIconModule.forRoot(),
+    NgbModule,
+    TooltipModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -77,12 +87,16 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     P500Component,
     LoginComponent,
     RegisterComponent,
+    ModalcrearordenComponent
     /*SolicitudrecolectaComponent,
     DestinatariosComponent,
     OrdenescargasComponent,
     TrackingComponent,
     EstadocuentaComponent,
     //ProfileComponent*/
+  ],
+  entryComponents: [
+    ModalcrearordenComponent
   ],
   providers: [{
     provide: LocationStrategy,
