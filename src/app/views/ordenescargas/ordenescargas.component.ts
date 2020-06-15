@@ -9,7 +9,19 @@ import { ModalcrearordenComponent } from './modalcrearorden/modalcrearorden.comp
 })
 export class OrdenescargasComponent implements OnInit {
 
-  relacionDespacho:any[]
+  relacionDespacho:any[] = [
+    {
+      bultos: '5',
+      valor: '7000000',
+      RIF: '78459652',
+      RazonSocial:'Facturas, Inc.',
+      Estado: '',
+      Ciudad: '',
+      Dir: 'Calle por aqui, esquina por alla',
+      fecha: '13/05/20',
+      editable: false
+    }
+  ]
   relacionesDespacho:any[] = [
     {
       id: '1',
@@ -29,11 +41,11 @@ export class OrdenescargasComponent implements OnInit {
   ngOnInit(): void {
   }
   //Para crear una nueva relacion de despacho
-  openModal() {
+  newRelacionDespacho(){
     const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'lg'});
     modalRef.result.then((result) => {
+      console.log("Que me trae result al cerrar modal crear? ", result)
       if(result){
-        console.log("Que me trae? :", result);
         let data:any[] = result
         console.log("Que me trae data? :", data);
         //aqui se llama a la api para que traiga todas las relaciones de despacho del usuario
@@ -49,10 +61,23 @@ export class OrdenescargasComponent implements OnInit {
       }
     })
   }
-  //Para ver una relacion de despacho
+  openModal(accion:any, i:any) {
+    console.log("Entrando en OpenModal", accion, i)
+    if(accion == "edit"){
+      const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'lg'});
+      modalRef.componentInstance.relacionDespacho = this.relacionDespacho;
+      modalRef.componentInstance.accion = accion;
+      //Solicitar al API la relacion despacho por el ID
+    }else if(accion == "see"){ //Para ver una relacion de despacho
+      const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'lg'});
+      modalRef.componentInstance.relacionDespacho = this.relacionDespacho;
+      modalRef.componentInstance.accion = accion;
+      //Solicitar al API la relacion despacho por el ID
+    }
+  }
+  
   seeModal(){
-    const modalRef = this.modalService.open(ModalcrearordenComponent);
-    modalRef.componentInstance.relacionDespacho = this.relacionDespacho;
+
   }
 
 }

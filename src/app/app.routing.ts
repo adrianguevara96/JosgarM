@@ -60,7 +60,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/destinatarios/destinatarios.module').then(m => m.DestinatariosModule)
       },
       {
-        path: 'ordendecarga',
+        path: 'relaciondespacho',
         loadChildren: () => import('./views/ordenescargas/ordenescargas.module').then(m => m.OrdenescargasModule)
       },
       {

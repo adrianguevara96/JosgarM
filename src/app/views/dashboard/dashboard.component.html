@@ -1,11 +1,13 @@
 <div class="animated fadeIn">
   <!--   A L E R T A   -->
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    Por favor, click <a href="#" class="alert-link">aqui</a> para rellenar sus datos personales y fiscales.
+    Por favor, click <a routerLink="/profile" class="alert-link">aqui</a> para rellenar sus datos personales y fiscales.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <!-- ######### CARD CON MENU ########### -->
+  <!--
   <div class="row">
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-info">
@@ -26,7 +28,7 @@
           [chartType]="lineChart2Type"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-primary">
         <div class="card-body pb-0">
@@ -54,7 +56,7 @@
                   [chartType]="lineChart1Type"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-warning">
         <div class="card-body pb-0">
@@ -81,7 +83,7 @@
           [chartType]="lineChart3Type"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-danger">
         <div class="card-body pb-0">
@@ -108,15 +110,17 @@
           [chartType]="barChart1Type"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
-  </div><!--/.row-->
-  <div class="card">
+    </div>
+  </div> -->
+  <!-- ####################   C A R D   ################## -->
+  <!--
+    <div class="card">
     <div class="card-body">
       <div class="row">
         <div class="col-sm-5">
           <h4 class="card-title mb-0">Traffic</h4>
           <div class="small text-muted">November 2017</div>
-        </div><!--/.col-->
+        </div>
         <div class="col-sm-7 d-none d-md-block">
           <button type="button" class="btn btn-primary float-right"><i class="icon-cloud-download"></i></button>
           <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
@@ -124,8 +128,8 @@
             <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Month" id="option2">Month</label>
             <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Year" id="option3">Year</label>
           </div>
-        </div><!--/.col-->
-      </div><!--/.row-->
+        </div>
+      </div>
       <div class="chart-wrapper" style="height:300px;margin-top:40px;">
         <canvas baseChart class="chart"
         [datasets]="mainChartData"
@@ -175,10 +179,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <!--/.card-->
+  </div>-->
   <div class="row">
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-6 col-lg-6">
       <div class="brand-card">
         <div class="brand-card-header bg-facebook">
           <i class="fa fa-facebook"></i>
@@ -201,10 +204,14 @@
             <div class="text-value">459</div>
             <div class="text-uppercase text-muted small">feeds</div>
           </div>
+          <div>
+            <div class="text-value"><a href="#">Follow us</a></div>
+            <div class="text-uppercase text-muted small">on facebook</div>
+          </div>
         </div>
       </div>
     </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-6 col-lg-6">
       <div class="brand-card">
         <div class="brand-card-header bg-twitter">
           <i class="fa fa-twitter"></i>
@@ -227,10 +234,16 @@
             <div class="text-value">1.792</div>
             <div class="text-uppercase text-muted small">tweets</div>
           </div>
+          <div>
+            <div class="text-value"><a href="#">Follow us</a></div>
+            <div class="text-uppercase text-muted small">on twitter</div>
+          </div>
         </div>
       </div>
     </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
+    <!--############  O T R O S   C A R D  -  L I N K E D I N  #########-->
+    <!--
+      <div class="col-sm-6 col-lg-3">
       <div class="brand-card">
         <div class="brand-card-header bg-linkedin">
           <i class="fa fa-linkedin"></i>
@@ -255,7 +268,10 @@
           </div>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
+    -->
+    <!--############  O T R O S   C A R D  -  G O O G L E   P L U S  #########-->
+    <!--
     <div class="col-sm-6 col-lg-3">
       <div class="brand-card">
         <div class="brand-card-header bg-google-plus">
@@ -281,8 +297,10 @@
           </div>
         </div>
       </div>
-    </div><!--/.col-->
-  </div><!--/.row-->
+    </div>
+  </div>
+  -->
+  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="card">

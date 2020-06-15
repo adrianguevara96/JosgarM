@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { DefaultLayoutComponent } from '../../containers';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -15,9 +16,13 @@ export class DashboardComponent implements OnInit {
       msg: `This alert needs your attention, but it's not super important.`
     }
   ];
-
-
+  tipoU:any;
   radioModel: string = 'Month';
+
+  constructor(private def: DefaultLayoutComponent){
+    //if(this.def.navItemsUser.length >= 8)
+    
+  }
 
   // lineChart1
   public lineChart1Data: Array<any> = [

@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <div class="card" style="margin-bottom: 0px;">
         <div class="card-header">
-            <h3>Agregar Relación de Despacho</h3>
+            <h3>{{tipoAccion}} Relación de Despacho {{numero}}</h3>
         </div>
         <div class="card-body">
             <div class="card">
@@ -11,10 +11,10 @@
                             <h4>Facturas</h4>
                         </div>
                         <div class="col-3">
-                            <button class="btn btn-success btn-sm btn-pill" (click)="agregarFila()" tooltip="Añadir fila" placement="left">
+                            <button [hidden]="esconderBoton" class="btn btn-success btn-sm btn-pill" (click)="agregarFila()" tooltip="Añadir fila" placement="left">
                                 <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
                             </button>
-                            <button class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
+                            <button [hidden]="esconderBoton" class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
                                 <svg-icon src="assets/less.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
                             </button>
                         </div>
@@ -25,7 +25,7 @@
                         <table class="table table-sm">
                             <thead>
                               <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Item</th>
                                 <th scope="col">Bultos</th>
                                 <th scope="col">Valor</th>
                                 <th scope="col">RIF</th>

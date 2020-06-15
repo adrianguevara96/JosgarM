@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
+    console.log("registeer")
    }
 
   ngOnInit(){}

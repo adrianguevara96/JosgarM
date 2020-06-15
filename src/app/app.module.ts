@@ -50,6 +50,7 @@ import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalcrearordenComponent } from './views/ordenescargas/modalcrearorden/modalcrearorden.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 /*import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
 import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
 import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
@@ -96,12 +97,14 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     //ProfileComponent*/
   ],
   entryComponents: [
-    ModalcrearordenComponent
+    ModalcrearordenComponent,
   ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }],
+  },
+  DefaultLayoutComponent
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

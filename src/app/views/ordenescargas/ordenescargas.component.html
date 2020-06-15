@@ -31,7 +31,7 @@
                     <h4>Listado de Relaciones de Despacho</h4>
                   </div>
                   <div class="col-3">
-                    <button (click)="openModal()" tooltip="Añadir relación de despacho" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                    <button (click)="newRelacionDespacho()" tooltip="Añadir relación de despacho" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                   </div>
                 </div>
               </div>
@@ -51,8 +51,8 @@
                           <td>{{reladespa.id}}</td>
                           <td>{{reladespa.fecha}}</td>
                           <td>
-                            <button tooltip="Ver detalles" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
-                            <button tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                            <button (click)="openModal('see',reladespa.id)" tooltip="Ver detalles" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                            <button (click)="openModal('edit', reladespa.id)" tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                           </td>
                         </tr>
                       </tbody>
