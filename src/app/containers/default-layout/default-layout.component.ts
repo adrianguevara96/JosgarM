@@ -1,5 +1,5 @@
 import {Component, Injectable} from '@angular/core';
-import { navItems, navItemsAdmin, navItemsUser } from '../../_nav';
+import { navItemsUser } from '../../_nav';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,22 +11,22 @@ import { navItems, navItemsAdmin, navItemsUser } from '../../_nav';
 export class DefaultLayoutComponent {
   public sidebarMinimized = false;
 
-  public navItems = navItems;
-  public navItemsAdmin = navItemsAdmin;
-  //
+  //Lo que tiene el menu por defecto
   public navItemsUser = navItemsUser;
-  //
-  tipoU:any[] = [];
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
+
   setnavItems(valor:any){
-    console.log("Valor ", valor, "tipoU ", this.tipoU)
     //tipoUsuario = Usuario Administrador
     if(valor == 3) {
       if(this.navItemsUser.length == 8){
-        this.navItemsUser.push(        
+        this.navItemsUser.push(
+          {title: true,name: 'Configuración'},
+          {name: 'Tablas Básicas', url: '', icon: 'fa fa-server'},
+          {name: 'Permisos de Usuarios',url: '/theme/colors',icon: 'icon-drop'},
+
           {title: true,name: 'Theme'},
           {name: 'Colors',url: '/theme/colors',icon: 'icon-drop'},
           {name: 'Typography',url: '/theme/typography',icon: 'icon-pencil'},
@@ -92,6 +92,11 @@ export class DefaultLayoutComponent {
           }
         )*/
       }else if(this.navItemsUser.length > 8){
+        this.navItemsUser.splice(8,this.navItemsUser.length);
+      }
+      //tipoUsuario = Usuario Comun
+    }else{
+      if(this.navItemsUser.length > 8){
         this.navItemsUser.splice(8,this.navItemsUser.length);
       }
     }

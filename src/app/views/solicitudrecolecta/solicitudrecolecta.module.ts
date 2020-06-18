@@ -6,6 +6,10 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { SolicitudrecolectaComponent } from './solicitudrecolecta.component';
 import { SolicitudrecolectaRoutingModule } from './solicitudrecolecta-routing.module';
+import { CommonModule } from '@angular/common';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -13,7 +17,11 @@ import { SolicitudrecolectaRoutingModule } from './solicitudrecolecta-routing.mo
     SolicitudrecolectaRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    CommonModule,
+    AngularSvgIconModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
   ],
   declarations: [ SolicitudrecolectaComponent ]
 })

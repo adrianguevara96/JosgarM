@@ -39,20 +39,20 @@
                               <tr *ngFor="let fact of facturas; let i = index" (click)="editarRow(i)">
                                 <th scope="row">{{i+1}}</th>
                                 <td>
-                                    <span *ngIf="!fact.editable">{{fact.bultos}}</span>
-                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
+                                    <span *ngIf="!editrow">{{fact.bultos}}</span>
+                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
                                 </td>
                                 <td>
-                                    <span *ngIf="!fact.editable">{{fact.valor}}</span>
-                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
+                                    <span *ngIf="!editrow">{{fact.valor}}</span>
+                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
                                 </td>
                                 <td>
-                                    <span *ngIf="!fact.editable">{{fact.RIF}}</span>
-                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
+                                    <span *ngIf="!editrow">{{fact.RIF}}</span>
+                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
                                 </td>
                                 <td>
-                                    <span *ngIf="!fact.editable">{{fact.RazonSocial}}</span>
-                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                    <span *ngIf="!editrow">{{fact.RazonSocial}}</span>
+                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
                                 </td>
                                 <td>
                                     <select id="text-input" class="form-control">
@@ -69,8 +69,8 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <span *ngIf="!fact.editable">{{fact.Dir}}</span>
-                                    <input *ngIf="fact.editable" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
+                                    <span *ngIf="!editrow">{{fact.Dir}}</span>
+                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
                                 </td>
                               </tr>
                             </tbody>
@@ -78,11 +78,11 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr *ngIf="!esconderBoton">
             <div class="form-row">
                 <div class="col-12" align="center">
-                    <button class="btn btn-primary" (click)="crearRelacion()">Crear</button>
-                    <button class="btn btn-danger" >Limpiar</button>
+                    <button [hidden]="esconderBoton" class="btn btn-primary" (click)="crearRelacion()">Crear</button>
+                    <button [hidden]="esconderBoton" class="btn btn-danger" >Limpiar</button>
                 </div>
             </div>
         </div>

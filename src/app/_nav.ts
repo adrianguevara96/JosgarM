@@ -32,7 +32,7 @@ export const navItemsUser: INavData[] = [
     icon: 'fa fa-map-marker'
   },
   {
-    name: 'Estado de Cuenta',
+    name: 'Facturación',
     url: '/estadocuenta',
     icon: 'fa fa-money'
   },

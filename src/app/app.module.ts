@@ -18,7 +18,9 @@ import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Import containers
-import { DefaultLayoutComponent } from './containers';
+//import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './containers/default-layout/default-layout.component';
+
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -51,6 +53,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalcrearordenComponent } from './views/ordenescargas/modalcrearorden/modalcrearorden.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { PruebaComponent } from './views/prueba/prueba.component';
+import { ModalsolicitudrecolectaComponent } from './views/solicitudrecolecta/modalsolicitudrecolecta/modalsolicitudrecolecta.component';
 /*import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
 import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
 import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
@@ -88,7 +92,9 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     P500Component,
     LoginComponent,
     RegisterComponent,
-    ModalcrearordenComponent
+    ModalcrearordenComponent,
+    PruebaComponent,
+    ModalsolicitudrecolectaComponent
     /*SolicitudrecolectaComponent,
     DestinatariosComponent,
     OrdenescargasComponent,
@@ -98,12 +104,14 @@ import { ProfileComponent } from './views/profile/profile.component';*/
   ],
   entryComponents: [
     ModalcrearordenComponent,
+    ModalsolicitudrecolectaComponent
   ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   },
-  DefaultLayoutComponent
+  DefaultLayoutComponent,
+  PruebaComponent
   ],
   bootstrap: [ AppComponent ]
 })

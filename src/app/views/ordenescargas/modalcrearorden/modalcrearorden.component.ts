@@ -11,27 +11,29 @@ export class ModalcrearordenComponent implements OnInit {
 
   @Input() relacionDespacho;
   @Input() accion; //Lo que voy a recibir
-  @Output() passEntry: EventEmitter<any> = new EventEmitter();
-  facturas:any[]
-  Estados:any[]
-  Ciudades:any[]
+  @Input() tipoU;
+
+  facturas:any[]=[];
+  Estados:any[]=[];
+  Ciudades:any[]=[];
   esconderBoton:boolean = false;
+  editrow:boolean= false; //Variable para editar la fila
 
   //Variables para modificar o ver una relacion de despacho
   tipoAccion:any;
   numero: any;
-  
+
   constructor(
     public activeModal: NgbActiveModal,
     public config: NgbCarouselConfig
-  ) {
-    console.log("Estoy aqui tambien .-.")
+  ){
     config.wrap = false;  
     config.keyboard = false;  
     config.pauseOnHover = false;  
 
     this.facturas = [
       {
+        nro: '',
         bultos: '',
         valor: '',
         RIF: '',
@@ -40,40 +42,42 @@ export class ModalcrearordenComponent implements OnInit {
         Ciudad: '',
         Dir: '',
         fecha: '',
-        editable: false
+        status: '',
+        nrorelaciondespacho: '',
       }
-    ]
+    ];
    }
 
   ngOnInit() {
     if(this.accion == "see"){
       console.log("Entre aqui por la opcion SEE")
-      this.tipoAccion = "Ver"
-      this.numero = "#1"
-      this.esconderBoton = true
+      this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
+      this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las facturas que hayan en la relacion de despacho
-      this.facturas = this.relacionDespacho
+      this.facturas = [];
+      this.facturas = this.relacionDespacho;
+      this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
     }else if(this.accion == "edit"){
-      this.tipoAccion = "Modificar"
-      this.numero = "#1"
-      this.esconderBoton = true
+      this.tipoAccion = "Modificar";
+      this.esconderBoton = true;
+      this.facturas = [];
+      this.facturas = this.relacionDespacho;
+      this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
       //Hacer un for para editar las facturas que hayan en la relacion de despacho
     }else{
       this.tipoAccion = "Agregar"
       this.numero = ""
       this.esconderBoton = false
     }
-    console.log("Que trae al iniciar modal?: ",this.relacionDespacho)
-    console.log("Que trae al iniciar modal?: ",this.accion)
+    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion)
     console.log(this.tipoAccion);
   }
 
   editarRow(i:any){
-    //console.log("Que trae i: ", i)
-    if(this.facturas[i].editable == false && this.accion=="see"){
-      this.facturas[i].editable = false;
+    if(this.accion=="see"){
+      this.editrow = false;
     }else{
-      this.facturas[i].editable = true;
+      this.editrow = true;
     }
   }
   crearRelacion(){
@@ -90,13 +94,13 @@ export class ModalcrearordenComponent implements OnInit {
         case "guardar":
           console.log("Guardando ...")
           for(let i=0; i<this.facturas.length;i++){
-            this.facturas[i].fecha = '13/05/20'
+            this.facturas[i].fecha = '13/05/20 10:15:35'
           }
           swal("¿Desea imprimir esta relación de despacho?", {
             icon: "info",
             closeOnClickOutside: false,
             buttons: {
-              cancel: "No",
+              rechazar: "No",
               imprimir: true
             }
           } as any)
@@ -105,10 +109,12 @@ export class ModalcrearordenComponent implements OnInit {
               case "imprimir":
                 console.log("Generando PDF ...");
                 this.activeModal.close(this.facturas)
+                swal.close();
                 break;
-              case "cancel":
+              case "rechazar":
                 this.activeModal.close(this.facturas)
                 swal.close();
+                break;
             }
           });
           break;
@@ -134,6 +140,7 @@ export class ModalcrearordenComponent implements OnInit {
       editable: false
     });
   }
+
   eliminarFila(){
     if(this.facturas.length != 1){
       this.facturas.pop();

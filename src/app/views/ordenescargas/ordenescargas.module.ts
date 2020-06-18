@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { CommonModule } from '@angular/common';
+import { DefaultLayoutComponent } from '../../containers/default-layout/default-layout.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,9 @@ import { CommonModule } from '@angular/common';
     TooltipModule.forRoot(),
     ModalModule.forRoot()
   ],
+  providers: [
+  DefaultLayoutComponent
+],
   declarations: [ OrdenescargasComponent
    ]
 })

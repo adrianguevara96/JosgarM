@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ModalDirective} from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DefaultLayoutComponent } from '../../containers';
+import { PruebaComponent } from '../prueba/prueba.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,13 +22,15 @@ export class LoginComponent {
 
   emailforpassforgot:string;
   
-  public tipoUsuario= "";
+  public tipoUser:number = 1;
+  texto:number;
 
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public def: DefaultLayoutComponent
+    public def: DefaultLayoutComponent,
+    public pru: PruebaComponent
   ){
     this.createForm();
   }
@@ -41,19 +44,21 @@ export class LoginComponent {
       emailforpassforgot: ["", Validators.required]
     })
   }
+  //Para Iniciar Sesion
   onSubmit() {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
       if(this.loginForm.controls["email"].value == "admin@admin.com" && this.loginForm.controls["password"].value == "admin"){
-        //this.def.settipoU(3);
+        this.pru.settipoU(3);
         this.def.setnavItems(3);
         this.router.navigate(['/dashboard']);
       }else if(this.loginForm.controls["email"].value == "operator@operator.com" && this.loginForm.controls["password"].value == "operator"){
-        //this.def.settipoU(2);
+        this.pru.settipoU(2);
         this.def.setnavItems(2);
         this.router.navigate(['/dashboard']);
-      }
-      else if(this.loginForm.controls["email"].value == "user@user.com" && this.loginForm.controls["password"].value == "user"){
+      }else if(this.loginForm.controls["email"].value == "user@user.com" && this.loginForm.controls["password"].value == "user"){
+        this.pru.settipoU(1);
+        this.def.setnavItems(1);
         this.router.navigate(['/dashboard']);
       }else{
         alert("Credenciales Incorrectas.");
@@ -63,11 +68,20 @@ export class LoginComponent {
       alert("FILL ALL FIELDS");
     }
   }
+
   onSubmitpassword(){
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
     }else{
       alert("FILL FIELD");
     }
+  }
+
+  prueba(){
+    console.log("Estoy clickeando prueba");
+    this.pru.settipoU(50000);
+    console.log("Que me trae prueba?" , this.pru.gettipoU())
+    this.texto = this.pru.gettipoU();
+    console.log("Texto? : " ,this.texto)
   }
 }

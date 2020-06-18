@@ -1,0 +1,136 @@
+<div class="animated fadeIn">
+    <div class="card" style="margin-bottom: 0px;">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-8">
+                    <h3>Crear Solicitud de Recolecta</h3>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="solicitudRecolectaForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="form-row">
+                    <!--   CANTIDAD   BULTOS  -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label>Cant. Bultos</label><br>
+                            <input formControlName="cantbultos" type="number" class="form-control" placeholder="Cant. Bultos" required>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['cantbultos'].invalid &&(solicitudRecolectaForm.controls['cantbultos'].dirty || solicitudRecolectaForm.controls['cantbultos'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['cantbultos'].errors.required">
+                                Ingrese la cant. de bultos
+                            </div>
+                        </div>
+                    </div>
+                    <!--   TIPO   DE   MERCANCIA   -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label>Tipo Mercancía</label><br>
+                            <select formControlName="tipoMercancia" class="form-control" required>
+                                <option *ngFor="let tipomer of tipomercancia" [value]="tipomer.id">
+                                    {{tipomer.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['tipoMercancia'].invalid &&(solicitudRecolectaForm.controls['tipoMercancia'].dirty || solicitudRecolectaForm.controls['tipoMercancia'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['tipoMercancia'].errors.required">
+                                Ingrese el tipo de mercancía
+                            </div>
+                        </div>
+                    </div>
+                    <!--   FECHA   -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label>Fecha</label><br>
+                            <input formControlName="fecha" type="date" class="form-control" placeholder="dd-mm-yyyy" required>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['fecha'].invalid &&(solicitudRecolectaForm.controls['fecha'].dirty || solicitudRecolectaForm.controls['fecha'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['fecha'].errors.required">
+                                Ingrese una fecha
+                            </div>
+                        </div>
+                    </div>
+                    <!--   HORA   -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label>Hora</label><br>
+                            <input formControlName="hora" type="time" class="form-control" placeholder="" required>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['hora'].invalid &&(solicitudRecolectaForm.controls['hora'].dirty || solicitudRecolectaForm.controls['hora'].touched)" class="text-danger">
+                             <div *ngIf="solicitudRecolectaForm.controls['hora'].errors.required">
+                                Ingrese una hora
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!--   ESTADO   -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado">Estado</label><br>
+                            <select formControlName="estado" class="form-control" required>
+                                <option *ngFor="let esta of estado" [value]="esta.id">
+                                    {{esta.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['estado'].invalid &&(solicitudRecolectaForm.controls['estado'].dirty || solicitudRecolectaForm.controls['estado'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['estado'].errors.required">
+                                Ingrese un estado
+                            </div>
+                        </div>
+                    </div>
+                    <!--   CIUDAD   -->
+                    <div class="col-3">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="ciudad">Ciudad</label><br>
+                            <select formControlName="ciudad" class="form-control" required>
+                                <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                    {{ciu.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['ciudad'].invalid &&(solicitudRecolectaForm.controls['ciudad'].dirty || solicitudRecolectaForm.controls['ciudad'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['ciudad'].errors.required">
+                                Ingrese una ciudad
+                            </div>
+                        </div>
+                    </div>
+                    <!--   DIRECCION  -->
+                    <div class="col-6">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="dir">Dirección</label><br>
+                            <input formControlName="direccion" type="text" class="form-control" placeholder="Direccion Completa" required>
+                        </div>
+                        <div *ngIf="solicitudRecolectaForm.controls['direccion'].invalid &&(solicitudRecolectaForm.controls['direccion'].dirty || solicitudRecolectaForm.controls['direccion'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['direccion'].errors.required">
+                                Ingrese una dirección
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!--   OBSERVACION   -->
+                    <div class="col-12">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="obser">Observación</label>
+                            <textarea formControlName="observacion" rows="4" class="form-control" placeholder="Si es necesario puede ingresar alguna observación..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <!--   BOTON DE REGISTRAR Y LIMPIAR CAMPOS  -->
+                    <div class="col-12" align="center">
+                        <button type="submit" class="btn btn-primary" (click)="crearSolicitud()">Crear</button>
+                        <button type="button" class="btn btn-danger" (click)="limpiar()">Limpiar</button>
+                    </div>
+                </div>
+                <!--   FIN DEL FORMULARIO   -->
+            </form>
+        </div>
+    </div>
+</div>
