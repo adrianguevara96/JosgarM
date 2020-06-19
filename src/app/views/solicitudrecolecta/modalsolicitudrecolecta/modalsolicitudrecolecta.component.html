@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="form-row">
                 <div class="col-8">
-                    <h3>Crear Solicitud de Recolecta</h3>
+                    <h3>{{tipoAccion}} Solicitud de Recolecta {{numero}} </h3>
                 </div>
                 <div class="col-4">
 
@@ -16,11 +16,12 @@
                     <!--   CANTIDAD   BULTOS  -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label>Cant. Bultos</label><br>
-                            <input formControlName="cantbultos" type="number" class="form-control" placeholder="Cant. Bultos" required>
+                            <label><strong>Cant. Bultos</strong></label><br>
+                            <label *ngIf="see">{{solicitudRecolecta[0].bultos}}</label>
+                            <input *ngIf="!see" formControlName="bultos" type="number" class="form-control" placeholder="Cant. Bultos" required>
                         </div>
-                        <div *ngIf="solicitudRecolectaForm.controls['cantbultos'].invalid &&(solicitudRecolectaForm.controls['cantbultos'].dirty || solicitudRecolectaForm.controls['cantbultos'].touched)" class="text-danger">
-                            <div *ngIf="solicitudRecolectaForm.controls['cantbultos'].errors.required">
+                        <div *ngIf="solicitudRecolectaForm.controls['bultos'].invalid &&(solicitudRecolectaForm.controls['bultos'].dirty || solicitudRecolectaForm.controls['bultos'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['bultos'].errors.required">
                                 Ingrese la cant. de bultos
                             </div>
                         </div>
@@ -28,15 +29,16 @@
                     <!--   TIPO   DE   MERCANCIA   -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label>Tipo Mercancía</label><br>
-                            <select formControlName="tipoMercancia" class="form-control" required>
-                                <option *ngFor="let tipomer of tipomercancia" [value]="tipomer.id">
+                            <label><strong>Tipo Mercancía</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].tipomercancia}}</span>
+                            <select *ngIf="!see" formControlName="tipomercancia" class="form-control" required>
+                                <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
                                     {{tipomer.nombre}}
                                 </option>
                             </select>
                         </div>
-                        <div *ngIf="solicitudRecolectaForm.controls['tipoMercancia'].invalid &&(solicitudRecolectaForm.controls['tipoMercancia'].dirty || solicitudRecolectaForm.controls['tipoMercancia'].touched)" class="text-danger">
-                            <div *ngIf="solicitudRecolectaForm.controls['tipoMercancia'].errors.required">
+                        <div *ngIf="solicitudRecolectaForm.controls['tipomercancia'].invalid &&(solicitudRecolectaForm.controls['tipomercancia'].dirty || solicitudRecolectaForm.controls['tipomercancia'].touched)" class="text-danger">
+                            <div *ngIf="solicitudRecolectaForm.controls['tipomercancia'].errors.required">
                                 Ingrese el tipo de mercancía
                             </div>
                         </div>
@@ -44,8 +46,9 @@
                     <!--   FECHA   -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label>Fecha</label><br>
-                            <input formControlName="fecha" type="date" class="form-control" placeholder="dd-mm-yyyy" required>
+                            <label><strong>Fecha</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].fecha}}</span>
+                            <input *ngIf="!see" formControlName="fecha" type="date" class="form-control" placeholder="dd-mm-yyyy" required>
                         </div>
                         <div *ngIf="solicitudRecolectaForm.controls['fecha'].invalid &&(solicitudRecolectaForm.controls['fecha'].dirty || solicitudRecolectaForm.controls['fecha'].touched)" class="text-danger">
                             <div *ngIf="solicitudRecolectaForm.controls['fecha'].errors.required">
@@ -56,8 +59,9 @@
                     <!--   HORA   -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label>Hora</label><br>
-                            <input formControlName="hora" type="time" class="form-control" placeholder="" required>
+                            <label><strong>Hora</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].hora}}</span>
+                            <input *ngIf="!see" formControlName="hora" type="time" class="form-control" placeholder="" required>
                         </div>
                         <div *ngIf="solicitudRecolectaForm.controls['hora'].invalid &&(solicitudRecolectaForm.controls['hora'].dirty || solicitudRecolectaForm.controls['hora'].touched)" class="text-danger">
                              <div *ngIf="solicitudRecolectaForm.controls['hora'].errors.required">
@@ -70,8 +74,9 @@
                     <!--   ESTADO   -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label for="estado">Estado</label><br>
-                            <select formControlName="estado" class="form-control" required>
+                            <label><strong>Estado</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].estado}}</span>
+                            <select *ngIf="!see" formControlName="estado" class="form-control" required>
                                 <option *ngFor="let esta of estado" [value]="esta.id">
                                     {{esta.nombre}}
                                 </option>
@@ -86,8 +91,9 @@
                     <!--   CIUDAD   -->
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label for="ciudad">Ciudad</label><br>
-                            <select formControlName="ciudad" class="form-control" required>
+                            <label><strong>Ciudad</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].ciudad}}</span>
+                            <select *ngIf="!see" formControlName="ciudad" class="form-control" required>
                                 <option *ngFor="let ciu of ciudad" [value]="ciu.id">
                                     {{ciu.nombre}}
                                 </option>
@@ -102,8 +108,9 @@
                     <!--   DIRECCION  -->
                     <div class="col-6">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label for="dir">Dirección</label><br>
-                            <input formControlName="direccion" type="text" class="form-control" placeholder="Direccion Completa" required>
+                            <label><strong>Dirección</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].direccion}}</span>
+                            <input *ngIf="!see" formControlName="direccion" type="text" class="form-control" placeholder="Direccion Completa" required>
                         </div>
                         <div *ngIf="solicitudRecolectaForm.controls['direccion'].invalid &&(solicitudRecolectaForm.controls['direccion'].dirty || solicitudRecolectaForm.controls['direccion'].touched)" class="text-danger">
                             <div *ngIf="solicitudRecolectaForm.controls['direccion'].errors.required">
@@ -116,17 +123,18 @@
                     <!--   OBSERVACION   -->
                     <div class="col-12">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                            <label for="obser">Observación</label>
-                            <textarea formControlName="observacion" rows="4" class="form-control" placeholder="Si es necesario puede ingresar alguna observación..."></textarea>
+                            <label><strong>Observación</strong></label><br>
+                            <span *ngIf="see">{{solicitudRecolecta[0].observacion}}</span>
+                            <textarea *ngIf="!see" formControlName="observacion" rows="4" class="form-control" placeholder="Si es necesario puede ingresar alguna observación..."></textarea>
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr *ngIf="!esconderBoton">
                 <div class="form-row">
                     <!--   BOTON DE REGISTRAR Y LIMPIAR CAMPOS  -->
                     <div class="col-12" align="center">
-                        <button type="submit" class="btn btn-primary" >Crear</button>
-                        <button type="button" class="btn btn-danger" (click)="limpiar()">Limpiar</button>
+                        <button [hidden]="esconderBoton" type="submit" class="btn btn-primary" >Crear</button>
+                        <button [hidden]="esconderBoton" type="button" class="btn btn-danger" (click)="limpiar()">Limpiar</button>
                     </div>
                 </div>
                 <!--   FIN DEL FORMULARIO   -->

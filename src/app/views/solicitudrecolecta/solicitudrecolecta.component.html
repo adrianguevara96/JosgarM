@@ -57,6 +57,7 @@
                           <td>{{solreco.hora}}</td>
                           <td>{{solreco.status}}</td>
                           <td>
+                            <button (click)="openModal('see',solreco.nro)" tooltip="Ver" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                             <button *ngIf="solreco.status=='Pendiente'" (click)="cancelarSolicitud(i)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
                           </td>
                         </tr>

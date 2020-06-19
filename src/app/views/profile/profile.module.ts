@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -20,7 +20,8 @@ import { ProfileRoutingModule } from './profile-routing.module';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     //BrowserModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   declarations: [ ProfileComponent ]
 })

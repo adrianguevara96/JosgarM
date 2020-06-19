@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert';
@@ -9,6 +9,14 @@ import swal from 'sweetalert';
   styleUrls: ['./modalsolicitudrecolecta.component.css']
 })
 export class ModalsolicitudrecolectaComponent implements OnInit {
+
+  @Input() solicitudReco; //Lo que me envia para el modal
+  @Input() accion;
+
+  esconderBoton:boolean = false;
+  tipoAccion:any;
+  numero: any;
+  see:boolean = false;
 
   solicitudRecolectaForm: FormGroup;
   solicitudRecolecta:any[]=[];
@@ -44,7 +52,7 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
       status: 1
     }
   ];
-  tipomercancia:any[]=[
+  tipoMercancia:any[]=[
     {
       id:1,
       nombre: 'Repuestos',
@@ -78,13 +86,28 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    if(this.accion == "see"){
+      console.log("Entre aqui por la opcion SEE")
+      this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
+      this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
+      this.see = true;
+      //Hacer un for para ver las facturas que hayan en la relacion de despacho
+      this.solicitudRecolecta = [];
+      this.solicitudRecolecta = this.solicitudReco;
+      this.numero = `# ${this.solicitudRecolecta[0].nro}`;
+    }else{
+      this.tipoAccion = "Agregar";
+      this.numero = "";
+      this.esconderBoton = false;
+    }
+  }
 
   createForm() {
     this.solicitudRecolecta = [];
     this.solicitudRecolectaForm = this.formBuilder.group({
-      cantbultos: ["", Validators.required],
-      tipoMercancia: ["", Validators.required],
+      bultos: ["", Validators.required],
+      tipomercancia: ["", Validators.required],
       fecha: ["", Validators.required],
       hora: ["", Validators.required],
       estado: ["", Validators.required],

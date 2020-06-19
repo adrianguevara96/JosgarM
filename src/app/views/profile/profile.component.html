@@ -6,99 +6,219 @@
                     <h3 style="margin-bottom: 0px;">Perfil de Usuario</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label for="nombres">Nombre(s)</label>
-                            <input type="text" class="form-control" id="nombres" placeholder="Ingrese su(s) nombre(s)">
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
+                        <div class="form-row">
+                            <!--   NOMBRES  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="nombres">Nombre(s)</label>
+                                    <input formControlName="nombres" type="text" class="form-control" placeholder="Ingrese su(s) nombre(s)" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['nombres'].invalid &&(profileForm.controls['nombres'].dirty || profileForm.controls['nombres'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['nombres'].errors.required">
+                                        Ingrese su(s) nombre(s)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   APELLIDOS  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="apellidos">Apellido(s)</label>
+                                    <input formControlName="apellidos" type="text" class="form-control" placeholder="Ingrese su(s) apellido(s)" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['apellidos'].invalid &&(profileForm.controls['apellidos'].dirty || profileForm.controls['apellidos'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['apellidos'].errors.required">
+                                        Ingrese su(s) apellido(s)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   CORREO  ELECTRONICO  -->
+                            <div class="col-6">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="email">Correo Electrónico</label>
+                                    <input formControlName="email" type="email" class="form-control" placeholder="Ingrese su correo electrónico" [pattern]="emailPattern" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['email'].invalid &&(profileForm.controls['email'].dirty || profileForm.controls['email'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['email'].errors.required">
+                                      Ingrese su correo electrónico
+                                    </div>
+                                    <div *ngIf="profileForm.controls['email'].errors.pattern">
+                                      Ingrese un correo electrónico válido
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="apellidos">Apellido(s)</label>
-                            <input type="text" class="form-control" id="apellidos" placeholder="Ingrese su(s) apellido(s)">
+                        <div class="form-row">
+                            <!--   CODIGO DE AREA TLF FIJO  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="codigoareatlfijo">Código Área</label>
+                                    <select formControlName="codigoareatlfijo" class="form-control" required>
+                                        <option *ngFor="let codfijo of codigoAreafijo" [value]="codfijo.id">
+                                            {{codfijo.codigo}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['codigoareatlfijo'].invalid &&(profileForm.controls['codigoareatlfijo'].dirty || profileForm.controls['codigoareatlfijo'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['codigoareatlfijo'].errors.required">
+                                        Escoja un código de área
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   TLF FIJO  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="tlfijo">Tlf. Fijo</label>
+                                    <input formControlName="tlfijo" type="text" maxlength="7" pattern="[0-9]" class="form-control"  placeholder="Tlf. Fijo" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['tlfijo'].invalid &&(profileForm.controls['tlfijo'].dirty || profileForm.controls['tlfijo'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['tlfijo'].errors.required">
+                                        Ingrese su nro de tlf. fijo
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   CODIGO DE AREA TLF MOVIL  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="codigoareatlmovil">Código Área</label>
+                                    <select formControlName="codigoareatlmovil" class="form-control" required>
+                                        <option *ngFor="let codmovil of codigoAreamovil" [value]="codmovil.id">
+                                            {{codmovil.codigo}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['codigoareatlmovil'].invalid &&(profileForm.controls['codigoareatlmovil'].dirty || profileForm.controls['codigoareatlmovil'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['codigoareatlmovil'].errors.required">
+                                        Escoja un código de área
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   TLF MOVIL  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="tlfmovil">Tlf. Móvil</label>
+                                    <input type="text" formControlName="tlfmovil" maxlength="7" pattern="[0-9]" class="form-control" placeholder="Tlf. Móvil" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['tlfmovil'].invalid &&(profileForm.controls['tlfmovil'].dirty || profileForm.controls['tlfmovil'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['tlfmovil'].errors.required">
+                                        Ingrese su nro de tlf. móvil
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="email">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico">
+                        <div class="form-row">
+                            <!--   TIPO DE IDENTIFICACION   -->
+                            <div class="col-2">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="identificacion">I.D</label>
+                                    <select formControlName="identificacion" class="form-control" required>
+                                        <option *ngFor="let identif of id" [value]="identif.id">
+                                            {{identif.valor}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['identificacion'].invalid &&(profileForm.controls['identificacion'].dirty || profileForm.controls['identificacion'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['identificacion'].errors.required">
+                                        Escoja un I.D
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   RIF   -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="rif">RIF</label>
+                                    <input type="text" formControlName="rif" class="form-control" placeholder="Ingrese su RIF" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['rif'].invalid &&(profileForm.controls['rif'].dirty || profileForm.controls['rif'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['rif'].errors.required">
+                                        Ingrese su RIF
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   RAZON SOCIAL  -->
+                            <div class="col-4">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="razonsocial">Razón Social</label>
+                                    <input type="text" formControlName="razonsocial" class="form-control" placeholder="Ingrese su nombre de empresa" required>
+                                </div>
+                                <div *ngIf="profileForm.controls['razonsocial'].invalid &&(profileForm.controls['razonsocial'].dirty || profileForm.controls['razonsocial'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['razonsocial'].errors.required">
+                                        Ingrese su nombre de empresa
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   TIPO DE MERCANCIA  -->
+                            <div class="col-3">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="mercancia">Tipo Mercancía</label>
+                                    <select formControlName="mercancia" class="form-control" required>
+                                        <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
+                                            {{tipomer.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['mercancia'].invalid &&(profileForm.controls['mercancia'].dirty || profileForm.controls['mercancia'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['mercancia'].errors.required">
+                                        Escoja su tipo de mercancía
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label for="codigoareatlfijo">Código Área</label>
-                            <select id="codigoareatlfijo" name="codigoareatlfijo" class="form-control">
-                                <option *ngFor="let codfijo of codigoAreafijo" [value]="codfijo.id">
-                                    {{codfijo.codigo}}
-                                </option>
-                            </select>
+                        <div class="form-row">
+                            <!--   DIRECCION FISCAL  -->
+                            <div class="col-4">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="dirfiscal">Dirección Fiscal</label>
+                                    <input formControlName="dirfiscal" type="text" class="form-control" placeholder="Ingrese su dir. fiscal">
+                                </div>
+                                <div *ngIf="profileForm.controls['dirfiscal'].invalid &&(profileForm.controls['dirfiscal'].dirty || profileForm.controls['dirfiscal'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['dirfiscal'].errors.required">
+                                        Ingrese su dir. fiscal
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   ESTADO  -->
+                            <div class="col-4">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="estado">Estado</label>
+                                    <select formControlName="estado" class="form-control" required>
+                                        <option *ngFor="let esta of estado" [value]="esta.id">
+                                            {{esta.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['estado'].invalid &&(profileForm.controls['estado'].dirty || profileForm.controls['estado'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['estado'].errors.required">
+                                        Escoja un Estado
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   CIUDAD  -->
+                            <div class="col-4">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <label for="ciudad">Ciudad</label>
+                                    <select formControlName="ciudad" class="form-control" required>
+                                        <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                            {{ciu.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="profileForm.controls['ciudad'].invalid &&(profileForm.controls['ciudad'].dirty || profileForm.controls['ciudad'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['ciudad'].errors.required">
+                                        Escoja una Ciudad
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="tlfijo">Tlf. Fijo</label>
-                            <input type="text" maxlength="7" pattern="[0-9]" class="form-control" id="tlfijo" placeholder="Tlf. Fijo">
+                        <hr>
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div class="form-group" style="margin-bottom: 0.3rem;">
+                                    <button type="submit" class="btn btn-block btn-success">Actualizar Datos</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="codigoareatlmovil">Código Área</label>
-                            <select id="codigoareatlmovil" name="codigoareatlmovil" class="form-control">
-                                <option *ngFor="let codmovil of codigoAreamovil" [value]="codmovil.id">
-                                    {{codmovil.codigo}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label for="tlmovil">Tlf. Móvil</label>
-                            <input type="text" maxlength="7" pattern="[0-9]" class="form-control" id="tlmovil" placeholder="Tlf. Móvil">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-2">
-                            <label for="identificacion">I.D</label>
-                            <select id="identificacion" name="identificacion" class="form-control">
-                                <option *ngFor="let identif of id" [value]="identif.id">
-                                    {{identif.valor}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label for="rif">RIF</label>
-                            <input type="text" class="form-control" id="rif" placeholder="Ingrese su RIF">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="razonsocial">Razón Social</label>
-                            <input type="text" class="form-control" id="razonsocial" placeholder="Ingrese su nombre de empresa">
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label for="mercancia">Tipo Mercancía</label>
-                            <select id="mercancia" name="mercancia" class="form-control">
-                                <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
-                                    {{tipomer.nombre}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label for="dirfiscal">Dirección Fiscal</label>
-                            <input type="text" class="form-control" id="dirfiscal" placeholder="Ingrese su dir. fiscal">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="estado">Estado</label>
-                            <select id="estado" name="estado" class="form-control">
-                                <option *ngFor="let esta of estado" [value]="esta.id">
-                                    {{esta.nombre}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="ciudad">Ciudad</label>
-                            <select id="ciudad" name="ciudad" class="form-control">
-                                <option *ngFor="let ciu of ciudad" [value]="ciu.id">
-                                    {{ciu.nombre}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12">
-                            <button type="submit" class="btn btn-block btn-success">Actualizar Datos</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

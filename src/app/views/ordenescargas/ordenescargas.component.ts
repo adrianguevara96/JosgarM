@@ -44,7 +44,7 @@ export class OrdenescargasComponent{
       status: 1
     },
     {
-      nro: '3',
+      nro: '5',
       bultos: 7,
       valor: 8890000,
       RIF: '78459602',
@@ -57,7 +57,7 @@ export class OrdenescargasComponent{
       status: 1
     },
     {
-      nro: '4',
+      nro: '7',
       bultos: 300,
       valor: 457894521,
       RIF: '78457502',
@@ -70,7 +70,7 @@ export class OrdenescargasComponent{
       status: 1
     },
     {
-      nro: '5',
+      nro: '9',
       bultos: 20,
       valor: 850000000,
       RIF: '78459382',

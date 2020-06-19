@@ -14,8 +14,38 @@ export class ModalcrearordenComponent implements OnInit {
   @Input() tipoU;
 
   facturas:any[]=[];
-  Estados:any[]=[];
-  Ciudades:any[]=[];
+  estado:any[]=[
+    {
+      id: 1,
+      nombre: 'Portuguesa',
+      status: 1
+    },
+    {
+      id: 2,
+      nombre: 'Lara',
+      status: 1
+    },
+  ];
+  ciudad:any[]=[
+    {
+      id: 1,
+      nombre: 'Barquisimeto',
+      idciudad: 2,
+      status: 1
+    },
+    {
+      id: 2,
+      nombre: 'Carora',
+      idciudad: 2,
+      status: 1
+    },
+    {
+      id: 3,
+      nombre: 'Acarigua',
+      idciudad: 1,
+      status: 1
+    }
+  ];
   esconderBoton:boolean = false;
   editrow:boolean= false; //Variable para editar la fila
 

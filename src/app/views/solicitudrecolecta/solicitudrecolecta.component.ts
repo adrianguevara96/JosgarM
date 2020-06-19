@@ -12,28 +12,43 @@ import { ModalsolicitudrecolectaComponent } from './modalsolicitudrecolecta/moda
 export class SolicitudrecolectaComponent implements OnInit {
 
   tipoU:number;
-
+  solicitudtosee:any[]=[];
   //Para la tabla
   solicitudesRecolecta:any[] = [
     {
       nro: '1',
       bultos:'20',
+      tipomercancia: 'Respuestos',
       fecha: '05/02/20',
       hora: '09:50:10',
+      estado: 'Lara',
+      ciudad: 'Barquisimeto',
+      direccion: '123 por alla',
+      observacion: '1234567890',
       status: 'Pendiente'
     },
     {
       nro: '3',
       bultos:'61',
+      tipomercancia: '',
       fecha: '07/03/20',
       hora: '13:20:20',
+      estado: '',
+      ciudad: '',
+      direccion: '',
+      observacion: '',
       status: 'Cancelado'
     },
     {
       nro: '8',
       bultos:'20',
+      tipomercancia: '',
       fecha: '15/03/20',
       hora: '15:03:25',
+      estado: '',
+      ciudad: '',
+      direccion: '',
+      observacion: '',
       status: 'Aceptado'
     },
   ]
@@ -101,36 +116,20 @@ export class SolicitudrecolectaComponent implements OnInit {
       console.log("Reason? :", reason)
     })
   }
-/*
-  openModal(accion:any, id:any) {
+
+  openModal(accion:any,nro:any) {
     //console.log("Entrando en OpenModal", accion, id)
-    if(accion == "edit"){ //Para editar una relacion de despacho
-      this.facturastoedit = [];
-      for(let j =0; j<this.facturas.length; j++){
-        if(this.facturas[j].nrorelaciondespacho == id){
-          this.facturastoedit.push(this.facturas[j]);
-        }
+    this.solicitudtosee = []; //Para ver una solicitud de despacho
+    for(let j =0; j<this.solicitudesRecolecta.length; j++){
+      if(this.solicitudesRecolecta[j].nro == nro){
+        this.solicitudtosee.push(this.solicitudesRecolecta[j]);
       }
-      const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
-      modalRef.componentInstance.relacionDespacho = this.facturastoedit;
-      modalRef.componentInstance.accion = accion;
-      modalRef.componentInstance.tipoU = this.tipoU;
-      //Solicitar al API la relacion despacho por el ID
-    }else if(accion == "see"){ //Para ver una relacion de despacho
-      this.facturastosee = [];
-      for(let j =0; j<this.facturas.length; j++){
-        if(this.facturas[j].nrorelaciondespacho == id){
-          this.facturastosee.push(this.facturas[j]);
-        }
-      }
-      //console.log("Que le envia facturastosee al modal?: ", this.facturastosee)
-      const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
-      modalRef.componentInstance.relacionDespacho = this.facturastosee;
-      modalRef.componentInstance.accion = accion;
-      modalRef.componentInstance.tipoU = this.tipoU;
-      //Solicitar al API la relacion despacho por el ID
     }
+    //console.log("Que le envia facturastosee al modal?: ", this.facturastosee)
+    const modalRef1 = this.modalService.open(ModalsolicitudrecolectaComponent, {size: 'xl'});
+    modalRef1.componentInstance.solicitudReco = this.solicitudtosee;
+    modalRef1.componentInstance.accion = accion;
+    //Solicitar al API la relacion despacho por el ID
   }
 
-*/
 }

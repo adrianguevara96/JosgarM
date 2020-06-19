@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  //Validador de email
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"; 
+
+  profileForm: FormGroup;
 
   codigoAreafijo:any[] = [
     {
@@ -70,9 +76,39 @@ export class ProfileComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) {
+    this.createForm();
+   }
 
   ngOnInit(): void {
+  }
+
+  createForm() {
+    this.profileForm = this.formBuilder.group({
+      nombres: ["", Validators.required],
+      apellidos: ["", Validators.required],
+      email: ["", Validators.required],
+      codigoareatlfijo: ["", Validators.required],
+      tlfijo: ["", Validators.required],
+      codigoareatlmovil: ["", Validators.required],
+      tlfmovil: ["", Validators.required],
+      identificacion: ["", Validators.required],
+      rif: ["", Validators.required],
+      razonsocial: ["", Validators.required],
+      mercancia: ["", Validators.required],
+      dirfiscal: ["", Validators.required],
+      estado: ["", Validators.required],
+      ciudad: ["", Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.profileForm.valid) {
+      console.log(this.profileForm.value);
+    }
+    else {
+      alert("FILL ALL FIELDS");
+    }
   }
 
 }
