@@ -95,21 +95,19 @@ export class ModalcrearordenComponent implements OnInit {
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
       //Hacer un for para editar las facturas que hayan en la relacion de despacho
     }else{
-      this.tipoAccion = "Agregar"
-      this.numero = ""
-      this.esconderBoton = false
+      this.tipoAccion = "Agregar";
+      this.numero = "";
+      this.esconderBoton = false;
+      this.editrow = true;
     }
     console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion)
     console.log(this.tipoAccion);
   }
 
-  editarRow(i:any){
-    if(this.accion=="see"){
-      this.editrow = false;
-    }else{
-      this.editrow = true;
-    }
+  editarRow(factura:any){
+    factura.status = !factura.status;
   }
+
   crearRelacion(){
     swal("¿Está seguro de crear esta nueva relación de despacho?", {
       icon: "warning",
@@ -157,18 +155,20 @@ export class ModalcrearordenComponent implements OnInit {
 
 
   agregarFila(){
-    if(this.facturas.length >=1 && this.facturas.length <=5)
-    this.facturas.push({
-      bultos: '',
-      valor: '',
-      RIF: '',
-      RazonSocial:'',
-      Estado: '',
-      Ciudad: '',
-      Dir: '',
-      fecha: '',
-      editable: false
-    });
+    if(this.facturas.length >0 && this.facturas.length <5){
+      this.facturas.push({
+        bultos: '',
+        valor: '',
+        RIF: '',
+        RazonSocial:'',
+        Estado: '',
+        Ciudad: '',
+        Dir: '',
+        fecha: '',
+        editable: false
+      });
+    }
+    console.log(this.facturas)
   }
 
   eliminarFila(){

@@ -25,8 +25,7 @@
                         <table class="table table-sm">
                             <thead>
                               <tr>
-                                <th scope="col">Item</th>
-                                <th scope="col">Nro</th>
+                                <th scope="col" tooltip="Nro. de Factura" placement="top">Nro Fact.</th>
                                 <th scope="col">Bultos</th>
                                 <th scope="col">Valor</th>
                                 <th scope="col">RIF</th>
@@ -34,45 +33,53 @@
                                 <th scope="col">Estado</th>
                                 <th scope="col">Ciudad</th>
                                 <th scope="col">Direccion</th>
+                                <th *ngIf="tipoU != 1 && accion=='edit'" scope="col">Accion</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let fact of facturas; let i = index" (click)="editarRow(i)">
-                                <th scope="row">{{i+1}}</th>
-                                <th scope="row">{{fact.nro}}</th>
+                              <tr *ngFor="let fact of facturas; let i = index">
                                 <td>
-                                    <span *ngIf="!editrow">{{fact.bultos}}</span>
-                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
+                                    <span *ngIf="fact.status">{{fact.nro}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].nro" type="text" id="text-input" name="nro" class="form-control" placeholder="Nro Factura">
                                 </td>
                                 <td>
-                                    <span *ngIf="!editrow">{{fact.valor}}</span>
-                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
+                                    <span *ngIf="fact.status">{{fact.bultos}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
                                 </td>
                                 <td>
-                                    <span *ngIf="!editrow">{{fact.RIF}}</span>
-                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
+                                    <span *ngIf="fact.status">{{fact.valor}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
                                 </td>
                                 <td>
-                                    <span *ngIf="!editrow">{{fact.RazonSocial}}</span>
-                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                    <span *ngIf="fact.status">{{fact.RIF}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
                                 </td>
                                 <td>
-                                    <select id="text-input" class="form-control">
+                                    <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                </td>
+                                <td>
+                                    <span *ngIf="fact.status">{{facturas[i].Estado}}</span>
+                                    <select *ngIf="!fact.status" id="text-input" class="form-control">
                                         <option *ngFor="let esta of estado" [value]="esta.id" ngDefaultControl [(ngModel)]="facturas[i].Estado">
                                             {{esta.nombre}}
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select id="text-input" class="form-control">
+                                    <span *ngIf="fact.status">{{facturas[i].Ciudad}}</span>
+                                    <select *ngIf="!fact.status" id="text-input" class="form-control">
                                         <option *ngFor="let ciu of ciudad" [value]="ciu.id" ngDefaultControl [(ngModel)]="facturas[i].Ciudad">
                                             {{ciu.nombre}}
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <span *ngIf="!editrow">{{fact.Dir}}</span>
-                                    <input *ngIf="editrow" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
+                                    <span *ngIf="fact.status">{{fact.Dir}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
+                                </td>
+                                <td *ngIf="tipoU != 1 && accion=='edit'">
+                                    <button class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
                                 </td>
                               </tr>
                             </tbody>

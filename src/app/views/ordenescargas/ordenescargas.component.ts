@@ -18,32 +18,35 @@ export class OrdenescargasComponent{
      las 9 facturas enumeradas por su nrorelaciondespacho */
   facturas:any[] = [
     {
+      id: '',
       nro: '1',
       bultos: 3,
       valor: 7000000,
       RIF: '78459652',
       RazonSocial:'Facturas, Inc.',
-      Estado: '',
-      Ciudad: '',
+      Estado: 'Lara',
+      Ciudad: 'Barquisimeto',
       Dir: 'Calle por aqui, esquina por alla',
       fecha: '05/02/20 09:45:10',
       nrorelaciondespacho: 1,
-      status: 1
+      status: true
     },
     {
+      id: '',
       nro: '2',
       bultos: 2,
       valor: 8500000,
       RIF: '78459602',
       RazonSocial:'Facturas II, Inc.',
-      Estado: '',
-      Ciudad: '',
+      Estado: 'Lara',
+      Ciudad: 'Carora',
       Dir: 'Calle por aqui, esquina por alla',
       fecha: '05/02/20 09:47:40',
       nrorelaciondespacho: 1,
-      status: 1
+      status: true
     },
     {
+      id: '',
       nro: '5',
       bultos: 7,
       valor: 8890000,
@@ -54,9 +57,10 @@ export class OrdenescargasComponent{
       Dir: 'Calle por aqui y alla',
       fecha: '07/03/20 13:18:20',
       nrorelaciondespacho: 5,
-      status: 1
+      status: true
     },
     {
+      id: '',
       nro: '7',
       bultos: 300,
       valor: 457894521,
@@ -67,9 +71,10 @@ export class OrdenescargasComponent{
       Dir: 'Calle por aqui',
       fecha: '15/03/20 15:01:25',
       nrorelaciondespacho: 8,
-      status: 1
+      status: true
     },
     {
+      id: '',
       nro: '9',
       bultos: 20,
       valor: 850000000,
@@ -80,7 +85,7 @@ export class OrdenescargasComponent{
       Dir: 'Esquina por alla',
       fecha: '18/04/20 16:18:40',
       nrorelaciondespacho: 15,
-      status: 1
+      status: true
     },
   ]
   facturastosee:any[]=[];
@@ -88,23 +93,27 @@ export class OrdenescargasComponent{
   //Para la tabla
   relacionesDespacho:any[] = [
     {
-      id: '1',
-      fecha: '05/02/20 09:50:10',
+      nro: '1',
+      fecha: '05/02/20',
+      hora:  '09:50:10',
       status: 'Aceptado'
     },
     {
-      id: '5',
-      fecha: '07/03/20 13:20:20',
+      nro: '5',
+      fecha: '07/03/20',
+      hora: '13:20:20',
       status: 'Cancelado'
     },
     {
-      id: '8',
-      fecha: '15/03/20 15:03:25',
+      nro: '8',
+      fecha: '15/03/20',
+      hora: '15:03:25',
       status: 'Pendiente'
     },
     {
-      id: 15,
-      fecha: '18/04/20 16:20:40',
+      nro: 15,
+      fecha: '18/04/20',
+      hora: '16:20:40',
       status: 'Pendiente'
     },
   ]
@@ -115,8 +124,10 @@ export class OrdenescargasComponent{
     }
 
   //Para crear una nueva relacion de despacho
-  newRelacionDespacho(){
+  newRelacionDespacho(accion:any){
     const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
+    modalRef.componentInstance.accion = accion;
+    modalRef.componentInstance.tipoU = this.tipoU;
     console.log("Modal result?: ", modalRef.result);
     modalRef.result.then((result) => {
       console.log("Que me trae result al cerrar modal crear? ", result)
@@ -137,12 +148,12 @@ export class OrdenescargasComponent{
     })
   }
 
-  openModal(accion:any, id:any) {
+  openModal(accion:any, nro:any) {
     //console.log("Entrando en OpenModal", accion, id)
     if(accion == "edit"){ //Para editar una relacion de despacho
       this.facturastoedit = [];
       for(let j =0; j<this.facturas.length; j++){
-        if(this.facturas[j].nrorelaciondespacho == id){
+        if(this.facturas[j].nrorelaciondespacho == nro){
           this.facturastoedit.push(this.facturas[j]);
         }
       }
@@ -154,7 +165,7 @@ export class OrdenescargasComponent{
     }else if(accion == "see"){ //Para ver una relacion de despacho
       this.facturastosee = [];
       for(let j =0; j<this.facturas.length; j++){
-        if(this.facturas[j].nrorelaciondespacho == id){
+        if(this.facturas[j].nrorelaciondespacho == nro){
           this.facturastosee.push(this.facturas[j]);
         }
       }
