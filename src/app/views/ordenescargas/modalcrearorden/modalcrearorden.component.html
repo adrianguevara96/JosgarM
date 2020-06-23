@@ -17,6 +17,9 @@
                             <button [hidden]="esconderBoton" class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
                                 <svg-icon src="assets/less.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
                             </button>
+                            <button [hidden]="!esconderBoton" class="btn btn-sm btn-pill" (click)="generatePDF()" tooltip="Generar PDF" placement="left">
+                                <svg-icon src="assets/pdf4.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -25,11 +28,12 @@
                         <table class="table table-sm">
                             <thead>
                               <tr>
-                                <th scope="col" tooltip="Nro. de Factura" placement="top">Nro Fact.</th>
+                                <th scope="col" tooltip="Nro. de Factura" placement="top">Nº Fact.</th>
                                 <th scope="col">Bultos</th>
                                 <th scope="col">Valor</th>
                                 <th scope="col">RIF</th>
                                 <th scope="col">Razón Social</th>
+                                <th scope="col" tooltip="Flete Destino" placement="top">F.D</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Ciudad</th>
                                 <th scope="col">Direccion</th>
@@ -57,6 +61,15 @@
                                 <td>
                                     <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                </td>
+                                <td> 
+                                    <span *ngIf="fact.status">{{fact.fletedestino}}</span>
+                                    <div *ngIf="!fact.status" style="width:150%; margin-right: 10px;">
+                                        <input type="radio" value="Si" name="fletedestino{{facturas[i].nro}}" [(ngModel)]="facturas[i].fletedestino">
+                                        <label for="checkbox1" style="margin-bottom: 0px;">Si</label><br>
+                                        <input type="radio" value="No" name="fletedestino{{facturas[i].nro}}" [(ngModel)]="facturas[i].fletedestino">
+                                        <label for="checkbox2" style="margin-bottom: 0px;">No</label>
+                                    </div>
                                 </td>
                                 <td>
                                     <span *ngIf="fact.status">{{facturas[i].Estado}}</span>

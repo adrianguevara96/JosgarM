@@ -29,6 +29,7 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -55,6 +56,7 @@ import { ModalcrearordenComponent } from './views/ordenescargas/modalcrearorden/
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { PruebaComponent } from './views/prueba/prueba.component';
 import { ModalsolicitudrecolectaComponent } from './views/solicitudrecolecta/modalsolicitudrecolecta/modalsolicitudrecolecta.component';
+import { PdfrelaciondespachoComponent } from './views/ordenescargas/pdfrelaciondespacho/pdfrelaciondespacho.component';
 /*import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
 import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
 import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
@@ -84,6 +86,7 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     AngularSvgIconModule.forRoot(),
     NgbModule,
     TooltipModule.forRoot(),
+    NgxSpinnerModule
   ],
   declarations: [
     AppComponent,
@@ -94,7 +97,8 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     RegisterComponent,
     ModalcrearordenComponent,
     PruebaComponent,
-    ModalsolicitudrecolectaComponent
+    ModalsolicitudrecolectaComponent,
+    PdfrelaciondespachoComponent,
     /*SolicitudrecolectaComponent,
     DestinatariosComponent,
     OrdenescargasComponent,
@@ -104,7 +108,8 @@ import { ProfileComponent } from './views/profile/profile.component';*/
   ],
   entryComponents: [
     ModalcrearordenComponent,
-    ModalsolicitudrecolectaComponent
+    ModalsolicitudrecolectaComponent,
+    PdfrelaciondespachoComponent
   ],
   providers: [{
     provide: LocationStrategy,

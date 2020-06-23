@@ -31,7 +31,6 @@ import { DefaultLayoutComponent } from '../../containers/default-layout/default-
   providers: [
   DefaultLayoutComponent
 ],
-  declarations: [ OrdenescargasComponent
-   ]
+  declarations: [ OrdenescargasComponent ]
 })
 export class OrdenescargasModule { }

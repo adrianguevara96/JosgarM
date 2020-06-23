@@ -1,6 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NgbActiveModal, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+
 import swal from 'sweetalert';
+import { PdfrelaciondespachoComponent } from '../pdfrelaciondespacho/pdfrelaciondespacho.component';
 
 @Component({
   selector: 'app-modalcrearorden',
@@ -55,7 +58,8 @@ export class ModalcrearordenComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    public config: NgbCarouselConfig
+    public config: NgbCarouselConfig,
+    private modalService: NgbModal,
   ){
     config.wrap = false;  
     config.keyboard = false;  
@@ -72,8 +76,9 @@ export class ModalcrearordenComponent implements OnInit {
         Ciudad: '',
         Dir: '',
         fecha: '',
-        status: '',
         nrorelaciondespacho: '',
+        fletedestino: '',
+        status: ''
       }
     ];
    }
@@ -87,6 +92,7 @@ export class ModalcrearordenComponent implements OnInit {
       this.facturas = [];
       this.facturas = this.relacionDespacho;
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
+
     }else if(this.accion == "edit"){
       this.tipoAccion = "Modificar";
       this.esconderBoton = true;
@@ -153,7 +159,6 @@ export class ModalcrearordenComponent implements OnInit {
     });
   }
 
-
   agregarFila(){
     if(this.facturas.length >0 && this.facturas.length <5){
       this.facturas.push({
@@ -175,6 +180,11 @@ export class ModalcrearordenComponent implements OnInit {
     if(this.facturas.length != 1){
       this.facturas.pop();
     }
+  }
+
+  generatePDF(){
+    const modalRef = this.modalService.open(PdfrelaciondespachoComponent, {size: 'xl'});
+    modalRef.componentInstance.facturasPDF = this.facturas;
   }
 
 }
