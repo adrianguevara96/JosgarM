@@ -4,125 +4,212 @@
     </ngx-spinner>
     <div id="contentToConvert">
         <div class="card" style="margin-bottom: 0px;">
-            <div class="card-header">
-                <div class="form-row">
-                    <div class="col-5">
-                        <img src="" height="120px" width="300px"/>
-                    </div>
-                    <div class="col-7">
-                        <h5><strong>INVERSIONES Y SERVICIOS JOSGAR M, C.A</strong></h5>
-                        <h6>Zona industrial Castillito, fundo  La Unión, parcela N°11.San Diego Edo. Carabobo.</h6>
-                        <h6>Teléfonos: 0424-3296590 - 0414-4137944</h6>
-                        <h6>RIF: J- 41148473-3</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="col-12" align="center">
-                        <h5><strong>RELACION DE DESPACHO #{{facturasPDF[0].nrorelaciondespacho}}</strong></h5>
+            <form [formGroup]="relacionDespachoPDFForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-5">
+                            <img src="" height="120px" width="300px"/>
+                        </div>
+                        <div class="col-7">
+                            <h5><strong>INVERSIONES Y SERVICIOS JOSGAR M, C.A</strong></h5>
+                            <h6>Zona industrial Castillito, fundo  La Unión, parcela N°11.San Diego Edo. Carabobo.</h6>
+                            <h6>Teléfonos: 0424-3296590 - 0414-4137944</h6>
+                            <h6>RIF: J- 41148473-3</h6><br>
+                            <button *ngIf="!esconderInputyBoton" type="submit" class="btn btn-primary btn-sm btn-pill" >Generar PDF</button>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="form-row">
-                    <div class="col-4">
-                        <h6>Remitente: {{remitente}}</h6>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12" align="center">
+                            <h5><strong>RELACION DE DESPACHO #{{facturasPDF[0].nrorelaciondespacho}}</strong></h5>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h6>RIF/C.I: {{rif}}</h6>
+                    <br>
+                    <div class="form-row">
+                        <!--   REMITENTE  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Remitente:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['remitente'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="remitente" type="text" class="form-control" placeholder="Remitente" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['remitente'].invalid &&(relacionDespachoPDFForm.controls['remitente'].dirty || relacionDespachoPDFForm.controls['remitente'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['remitente'].errors.required">
+                                    Ingrese el nombre completo del remitente
+                                </div>
+                            </div>
+                        </div>
+                        <!--   RIF/C.I  DEL REMITENTE  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>RIF/C.I:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['rifremitente'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="rifremitente" type="text" class="form-control" placeholder="RIF/C.I" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['rifremitente'].invalid &&(relacionDespachoPDFForm.controls['rifremitente'].dirty || relacionDespachoPDFForm.controls['rifremitente'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['rifremitente'].errors.required">
+                                    Ingrese el RIF/C.I del remitente
+                                </div>
+                            </div>
+                        </div>
+                        <!--   DIRECCION  DEL REMITENTE  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Dirección:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['direccion'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="direccion" type="text" class="form-control" placeholder="Direccion" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['direccion'].invalid &&(relacionDespachoPDFForm.controls['direccion'].dirty || relacionDespachoPDFForm.controls['direccion'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['direccion'].errors.required">
+                                    Ingrese la dirección del remitente
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h6>Dirección: {{direccion}}</h6>
+                    <div class="form-row">
+                        <!--   CEDULA DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>C.I:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['cedChofer'].value}}</h6><br>
+                                <input style="width: 80%; position: relative;display:inline-block;" *ngIf="!esconderInputyBoton" formControlName="cedChofer" type="text" class="form-control" placeholder="Cedula del Chofer" required>
+                                <button *ngIf="!esconderInputyBoton" style="position: relative;display:inline-block;" type="button" class="btn btn-sm btn-pill" tooltip="Buscar Chofer" placement="bottom">
+                                    <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
+                                </button>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['cedChofer'].invalid &&(relacionDespachoPDFForm.controls['cedChofer'].dirty || relacionDespachoPDFForm.controls['cedChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['cedChofer'].errors.required">
+                                    Ingrese la cédula del chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--   NOMBRE COMPLETO DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Chofer:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['nombreCompletoChofer'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="nombreCompletoChofer" type="text" class="form-control" placeholder="Nombre Completo Chofer" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['nombreCompletoChofer'].invalid &&(relacionDespachoPDFForm.controls['nombreCompletoChofer'].dirty || relacionDespachoPDFForm.controls['nombreCompletoChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['nombreCompletoChofer'].errors.required">
+                                    Ingrese el nombre y apellido del chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--   MODELO DEL CAMION  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Modelo Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['modeloCamionChofer'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="modeloCamionChofer" type="text" class="form-control" placeholder="Modelo del Camión" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['modeloCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['modeloCamionChofer'].dirty || relacionDespachoPDFForm.controls['modeloCamionChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['modeloCamionChofer'].errors.required">
+                                    Ingrese el modelo del camion
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <!--   PLACA DEL CAMION  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Placa Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['placaCamionChofer'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="placaCamionChofer" type="text" class="form-control" placeholder="Placa del Camión" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['placaCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['placaCamionChofer'].dirty || relacionDespachoPDFForm.controls['placaCamionChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['placaCamionChofer'].errors.required">
+                                    Ingrese la placa del camion
+                                </div>
+                            </div>
+                        </div>
+                        <!--   TIPO DE CAMION  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Tipo Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['tipoCamionChofer'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="tipoCamionChofer" type="text" class="form-control" placeholder="Placa del Camión" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['tipoCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['tipoCamionChofer'].dirty || relacionDespachoPDFForm.controls['tipoCamionChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['tipoCamionChofer'].errors.required">
+                                    Ingrese el tipo de camion
+                                </div>
+                            </div>
+                        </div>
+                        <!--   COLOR DEL CAMION  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Color Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['colorCamionChofer'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="colorCamionChofer" type="text" class="form-control" placeholder="Placa del Camión" required>
+                            </div>
+                            <div *ngIf="relacionDespachoPDFForm.controls['colorCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['colorCamionChofer'].dirty || relacionDespachoPDFForm.controls['colorCamionChofer'].touched)" class="text-danger">
+                                <div *ngIf="relacionDespachoPDFForm.controls['colorCamionChofer'].errors.required">
+                                    Ingrese el tipo de camion
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class="col-12">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" tooltip="Nro. de Factura" placement="top">Nº Fact.</th>
+                                        <th scope="col">Bultos</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">RIF</th>
+                                        <th scope="col">Razón Social</th>
+                                        <th scope="col" tooltip="Flete Destino" placement="top">F.D</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Ciudad</th>
+                                        <th scope="col">Direccion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let fact of facturasPDF; let i = index">
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.nro}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.bultos}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.valor}} bs.S</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.RIF}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
+                                        </td>
+                                        <td> 
+                                            <span *ngIf="fact.status">{{fact.fletedestino}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{facturasPDF[i].Estado}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{facturasPDF[i].Ciudad}}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="fact.status">{{fact.Dir}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-4">
-                        <h6>Chofer: {{nombreChofer}}</h6>
-                    </div>
-                    <div class="col-4">
-                        <h6>C.I: {{cedulaChofer}}</h6>
-                    </div>
-                    <div class="col-4">
-                        <h6>Modelo Camión: {{modeloVehiculo}}</h6>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-4">
-                        <h6>Placa Camión: {{placaVehiculo}}</h6>
-                    </div>
-                    <div class="col-4">
-                        <h6>Tipo: {{tipoVehiculo}}</h6>
-                    </div>
-                    <div class="col-4">
-                        <h6>Color: {{colorVehiculo}}</h6>
+                <div class="card-footer">
+                    <div class="form-row">
+                        <div class="col-6" align="center">
+                            <br>
+                            <span>___________________________</span><br>
+                            <span>Firma y RIF/C.I del Remitente</span>
+                        </div>
+                        <div class="col-6" align="center">
+                            <br>
+                            <span>___________________________</span><br>
+                            <span>Firma y Cédula del Chofer</span>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="form-row">
-                    <div class="col-12">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col" tooltip="Nro. de Factura" placement="top">Nº Fact.</th>
-                                    <th scope="col">Bultos</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col">RIF</th>
-                                    <th scope="col">Razón Social</th>
-                                    <th scope="col" tooltip="Flete Destino" placement="top">F.D</th>
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Ciudad</th>
-                                    <th scope="col">Direccion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let fact of facturasPDF; let i = index">
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.nro}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.bultos}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.valor}} bs.S</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.RIF}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
-                                    </td>
-                                    <td> 
-                                        <span *ngIf="fact.status">{{fact.fletedestino}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{facturasPDF[i].Estado}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{facturasPDF[i].Ciudad}}</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="fact.status">{{fact.Dir}}</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="form-row">
-                    <div class="col-6" align="center">
-                        <br>
-                        <span>___________________________</span><br>
-                        <span>Firma y RIF/C.I del Remitente</span>
-                    </div>
-                    <div class="col-6" align="center">
-                        <br>
-                        <span>___________________________</span><br>
-                        <span>Firma y Cédula del Chofer</span>
-                    </div>
-                </div>
-            </div>
+            </form>    
         </div>
     </div>
 </div>

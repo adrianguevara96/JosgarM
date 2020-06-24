@@ -10,14 +10,18 @@
                         <div class="col-9">
                             <h4>Facturas</h4>
                         </div>
-                        <div class="col-3">
+                        <div class="col-1">
                             <button [hidden]="esconderBoton" class="btn btn-success btn-sm btn-pill" (click)="agregarFila()" tooltip="Añadir fila" placement="left">
                                 <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
                             </button>
+                        </div>
+                        <div class="col-1">
                             <button [hidden]="esconderBoton" class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
                                 <svg-icon src="assets/less.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
                             </button>
-                            <button [hidden]="!esconderBoton" class="btn btn-sm btn-pill" (click)="generatePDF()" tooltip="Generar PDF" placement="left">
+                        </div>
+                        <div class="col-1">
+                            <button [hidden]="!esconderBoton" class="btn btn-sm btn-pill" (click)="generatePDF()" tooltip="Crear PDF" placement="left">
                                 <svg-icon src="assets/pdf4.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
                             </button>
                         </div>

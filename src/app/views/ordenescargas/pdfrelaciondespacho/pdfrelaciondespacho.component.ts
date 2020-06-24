@@ -3,6 +3,8 @@ import { NgbActiveModal, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-pdfrelaciondespacho',
@@ -24,21 +26,80 @@ export class PdfrelaciondespachoComponent implements OnInit {
   colorVehiculo:'';
 
   loading:boolean = true;
+  relacionDespachoPDFForm: FormGroup;
+  esconderInputyBoton: boolean;
 
   constructor(
+    private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    private spinner: NgxSpinnerService) { 
-      this.spinner.show();
+    private spinner: NgxSpinnerService) {
+      this.esconderInputyBoton = false;
+      this.createForm(); 
+      //this.spinner.show();
     }
 
   ngOnInit() {
-    setTimeout(()=>{
+    /*setTimeout(()=>{
       this.captureScreen();
     }, 1000);
     setTimeout(() => {
-      this.activeModal.close();
       this.spinner.hide();
-    }, 7000);
+      this.activeModal.close();
+    }, 10000);*/
+  }
+
+  createForm() {
+    //this.solicitudRecolecta = [];
+    this.relacionDespachoPDFForm = this.formBuilder.group({
+      remitente: ["", Validators.required],
+      rifremitente: ["", Validators.required],
+      direccion: ["", Validators.required],
+      nombreCompletoChofer: ["", Validators.required],
+      cedChofer: ["", Validators.required],
+      modeloCamionChofer: ["", Validators.required],
+      placaCamionChofer: ["", Validators.required],
+      tipoCamionChofer: ["", Validators.required],
+      colorCamionChofer: ["", Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.relacionDespachoPDFForm.valid) {
+      console.log(this.relacionDespachoPDFForm.value);
+
+
+      swal("¿Está seguro de generar este PDF? En caso de equivocarse, debe generarlo nuevamente.", {
+        icon: "warning",
+        closeOnClickOutside: false,
+        buttons: {
+          cancel: "Cancelar",
+          si: true
+        },
+      } as any)
+      .then((value) => {
+        switch (value) {
+          case "si":
+            this.esconderInputyBoton = true;
+            setTimeout(()=>{
+              this.captureScreen();
+              this.spinner.show();
+            }, 1000);
+            setTimeout(() => {
+              this.spinner.hide();
+              this.activeModal.close();
+            }, 10000);
+            console.log("Generando pdf ...")
+            break;
+          case "cancel":
+          swal.close();
+          break;
+        }
+      });
+    }
+    else {
+      swal("Error", "Por favor, rellene todos los campos.", "error");
+      alert("FILL ALL FIELDS");
+    }
   }
 
   public captureScreen(){  
