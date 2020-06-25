@@ -1,1 +1,110 @@
-<p>tracking works!</p>
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-8">
+                    <h3 style="margin-bottom: 0px;">Tracking</h3>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="trackingForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="form-row">
+                    <!--   GUIA O FACTURA  -->
+                    <div class="col-12">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <div class="form-check form-check-inline mr-1">
+                                <label class="form-check-label" style="margin-bottom: 0px;"><strong>Indique una opción:</strong></label><br>
+
+                                <input (click)="placehold()" style="margin-left: 10px; width: 5%;" type="radio" name="buscar" formControlName="buscar" class="form-control" value="2">
+                                <label class="form-check-label" style="margin-bottom: 0px;">Guía</label><br>
+
+                                <input (click)="placehold()" style="margin-left: 10px; width:5%;" type="radio" value="1" name="buscar" formControlName="buscar" class="form-control">
+                                <label style="margin-bottom: 0px;">Factura</label>
+                            </div><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <input type="text" class="form-control" formControlName="inputBuscar" [placeholder]="placeholderInput">
+                        </div>
+                        <div *ngIf="trackingForm.controls['inputBuscar'].invalid &&(trackingForm.controls['inputBuscar'].dirty || trackingForm.controls['inputBuscar'].touched)" class="text-danger">
+                            <div *ngIf="trackingForm.controls['inputBuscar'].errors.required">
+                                Ingrese un nro a buscar
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar nro. de factura" placement="right">
+                            <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="form-row">
+                            <div class="col-9">
+                                <h4>Listado de Guías/Facturas</h4>
+                            </div>
+                            <div class="col-3">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
+                                            <th tooltip="Nro. de Guia" placement="top">#Guia</th>
+                                            <th>Remitente</th>
+                                            <th>Destinatario</th>
+                                            <th>Monto</th>
+                                            <th>Estado</th>
+                                            <th>Ciudad</th>
+                                            <th tooltip="Flete Destino" placement="top">F.D</th>
+                                            <th tooltip="Fecha de Entrega" placement="top">F. Entrega</th>
+                                            <th>Estatus</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

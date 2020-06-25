@@ -3,9 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { TrackingComponent } from './tracking.component';
 import { TrackingRoutingModule } from './tracking-routing.module';
+
+import { CommonModule } from '@angular/common';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
@@ -13,7 +19,11 @@ import { TrackingRoutingModule } from './tracking-routing.module';
     TrackingRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    CommonModule,
+    TooltipModule.forRoot(),
+    AngularSvgIconModule.forRoot(),
+    ReactiveFormsModule,
   ],
   declarations: [ TrackingComponent ]
 })

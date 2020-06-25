@@ -98,7 +98,6 @@ export class PdfrelaciondespachoComponent implements OnInit {
     }
     else {
       swal("Error", "Por favor, rellene todos los campos.", "error");
-      alert("FILL ALL FIELDS");
     }
   }
 
