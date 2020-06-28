@@ -1,1 +1,81 @@
-<p>destinatarios works!</p>
+<div class="container">
+    <div class="card">
+      <div class="card-header">
+          <div class='row'>
+              <div class="col-8">
+                <h3>Destinatarios</h3>
+              </div>
+              <div class="col-4">
+                <button (click)="openModal()" tooltip="Añadir Destinatario" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirdestinatario.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+              </div>
+          </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+              <div class="form-row">
+                  <div class="col-8">
+                      <label for="destinatario">Buscar Destinatario</label><br>
+                      <input type="text" class="form-control" id="destinatario" placeholder="Indique el nombre del destinatario">
+                  </div>
+                  <div class="col-4">
+                      <label class="invisible" for="destinatario">Destinatario</label><br>
+                      <button type="button" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar Destinatario" placement="right">
+                        <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                      </button>
+                  </div>
+              </div>
+            </div>      
+          </div>
+          <br/>
+        <div class="card">
+          <div class="card-header">
+            
+          </div>
+          <div class="card-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Rif</th>
+                  <th scope="col">Tlf. Móvil</th>
+                  <th scope="col"> Tlf.Local</th>
+                  <th scope="col">Dirección</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Ciudad</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dest of destinatarios">
+                    <td>{{dest.nombre}}</td>
+                    <td>{{dest.rif}}</td>
+                    <td>{{dest.tmovil}}</td>
+                    <td>{{dest.tlocal}}</td>
+                    <td>{{dest.dir}}</td>
+                    <td>{{dest.est}}</td>
+                    <td>{{dest.ciudad}}</td>
+                    <td>
+                        <button tooltip="Ver detalles" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                        <button tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                    <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  

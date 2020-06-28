@@ -98,6 +98,7 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalcrearordenComponent,
     PruebaComponent,
     ModalsolicitudrecolectaComponent,
+    ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent,
     /*SolicitudrecolectaComponent,
     DestinatariosComponent,
