@@ -111,6 +111,7 @@ import { ProfileComponent } from './views/profile/profile.component';*/
   entryComponents: [
     ModalcrearordenComponent,
     ModalsolicitudrecolectaComponent,
+    ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent
   ],
   providers: [{

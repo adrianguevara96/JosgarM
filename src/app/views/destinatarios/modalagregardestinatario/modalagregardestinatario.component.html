@@ -1,1 +1,248 @@
-<p>modalagregardestinatario works!</p>
+<div class="card">
+    <div class="card-header">
+        <h1>Agregar Destinatario</h1>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="destForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-row">
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="nombre">Nombre</label>
+                        <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre" required>
+                    </div>
+                    <div *ngIf="destForm.controls['nombre'].invalid &&(destForm.controls['nombre'].dirty || destForm.controls['nombre'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['nombre'].errors.required">
+                            Por favor, Ingrese el nombre del destinatario
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="direccion">Dirección</label>
+                        <input formControlName="direccion" type="text" class="form-control" placeholder="Dirección" required>
+                    </div>
+                    <div *ngIf="destForm.controls['direccion'].invalid &&(destForm.controls['direccion'].dirty || destForm.controls['direccion'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['direccion'].errors.required">
+                            Por favor, Ingrese la dirección del destinatario
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="estado">Estado</label>
+                        <select formControlName="estado" class="form-control" required>
+                            <option *ngFor="let esta of estado" [value]="esta.id">
+                                {{esta.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="destForm.controls['estado'].invalid &&(destForm.controls['estado'].dirty || destForm.controls['estado'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['estado'].errors.required">
+                            Por favor, seleccione el estado del destinatario
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="ciudad">Ciudad</label>
+                        <select formControlName="ciudad" class="form-control" required>
+                            <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                {{ciu.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="destForm.controls['ciudad'].invalid &&(destForm.controls['ciudad'].dirty || destForm.controls['ciudad'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['ciudad'].errors.required">
+                            Por favor, seleccione la ciudad del destinatario
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="tlfijo">Tlf. Fijo</label>
+                        <input formControlName="tlfijo" type="text" maxlength="12" pattern="[0-9]{4}-[0-9]{7}" class="form-control"  placeholder="Tlf. Fijo" required>
+                    </div>
+                    <div *ngIf="destForm.controls['tlfijo'].invalid &&(destForm.controls['tlfijo'].dirty || destForm.controls['tlfijo'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['tlfijo'].errors.required">
+                            Por favor, ingrese el número de tlf fijo del destinatario
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="tlfmovil">Tlf. Móvil</label>
+                        <input formControlName="tlfmovil" type="text" maxlength="12" pattern="[0-9]{4}-[0-9]{7}" class="form-control"  placeholder="Tlf. Móvil" required>
+                    </div>
+                    <div *ngIf="destForm.controls['tlfmovil'].invalid &&(destForm.controls['tlfmovil'].dirty || destForm.controls['tlfmovil'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['tlfmovil'].errors.required">
+                            Ingrese el número de tlf móvil del destinatario
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">                   
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="identificacion">I.D</label>
+                        <select formControlName="identificacion" class="form-control" required>
+                            <option *ngFor="let identif of id" [value]="identif.id">
+                                {{identif.valor}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <label for="rif">RIF</label>
+                        <input type="text" formControlName="rif" class="form-control" placeholder="Ingrese su RIF" required>
+                    </div>
+                    <div *ngIf="destForm.controls['rif'].invalid &&(destForm.controls['rif'].dirty || destForm.controls['rif'].touched)" class="text-danger">
+                        <div *ngIf="destForm.controls['rif'].errors.required">
+                            Ingrese su RIF
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-4">
+                    <p class="invisible"></p>
+                </div>
+                <div class="col-4">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <button type="submit" class="btn btn-block btn-success">Guardar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <p class="invisible"></p>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <div class="form-row">
+                    <div class="col-9">
+                        <h5>Direcciones de entrega</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card border-primary">
+                    <form [formGroup]="direccionEntrega" (ngSubmit)="onSubmit2()">
+                        <div class="card-header">
+                            <div class="col-6">
+                                <h5>Añadir dirección de entrega</h5>
+                            </div>
+                            <div class="col-4">
+                                <button style="padding:0px" [hidden]="esconderBoton" type="submit" class="btn btn-sm btn-pill" tooltip="Añadir dirección de entrega" placement="left">
+                                    <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':10,'width.px':10 }"></svg-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-3">
+                                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                                <label for="nombre">Nombre</label>
+                                                <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre" required>
+                                            </div>
+                                            <div *ngIf="direccionEntrega.controls['nombre'].invalid &&(direccionEntrega.controls['nombre'].dirty || direccionEntrega.controls['nombre'].touched)" class="text-danger">
+                                                <div *ngIf="direccionEntrega.controls['nombre'].errors.required">
+                                                    Por favor, ingrese el nombre del destinatario
+                                                </div>
+                                            </div>
+                                </div>
+                                <div class="col-3">
+                                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                                <label for="direccion">Dirección</label>
+                                                <input type="text" formControlName="direccion" class="form-control" placeholder="Dirección" required>
+                                            </div>
+                                            <div *ngIf="direccionEntrega.controls['direccion'].invalid &&(direccionEntrega.controls['direccion'].dirty || direccionEntrega.controls['direccion'].touched)" class="text-danger">
+                                                <div *ngIf="direccionEntrega.controls['direccion'].errors.required">
+                                                    Por favor, ingrese la dirección de entrega
+                                                </div>
+                                            </div>
+                                </div>
+                                <div class="col-3">
+                                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                                <label for="estado">Estado</label>
+                                                <select formControlName="estado" class="form-control" required>
+                                                    <option *ngFor="let esta of estado" [value]="esta.id">
+                                                        {{esta.nombre}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="direccionEntrega.controls['estado'].invalid &&(direccionEntrega.controls['estado'].dirty || direccionEntrega.controls['estado'].touched)" class="text-danger">
+                                                <div *ngIf="direccionEntrega.controls['estado'].errors.required">
+                                                    Por favor, seleccione el estado del destinatario
+                                                </div>
+                                            </div>
+                                </div>
+                                <div class="col-3">
+                                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                                <label for="ciudad">Ciudad</label>
+                                                <select formControlName="ciudad" class="form-control" required>
+                                                    <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                                        {{ciu.nombre}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="direccionEntrega.controls['ciudad'].invalid &&(direccionEntrega.controls['ciudad'].dirty || direccionEntrega.controls['ciudad'].touched)" class="text-danger">
+                                                <div *ngIf="direccionEntrega.controls['ciudad'].errors.required">
+                                                    Por favor, seleccione la ciudad del destinatario
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="col-12">
+                        <table class="table table-sm">
+                            <thead>
+                              <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Dirección</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Ciudad</th>
+                                <th *ngIf="accion=='edit'" scope="col">Acción</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dire of direntrega; let i = index" (click)="pos(i)">
+                                    <td>
+                                        <span *ngIf="dire.status">{{direntrega.nombre}}</span>
+                                        <input *ngIf="!dire.status" [(ngModel)]="direntrega[i].nombre" type="text" id="text-input" class="form-control" placeholder="Nombre">
+                                    </td> 
+                                    <td>
+                                        <span *ngIf="dire.status">{{direntrega.direccion}}</span>
+                                        <input *ngIf="!dire.status" [(ngModel)]="direntrega[i].direccion" type="text" id="text-input" class="form-control" placeholder="Dirección">
+                                    </td>
+                                    <td>
+                                        <span *ngIf="dire.status">{{direntrega[i].estado}}</span>
+                                        <select  *ngIf="!dire.status" [(ngModel)]="direntrega[i].estado" class="form-control">
+                                            <option *ngFor="let esta of estado" [value]="esta.id">
+                                                {{esta.nombre}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="dire.status">{{direntrega[i].ciudad}}</span>
+                                        <select *ngIf="!dire.status" [(ngModel)]="direntrega[i].ciudad" class="form-control">
+                                            <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                                {{ciu.nombre}}
+                                            </option>
+                                        </select>
+                                    </td>      
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
