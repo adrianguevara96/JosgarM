@@ -14,6 +14,8 @@ import swal from 'sweetalert';
 export class PdfrelaciondespachoComponent implements OnInit {
 
   @Input() facturasPDF; //Lo que me trae envia el modal
+  @Input() estados;
+  @Input() ciudades;
   //Atributos del PDF
   remitente: '';
   rif: '';
@@ -38,15 +40,7 @@ export class PdfrelaciondespachoComponent implements OnInit {
       //this.spinner.show();
     }
 
-  ngOnInit() {
-    /*setTimeout(()=>{
-      this.captureScreen();
-    }, 1000);
-    setTimeout(() => {
-      this.spinner.hide();
-      this.activeModal.close();
-    }, 10000);*/
-  }
+  ngOnInit() {}
 
   createForm() {
     //this.solicitudRecolecta = [];
@@ -65,9 +59,7 @@ export class PdfrelaciondespachoComponent implements OnInit {
 
   onSubmit() {
     if (this.relacionDespachoPDFForm.valid) {
-      console.log(this.relacionDespachoPDFForm.value);
-
-
+      //console.log(this.relacionDespachoPDFForm.value);
       swal("¿Está seguro de generar este PDF? En caso de equivocarse, debe generarlo nuevamente.", {
         icon: "warning",
         closeOnClickOutside: false,
@@ -86,9 +78,8 @@ export class PdfrelaciondespachoComponent implements OnInit {
             }, 1000);
             setTimeout(() => {
               this.spinner.hide();
-              this.activeModal.close();
+              this.activeModal.close(this.facturasPDF);
             }, 10000);
-            console.log("Generando pdf ...")
             break;
           case "cancel":
           swal.close();

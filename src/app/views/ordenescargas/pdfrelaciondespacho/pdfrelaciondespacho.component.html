@@ -163,31 +163,35 @@
                                 <tbody>
                                     <tr *ngFor="let fact of facturasPDF; let i = index">
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.nro}}</span>
+                                            <span>{{fact.nro}}</span>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.bultos}}</span>
+                                            <span>{{fact.bultos}}</span>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.valor}} bs.S</span>
+                                            <span>{{fact.valor}} bs.S</span>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.RIF}}</span>
+                                            <span>{{fact.rif}}</span>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
+                                            <span>{{fact.razonsocial}}</span>
                                         </td>
                                         <td> 
-                                            <span *ngIf="fact.status">{{fact.fletedestino}}</span>
+                                            <span>{{fact.fletedestino}}</span>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{facturasPDF[i].Estado}}</span>
+                                            <div *ngFor="let esta of estados">
+                                                <span *ngIf="esta.id == facturasPDF[i].estado">{{esta.nombre}}</span>
+                                            </div>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{facturasPDF[i].Ciudad}}</span>
+                                            <div *ngFor="let ciu of ciudades">
+                                                <span *ngIf="ciu.id == facturasPDF[i].ciudad">{{ciu.nombre}}</span>
+                                            </div>
                                         </td>
                                         <td>
-                                            <span *ngIf="fact.status">{{fact.Dir}}</span>
+                                            <span>{{fact.direccion}}</span>
                                         </td>
                                     </tr>
                                 </tbody>

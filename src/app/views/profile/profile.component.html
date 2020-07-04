@@ -6,7 +6,7 @@
                     <h3 style="margin-bottom: 0px;">Perfil de Usuario</h3>
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
                         <div class="form-row">
                             <!--   NOMBRES  -->
                             <div class="col-3">
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <!--   CODIGO DE AREA TLF FIJO  -->
+                            <!--   CODIGO DE AREA TLF FIJO  
                             <div class="col-3">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="codigoareatlfijo">Código Área</label>
@@ -64,20 +64,23 @@
                                         Escoja un código de área
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--   TLF FIJO  -->
-                            <div class="col-3">
+                            <div class="col-6">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="tlfijo">Tlf. Fijo</label>
-                                    <input formControlName="tlfijo" type="text" maxlength="7" pattern="[0-9]" class="form-control"  placeholder="Tlf. Fijo" required>
+                                    <input formControlName="tlfijo" type="tel" pattern="[0-9]{4}-[0-9]{7}" class="form-control" maxlength="12" placeholder="Tlf. Fijo" required>
                                 </div>
                                 <div *ngIf="profileForm.controls['tlfijo'].invalid &&(profileForm.controls['tlfijo'].dirty || profileForm.controls['tlfijo'].touched)" class="text-danger">
                                     <div *ngIf="profileForm.controls['tlfijo'].errors.required">
                                         Ingrese su nro de tlf. fijo
                                     </div>
+                                    <div *ngIf="profileForm.controls['tlfijo'].errors.pattern">
+                                        Ingrese un nº de tlf. fijo válido (Ej: 1234-1234567)
+                                    </div>
                                 </div>
                             </div>
-                            <!--   CODIGO DE AREA TLF MOVIL  -->
+                            <!--   CODIGO DE AREA TLF MOVIL  
                             <div class="col-3">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="codigoareatlmovil">Código Área</label>
@@ -92,16 +95,19 @@
                                         Escoja un código de área
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--   TLF MOVIL  -->
-                            <div class="col-3">
+                            <div class="col-6">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="tlfmovil">Tlf. Móvil</label>
-                                    <input type="text" formControlName="tlfmovil" maxlength="7" pattern="[0-9]" class="form-control" placeholder="Tlf. Móvil" required>
+                                    <input type="tel" formControlName="tlfmovil" maxlength="12" pattern="[0-9]{4}-[0-9]{7}" class="form-control" placeholder="Tlf. Móvil" required>
                                 </div>
                                 <div *ngIf="profileForm.controls['tlfmovil'].invalid &&(profileForm.controls['tlfmovil'].dirty || profileForm.controls['tlfmovil'].touched)" class="text-danger">
                                     <div *ngIf="profileForm.controls['tlfmovil'].errors.required">
                                         Ingrese su nro de tlf. móvil
+                                    </div>
+                                    <div *ngIf="profileForm.controls['tlfmovil'].errors.pattern">
+                                        Ingrese un nº de tlf. móvil válido (Ej: 1234-1234567)
                                     </div>
                                 </div>
                             </div>
@@ -111,14 +117,14 @@
                             <div class="col-2">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="identificacion">I.D</label>
-                                    <select formControlName="identificacion" class="form-control" required>
+                                    <select formControlName="tipoidentificacion" class="form-control" required>
                                         <option *ngFor="let identif of id" [value]="identif.id">
                                             {{identif.valor}}
                                         </option>
                                     </select>
                                 </div>
-                                <div *ngIf="profileForm.controls['identificacion'].invalid &&(profileForm.controls['identificacion'].dirty || profileForm.controls['identificacion'].touched)" class="text-danger">
-                                    <div *ngIf="profileForm.controls['identificacion'].errors.required">
+                                <div *ngIf="profileForm.controls['tipoidentificacion'].invalid &&(profileForm.controls['tipoidentificacion'].dirty || profileForm.controls['tipoidentificacion'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['tipoidentificacion'].errors.required">
                                         Escoja un I.D
                                     </div>
                                 </div>
@@ -151,14 +157,14 @@
                             <div class="col-3">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="mercancia">Tipo Mercancía</label>
-                                    <select formControlName="mercancia" class="form-control" required>
-                                        <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
+                                    <select formControlName="tipomercancia" class="form-control" required>
+                                        <option *ngFor="let tipomer of tiposMercancia" [value]="tipomer.id">
                                             {{tipomer.nombre}}
                                         </option>
                                     </select>
                                 </div>
-                                <div *ngIf="profileForm.controls['mercancia'].invalid &&(profileForm.controls['mercancia'].dirty || profileForm.controls['mercancia'].touched)" class="text-danger">
-                                    <div *ngIf="profileForm.controls['mercancia'].errors.required">
+                                <div *ngIf="profileForm.controls['tipomercancia'].invalid &&(profileForm.controls['tipomercancia'].dirty || profileForm.controls['tipomercancia'].touched)" class="text-danger">
+                                    <div *ngIf="profileForm.controls['tipomercancia'].errors.required">
                                         Escoja su tipo de mercancía
                                     </div>
                                 </div>
@@ -181,8 +187,8 @@
                             <div class="col-4">
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="estado">Estado</label>
-                                    <select formControlName="estado" class="form-control" required>
-                                        <option *ngFor="let esta of estado" [value]="esta.id">
+                                    <select  formControlName="estado" class="form-control" required>
+                                        <option *ngFor="let esta of estados" (click)="CiudadxEstado(esta.id)" [value]="esta.id">
                                             {{esta.nombre}}
                                         </option>
                                     </select>
@@ -198,7 +204,7 @@
                                 <div class="form-group" style="margin-bottom: 0.3rem;">
                                     <label for="ciudad">Ciudad</label>
                                     <select formControlName="ciudad" class="form-control" required>
-                                        <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                        <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
                                             {{ciu.nombre}}
                                         </option>
                                     </select>

@@ -10,17 +10,7 @@
                         <div class="col-9">
                             <h4>Facturas</h4>
                         </div>
-                        <div class="col-1">
-                            <button [hidden]="esconderBoton" class="btn btn-success btn-sm btn-pill" (click)="agregarFila()" tooltip="Añadir fila" placement="left">
-                                <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
-                            </button>
-                        </div>
-                        <div class="col-1">
-                            <button [hidden]="esconderBoton" class="btn btn-danger btn-sm btn-pill" (click)="eliminarFila()" tooltip="Remover fila" placement="right">
-                                <svg-icon src="assets/less.svg" [svgStyle]="{ 'height.px':15,'width.px':15 }"></svg-icon>
-                            </button>
-                        </div>
-                        <div class="col-1">
+                        <div class="col-3" align="center">
                             <button [hidden]="!esconderBoton" class="btn btn-sm btn-pill" (click)="generatePDF()" tooltip="Crear PDF" placement="left">
                                 <svg-icon src="assets/pdf4.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
                             </button>
@@ -28,6 +18,153 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div *ngIf="!esconderBoton" class="card border-primary">
+                        <form [formGroup]="facturaForm" (ngSubmit)="onSubmit()">
+                            <div class="card-header">
+                                <div class="form-row">
+                                    <div class="col-10">
+                                        <h5>Agregar Factura</h5>
+                                    </div>
+                                    <div class="col-2" align="center">
+                                        <button style="padding:0px" [hidden]="esconderBoton" type="submit" class="btn btn-sm btn-pill" tooltip="Añadir factura" placement="left">
+                                            <svg-icon src="assets/add2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <!-- Nro Factura -->
+                                    <div class="col-2">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label>Nº Fact.</label>
+                                            <input formControlName="nro" type="text" class="form-control" placeholder="Nº de factura" required>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['nro'].invalid &&(facturaForm.controls['nro'].dirty || facturaForm.controls['nro'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['nro'].errors.required">
+                                                Ingrese el Nº de factura
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Bultos -->
+                                    <div class="col-2">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label>Bultos</label>
+                                            <input formControlName="bultos" type="number" class="form-control" placeholder="Cant. de bultos" required>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['bultos'].invalid &&(facturaForm.controls['bultos'].dirty || facturaForm.controls['bultos'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['bultos'].errors.required">
+                                                Ingrese la cant. de bultos
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Valor -->
+                                    <div class="col-2">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label>Valor</label>
+                                            <input formControlName="valor" type="text" class="form-control" placeholder="Valor (bsS) " required>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['valor'].invalid &&(facturaForm.controls['valor'].dirty || facturaForm.controls['valor'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['valor'].errors.required">
+                                                Ingrese el valor bsS
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- RIF -->
+                                    <div class="col-3">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label>RIF</label>
+                                            <input formControlName="rif" type="text" class="form-control" placeholder="RIF" required>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['rif'].invalid &&(facturaForm.controls['rif'].dirty || facturaForm.controls['rif'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['rif'].errors.required">
+                                                Ingrese el RIF
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Razon Social -->
+                                    <div class="col-3">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label>Razón Social</label>
+                                            <input formControlName="razonsocial" type="text" class="form-control" placeholder="Razón Social" required>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['razonsocial'].invalid &&(facturaForm.controls['razonsocial'].dirty || facturaForm.controls['razonsocial'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['razonsocial'].errors.required">
+                                                Ingrese Razon Social
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <!-- Flete Destino -->
+                                    <div class="col-2">
+                                        <div class="form-group" style="margin-bottom: 0.3rem; margin-top:7px">                              
+                                            <label class="form-check-label" style="margin-bottom: 0px;"><strong>Flete Destino</strong></label><br>
+                                            <div class="form-check form-check-inline mr-1">       
+                                                <input style="margin-left: 10px; width: 5%;" formControlName="fletedestino" type="radio" class="form-control" value="Si">
+                                                <label class="form-check-label" style="margin-bottom: 0px;">Si</label>
+                
+                                                <input style="margin-left: 10px; width: 5%;" formControlName="fletedestino" type="radio" class="form-control" value="No">
+                                                <label class="form-check-label" style="margin-bottom: 0px;">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="facturaForm.controls['rif'].invalid &&(facturaForm.controls['rif'].dirty || facturaForm.controls['rif'].touched)" class="text-danger">
+                                        <div *ngIf="facturaForm.controls['rif'].errors.required">
+                                            ¿Desea Flete de Destino?
+                                        </div>
+                                    </div>
+                                    <!-- Estado -->
+                                    <div class="col-3">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label for="estado">Estado</label>
+                                            <select formControlName="estado" class="form-control" required>
+                                                <option value="0">-- Seleccione un Estado --</option>
+                                                <option *ngFor="let esta of estados" (click)="CiudadxEstado(esta.id)" [value]="esta.id">
+                                                    {{esta.nombre}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['estado'].invalid &&(facturaForm.controls['estado'].dirty || facturaForm.controls['estado'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['estado'].errors.required">
+                                                Escoja un Estado
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Ciudad -->
+                                    <div class="col-3">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label for="ciudad">Ciudad</label>
+                                            <select formControlName="ciudad" class="form-control" required>
+                                                <option value="0">-- Seleccione una Ciudad --</option>
+                                                <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
+                                                    {{ciu.nombre}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['ciudad'].invalid &&(facturaForm.controls['ciudad'].dirty || facturaForm.controls['ciudad'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['ciudad'].errors.required">
+                                                Escoja una Ciudad
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Direccion -->
+                                    <div class="col-4">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label for="dirfiscal">Dirección Fiscal</label>
+                                            <input formControlName="direccion" type="text" class="form-control" placeholder="Ingrese su dir. fiscal">
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['direccion'].invalid &&(facturaForm.controls['direccion'].dirty || facturaForm.controls['direccion'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['direccion'].errors.required">
+                                                Ingrese su direccion
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>    
+                    </div>
+                    <hr *ngIf="!esconderBoton">
                     <div class="form-row">
                         <table class="table table-sm">
                             <thead>
@@ -41,7 +178,7 @@
                                 <th scope="col">Estado</th>
                                 <th scope="col">Ciudad</th>
                                 <th scope="col">Direccion</th>
-                                <th *ngIf="tipoU != 1 && accion=='edit'" scope="col">Accion</th>
+                                <th *ngIf="accion!='see'" scope="col">Accion</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -59,44 +196,60 @@
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{fact.RIF}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].RIF" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
+                                    <span *ngIf="fact.status">{{fact.rif}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].rif" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{fact.RazonSocial}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].RazonSocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                    <span *ngIf="fact.status">{{fact.razonsocial}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].razonsocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
                                 </td>
                                 <td> 
                                     <span *ngIf="fact.status">{{fact.fletedestino}}</span>
                                     <div *ngIf="!fact.status" style="width:150%; margin-right: 10px;">
                                         <input type="radio" value="Si" name="fletedestino{{facturas[i].nro}}" [(ngModel)]="facturas[i].fletedestino">
-                                        <label for="checkbox1" style="margin-bottom: 0px;">Si</label><br>
+                                        <label style="margin-bottom: 0px;">Si</label><br>
                                         <input type="radio" value="No" name="fletedestino{{facturas[i].nro}}" [(ngModel)]="facturas[i].fletedestino">
-                                        <label for="checkbox2" style="margin-bottom: 0px;">No</label>
+                                        <label style="margin-bottom: 0px;">No</label>
                                     </div>
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{facturas[i].Estado}}</span>
-                                    <select *ngIf="!fact.status" id="text-input" class="form-control">
-                                        <option *ngFor="let esta of estado" [value]="esta.id" ngDefaultControl [(ngModel)]="facturas[i].Estado">
+                                    <div *ngIf="fact.status">
+                                        <div *ngFor="let estad of estados">
+                                            <span *ngIf="estad.id == facturas[i].estado">{{estad.nombre}}</span>
+                                        </div>
+                                    </div>
+                                    <select  *ngIf="!fact.status" [(ngModel)]="facturas[i].estado" class="form-control">
+                                        <option *ngFor="let esta of estados" [value]="esta.id" (click)="CiudadxEstado(esta.id)">
                                             {{esta.nombre}}
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{facturas[i].Ciudad}}</span>
-                                    <select *ngIf="!fact.status" id="text-input" class="form-control">
-                                        <option *ngFor="let ciu of ciudad" [value]="ciu.id" ngDefaultControl [(ngModel)]="facturas[i].Ciudad">
+                                    <div *ngIf="fact.status">
+                                        <div *ngFor="let ciud of ciudades">
+                                            <span *ngIf="ciud.id == facturas[i].ciudad">{{ciud.nombre}}</span>
+                                        </div>
+                                    </div>
+                                    <select *ngIf="!fact.status" [(ngModel)]="facturas[i].ciudad" class="form-control">
+                                        <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
                                             {{ciu.nombre}}
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{fact.Dir}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].Dir" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
+                                    <span *ngIf="fact.status">{{fact.direccion}}</span>
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].direccion" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
                                 </td>
-                                <td *ngIf="tipoU != 1 && accion=='edit'">
-                                    <button class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
+                                <td *ngIf="accion!='see'">
+                                    <button *ngIf="fact.status" class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right">
+                                        <svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
+                                    </button>
+                                    <button *ngIf="!fact.status" class="btn btn-sm btn-pill" (click)="updateFactura(fact)" tooltip="Guardar" placement="right">
+                                        <svg-icon src="assets/save2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
+                                    </button>
+                                    <button *ngIf="fact.status" class="btn btn-sm btn-pill" (click)="eliminarFactura(i)" tooltip="Eliminar" placement="left">
+                                        <svg-icon src="assets/less2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
+                                    </button>
                                 </td>
                               </tr>
                             </tbody>
@@ -107,7 +260,7 @@
             <hr *ngIf="!esconderBoton">
             <div class="form-row">
                 <div class="col-12" align="center">
-                    <button [hidden]="esconderBoton" class="btn btn-primary" (click)="crearRelacion()">Crear</button>
+                    <button [hidden]="esconderBoton" class="btn btn-primary" (click)="crearRelacion()">Crear Relación de Despacho</button>
                     <button [hidden]="esconderBoton" class="btn btn-danger" >Limpiar</button>
                 </div>
             </div>

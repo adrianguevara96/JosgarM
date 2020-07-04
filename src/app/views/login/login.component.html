@@ -84,6 +84,18 @@
                                 </div>
                               </div>
                             </div>
+                            <!--   CONTRASENA  -->
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-lock"></i></span>
+                              </div>
+                              <input formControlName="passwordforpassforgot" type="password" class="form-control" placeholder="Contraseña" required>
+                            </div>
+                            <div *ngIf="passwordforgotForm.controls['passwordforpassforgot'].invalid &&(passwordforgotForm.controls['passwordforpassforgot'].dirty || passwordforgotForm.controls['passwordforpassforgot'].touched)" class="text-danger">
+                              <div *ngIf="passwordforgotForm.controls['passwordforpassforgot'].errors.required">
+                                  Ingrese una contrasena
+                              </div>
+                            </div>
                             <p class="text-muted">Por favor, introduzca el correo electrónico asociado a su cuenta para recuperar su contraseña.</p>
                           </div>
                           <div class="modal-footer">
