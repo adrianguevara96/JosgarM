@@ -27,7 +27,7 @@ export class DefaultLayoutComponent {
           {name: 'Tablas Básicas', url: '', icon: 'fa fa-server'},
           {name: 'Permisos de Usuarios',url: '/theme/colors',icon: 'icon-drop'},
 
-          {title: true,name: 'Theme'},
+        /*  {title: true,name: 'Theme'},
           {name: 'Colors',url: '/theme/colors',icon: 'icon-drop'},
           {name: 'Typography',url: '/theme/typography',icon: 'icon-pencil'},
           {title: true,name: 'Components'},
@@ -76,7 +76,7 @@ export class DefaultLayoutComponent {
           },
           {name: 'Widgets',url: '/widgets',icon: 'icon-calculator',
             badge: {variant: 'info',text: 'NEW'}
-          }
+          }*/
         )
       }else if(this.navItemsUser.length > 8){
         this.navItemsUser.splice(8,this.navItemsUser.length);

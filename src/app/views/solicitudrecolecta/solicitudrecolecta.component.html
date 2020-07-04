@@ -1,4 +1,7 @@
 <div class="animated fadeIn">
+  <ngx-spinner [fullScreen]="false" bdColor = "rgb(8,8,8)" type="pacman" size="medium">
+    <p class="loading" style="color: white">Cargando la solicitud de recolecta...</p>
+  </ngx-spinner>
     <div class="card">
         <div class="card-header">
             <div class="form-row">
@@ -14,11 +17,11 @@
             <div class="form-row">
                 <div class="col-7">
                     <label for="ordencarga">Solicitud de Recolecta</label><br>
-                    <input type="text" class="form-control" id="ordencarga" placeholder="Indique el nro. de la solicitud de recolecta a buscar">
+                    <input type="text" [(ngModel)]="buscarNroSolicitudRecolecta" class="form-control" id="ordencarga" placeholder="Indique el nro. de la solicitud de recolecta a buscar">
                 </div>
                 <div class="col-4">
                     <label class="invisible" for="ordencarga">Orden de Carga</label><br>
-                    <button type="button" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar solicitud de recolecta" placement="right">
+                    <button (click)="buscarFacturasdeRelacionDespacho('see')" type="button" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar solicitud de recolecta" placement="right">
                       <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
                     </button>
                 </div>
@@ -55,24 +58,19 @@
                           <td>{{solreco.bultos}}</td>
                           <td>{{solreco.fecha}}</td>
                           <td>{{solreco.hora}}</td>
-                          <td>{{solreco.status}}</td>
+                          <td>
+                            <div *ngFor="let sta of status">
+                              <span *ngIf="sta.id == solreco.status">{{sta.nombre}}</span>
+                            </div>
+                          </td>
                           <td>
                             <button (click)="openModal('see',solreco.nro)" tooltip="Ver" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
-                            <button *ngIf="solreco.status=='Pendiente'" (click)="cancelarSolicitud(i)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                            <button *ngIf="solreco.status==1" (click)="cancelarSolicitud(solreco)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <ul class="pagination">
-                      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                      <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">4</a></li>
-                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+                    <pagination (pageChanged)="pageChanged($event)" [totalItems]="solicitudesRecolecta.length"></pagination> 
                   </div>
                 </div>
               </div>

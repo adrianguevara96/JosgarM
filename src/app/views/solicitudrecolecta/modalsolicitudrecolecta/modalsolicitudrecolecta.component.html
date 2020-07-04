@@ -30,9 +30,14 @@
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label><strong>Tipo Mercancía</strong></label><br>
-                            <span *ngIf="see">{{solicitudRecolecta[0].tipomercancia}}</span>
+                            <div *ngIf="see">
+                                <div *ngFor="let tipm of tiposmercancia">
+                                    <span *ngIf="tipm.id == solicitudRecolecta[0].tipomercancia">{{tipm.nombre}}</span>
+                                </div>
+                            </div>                            
                             <select *ngIf="!see" formControlName="tipomercancia" class="form-control" required>
-                                <option *ngFor="let tipomer of tipoMercancia" [value]="tipomer.id">
+                                <option value="0">-- Seleccione un T. de Mercancía --</option>
+                                <option *ngFor="let tipomer of tiposmercancia" [value]="tipomer.id">
                                     {{tipomer.nombre}}
                                 </option>
                             </select>
@@ -75,9 +80,14 @@
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label><strong>Estado</strong></label><br>
-                            <span *ngIf="see">{{solicitudRecolecta[0].estado}}</span>
+                            <div *ngIf="see">
+                                <div *ngFor="let estad of estados">
+                                    <span *ngIf="estad.id == solicitudRecolecta[0].estado">{{estad.nombre}}</span>
+                                </div>
+                            </div> 
                             <select *ngIf="!see" formControlName="estado" class="form-control" required>
-                                <option *ngFor="let esta of estado" [value]="esta.id">
+                                <option value="0">-- Seleccione un Estado --</option>
+                                <option *ngFor="let esta of estados" (click)="CiudadxEstado(esta.id)" [value]="esta.id">
                                     {{esta.nombre}}
                                 </option>
                             </select>
@@ -92,9 +102,14 @@
                     <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label><strong>Ciudad</strong></label><br>
-                            <span *ngIf="see">{{solicitudRecolecta[0].ciudad}}</span>
+                            <div *ngIf="see">
+                                <div *ngFor="let ciud of ciudades">
+                                    <span *ngIf="ciud.id == solicitudRecolecta[0].ciudad">{{ciud.nombre}}</span>
+                                </div>
+                            </div>
                             <select *ngIf="!see" formControlName="ciudad" class="form-control" required>
-                                <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                <option value="0">-- Seleccione una Ciudad --</option>
+                                <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
                                     {{ciu.nombre}}
                                 </option>
                             </select>

@@ -62,6 +62,24 @@ export class ServicesService {
     });
   }
 
+  //PUT PARA ELIMINACION LOGICA
+  putLogic(entidad: string, valor) {
+    const head = new HttpHeaders({
+      'Content-Type': 'application/json',
+       //Authorization: 'Bearer: ' + this.getUserToken()
+    })
+    return new Promise((resolve, reject) => {
+      this.http.put(this.url + entidad + '/' + valor, null)
+        .subscribe(res => {
+          console.log(res);
+          resolve(res);
+        }, (err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
 
 
   /*  === VARIABLES A USAR EN TODO EL SISTEMA ===  */

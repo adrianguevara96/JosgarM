@@ -11,6 +11,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     AngularSvgIconModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    PaginationModule.forRoot(),
+    NgxSpinnerModule
   ],
   declarations: [ SolicitudrecolectaComponent ]
 })

@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert';
+import * as moment from 'moment';
+import { ServicesService } from '../../../services/services.service';
 
 @Component({
   selector: 'app-modalsolicitudrecolecta',
@@ -12,6 +14,9 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
 
   @Input() solicitudReco; //Lo que me envia para el modal
   @Input() accion;
+  @Input() estados;
+  @Input() ciudades;
+  @Input() tiposmercancia;
 
   esconderBoton:boolean = false;
   tipoAccion:any;
@@ -20,75 +25,20 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
 
   solicitudRecolectaForm: FormGroup;
   solicitudRecolecta:any[]=[];
-  estado:any[]=[
-    {
-      id: 1,
-      nombre: 'Portuguesa',
-      status: 1
-    },
-    {
-      id: 2,
-      nombre: 'Lara',
-      status: 1
-    },
-  ];
-  ciudad:any[]=[
-    {
-      id: 1,
-      nombre: 'Barquisimeto',
-      idciudad: 2,
-      status: 1
-    },
-    {
-      id: 2,
-      nombre: 'Carora',
-      idciudad: 2,
-      status: 1
-    },
-    {
-      id: 3,
-      nombre: 'Acarigua',
-      idciudad: 1,
-      status: 1
-    }
-  ];
-  tipoMercancia:any[]=[
-    {
-      id:1,
-      nombre: 'Repuestos',
-      status: 1
-    },
-    {
-      id:2,
-      nombre: 'Ferreteria',
-      status: 1
-    },
-    {
-      id:3,
-      nombre: 'Farmacos',
-      status: 1
-    },
-    {
-      id:4,
-      nombre: 'Documentos',
-      status: 1
-    },
-    {
-      id:5,
-      nombre: 'Varios',
-      status: 1
-    },
-  ];
+  ciudadxEstado:any[]=[];
+  iduser:any;
 
   constructor(
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal) { 
+    public activeModal: NgbActiveModal,
+    public service: ServicesService) { 
     this.createForm();
+    this.iduser = this.service.getIDUser()
   }
 
   ngOnInit(){
     if(this.accion == "see"){
-      console.log("Entre aqui por la opcion SEE")
+      //console.log("Entre aqui por la opcion SEE")
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       this.see = true;
@@ -104,14 +54,13 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
   }
 
   createForm() {
-    this.solicitudRecolecta = [];
     this.solicitudRecolectaForm = this.formBuilder.group({
       bultos: ["", Validators.required],
-      tipomercancia: ["", Validators.required],
+      tipomercancia: [0, Validators.required],
       fecha: ["", Validators.required],
       hora: ["", Validators.required],
-      estado: ["", Validators.required],
-      ciudad: ["", Validators.required],
+      estado: [0, Validators.required],
+      ciudad: [0, Validators.required],
       direccion: ["", Validators.required],
       observacion: [""]
     });
@@ -119,8 +68,8 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
 
   onSubmit() {
     if (this.solicitudRecolectaForm.valid) {
+      console.log(typeof this.solicitudRecolectaForm.controls["hora"].value)
       console.log(this.solicitudRecolectaForm.value);
-      this.solicitudRecolecta = []
       swal("¿Está seguro de crear esta solicitud de recolecta?", {
         icon: "warning",
         closeOnClickOutside: false,
@@ -133,20 +82,7 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
         switch (value) {
           case "guardar":
             console.log("Guardando ...");
-            this.solicitudRecolecta.push(
-              {
-                nro: 20,
-                bultos: this.solicitudRecolectaForm.value.cantbultos,
-                tipoMercancia: this.solicitudRecolectaForm.value.tipoMercancia,
-                fecha: this.solicitudRecolectaForm.value.fecha,
-                hora: this.solicitudRecolectaForm.value.hora,
-                estado: this.solicitudRecolectaForm.value.estado,
-                ciudad: this.solicitudRecolectaForm.value.ciudad,
-                direccion: this.solicitudRecolectaForm.value.direccion,
-                observacion: this.solicitudRecolectaForm.value.observacion,
-                estatus: 'Pendiente',
-              })
-              this.activeModal.close(this.solicitudRecolecta)
+            this.agregarSolicitudRecolecta();
             break;
           case "cancel":
           swal.close();
@@ -160,12 +96,46 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
   }
 
   limpiar(){
-    this.solicitudRecolectaForm.controls['cantbultos'].setValue("");
-    this.solicitudRecolectaForm.controls['tipoMercancia'].setValue("");
-    this.solicitudRecolectaForm.controls['fecha'].setValue("");
-    this.solicitudRecolectaForm.controls['hora'].setValue("");
-    this.solicitudRecolectaForm.controls['direccion'].setValue("");
-    this.solicitudRecolectaForm.controls['observacion'].setValue("");
+    this.solicitudRecolectaForm.controls['cantbultos'].setValue(" ");
+    this.solicitudRecolectaForm.controls['tipoMercancia'].setValue(" ");
+    this.solicitudRecolectaForm.controls['fecha'].setValue(" ");
+    this.solicitudRecolectaForm.controls['hora'].setValue(" ");
+    this.solicitudRecolectaForm.controls['direccion'].setValue(" ");
+    this.solicitudRecolectaForm.controls['observacion'].setValue(" ");
+  }
+
+  CiudadxEstado(idestado:any){
+    this.ciudadxEstado = [];
+    for(let j = 0; j<this.ciudades.length; j++){
+      if(this.ciudades[j].idestado == idestado){
+        this.ciudadxEstado.push(this.ciudades[j]);
+      }
+    }
+    console.log("Que tengo en ciudades? ", this.ciudadxEstado);
+  }
+
+  agregarSolicitudRecolecta(){
+    let solicitudrecolecta = {
+      bultos: this.solicitudRecolectaForm.controls["bultos"].value,
+      tipomercancia: this.solicitudRecolectaForm.controls["tipomercancia"].value,
+      fecha: this.solicitudRecolectaForm.controls["fecha"].value,
+      hora: moment(this.solicitudRecolectaForm.controls["hora"].value, "H:mm").format("HH:mm:ss"),
+      estado: this.solicitudRecolectaForm.controls["estado"].value,
+      ciudad: this.solicitudRecolectaForm.controls["ciudad"].value,
+      direccion: this.solicitudRecolectaForm.controls["direccion"].value,
+      observacion: this.solicitudRecolectaForm.controls["observacion"].value,
+      iduser: this.iduser
+    }
+    console.log("Esta solicitud de recolecta? ", solicitudrecolecta);
+    this.service.post(solicitudrecolecta,'solicitudrecolecta').then((result) => {
+      let daata:any = result;
+      if(daata.nro){
+        swal("Solicitud de Recolecta Creada", `Su solicitud de recolecta #${daata.nro} ha sido creada exitosamente.`, "success");
+        this.activeModal.close(solicitudrecolecta);
+      }
+    }, (err) => {
+      swal("Error del Sistema", "Ha ocurrido un error al crear su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
+    })
   }
 
 }

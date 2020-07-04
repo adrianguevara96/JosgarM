@@ -188,7 +188,7 @@ export class ModalcrearordenComponent implements OnInit {
         ciudad: this.facturaForm.controls["ciudad"].value,
         direccion: this.facturaForm.controls["direccion"].value,
         nrorelaciondespacho: this.iduser,
-        fecha: this.facturaForm.controls["nro"].value,
+        fecha: moment().format('L'),
         status: false
       });
       console.log("Agregando una factura: ", this.facturas)

@@ -57,7 +57,6 @@ export class LoginComponent {
       //this.login();
       console.log(this.loginForm.value);
       if(this.loginForm.controls["email"].value == "adrian@adrian.com" && this.loginForm.controls["password"].value == "12345"){
-        this.pru.settipoU(3);
         this.def.setnavItems(3);
         this.service.setUser(
           1,

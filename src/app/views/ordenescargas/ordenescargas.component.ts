@@ -136,16 +136,22 @@ export class OrdenescargasComponent{
     }else{
       this.service.get(`relaciondespacho/user/${this.user.id}/nro/${this.buscarNroRelacionDespacho}`).then((result) => {
         let daattaa:any = result;
-        this.facturas = daattaa;
-        this.spinner.show();
-        setTimeout(() => {
-          this.spinner.hide();
-          const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
-          modalRef.componentInstance.relacionDespacho = this.facturas;
-          modalRef.componentInstance.accion = accion;
-          modalRef.componentInstance.estados = this.estados;
-          modalRef.componentInstance.ciudades = this.ciudades;
-        }, 5000);
+        if(daattaa.message == "No existe la relacion de despacho asociada al usuario en la BD."){
+          swal("No existe la relacion de despacho", "El nro de relacion de despacho que esta buscando no existe, por favor ingrese otro numero de relacion de despacho.", "info");
+          this.buscarNroRelacionDespacho = "";
+        }else{
+          this.facturas = daattaa;
+          this.spinner.show();
+          this.buscarNroRelacionDespacho = "";
+          setTimeout(() => {
+            this.spinner.hide();
+            const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
+            modalRef.componentInstance.relacionDespacho = this.facturas;
+            modalRef.componentInstance.accion = accion;
+            modalRef.componentInstance.estados = this.estados;
+            modalRef.componentInstance.ciudades = this.ciudades;
+          }, 5000);
+        }
       }, (err) => {
         console.log("Error al buscar esa relacion de despacho. ", err)
       })
