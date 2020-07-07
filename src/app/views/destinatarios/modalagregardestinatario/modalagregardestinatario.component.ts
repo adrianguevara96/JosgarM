@@ -11,72 +11,26 @@ import swal from 'sweetalert';
 export class ModalagregardestinatarioComponent implements OnInit {
 
   @Input() accion; //Lo que voy a recibir
-  @Input() tipoU;
-  @Input() relacionDespacho;
+  @Input() ciudades;
+  @Input() estados;
+  @Input() destinatario;
+  @Input() direccionesEntrega;
 
   destForm: FormGroup;
   direccionEntrega: FormGroup;
 
+  tituloModal="";
+
   direntrega:any[]=[];
-  id:any[]= [
-    {
-      id: 1,
-      valor: 'V'
-    },
-    {
-      id: 2,
-      valor: 'J'
-    },
-    {
-      id: 3,
-      valor: 'E'
-    },
-    {
-      id: 4,
-      valor: 'G'
-    }
-  ]
-  estado:any[]=[
-    {
-      id: 1,
-      nombre: 'Portuguesa',
-      status: 1
-    },
-    {
-      id: 2,
-      nombre: 'Lara',
-      status: 1
-    },
-  ];
-  ciudad:any[]=[
-    {
-      id: 1,
-      nombre: 'Barquisimeto',
-      idciudad: 2,
-      status: 1
-    },
-    {
-      id: 2,
-      nombre: 'Carora',
-      idciudad: 2,
-      status: 1
-    },
-    {
-      id: 3,
-      nombre: 'Acarigua',
-      idciudad: 1,
-      status: 1
-    }
-  ];
+  id:any[]= [];
+  
+  ciudadesxEstado:any[]=[];
   esconderBoton:boolean = false;
   editrow:boolean= false; //Variable para editar la fila
 
   //Variables para modificar o ver un destinatario
   tipoAccion:any;
   nombre: any;
-
-  @Input() public destinatario;
-
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -89,20 +43,22 @@ export class ModalagregardestinatarioComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.accion == "see"){
-      console.log("Entre aqui por la opcion SEE")
+      console.log("Entre aqui por la opcion SEE");     
+      console.log("direccionesEntrega ", this.direccionesEntrega);
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las direcciones de entrega que tenga el destinatario
-      this.direntrega = [];
-      this.direntrega = this.relacionDespacho;
-      this.nombre = `# ${this.direntrega[0].nombre}`;
+      //this.destinatario = [];
+      this.destinatario = this.destinatario;
+      console.log("Destinatario trae ", this.destinatario);
+      this.nombre = `# ${this.destinatario[0].nombresd}`;
 
     }else if(this.accion == "edit"){
       this.tipoAccion = "Modificar";
       this.esconderBoton = true;
-      this.direntrega = [];
-      this.direntrega = this.relacionDespacho;
-      this.nombre = `# ${this.direntrega[0].nombre}`;
+      this.destinatario = [];
+      this.destinatario = this.destinatario;
+      this.nombre = `# ${this.destinatario[0].nombresd}`;
       //Hacer un for para editar las direcciones de entrega que tenga el destinatario
     }else{
       this.tipoAccion = "Agregar";
@@ -110,7 +66,7 @@ export class ModalagregardestinatarioComponent implements OnInit {
       this.esconderBoton = false;
       this.editrow = true;
     }
-    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion)
+    console.log("Que trae al iniciar modal?: ",this.destinatario, this.accion)
     console.log(this.tipoAccion);
   }
 
@@ -196,5 +152,13 @@ export class ModalagregardestinatarioComponent implements OnInit {
     }
   }
 
+  ciudadesxEstados(idest:any){
+    this.ciudadesxEstado = [];
+    for(let i=0; i<this.ciudades.length; i++){
+      if(this.ciudades[i].idestado == idest){
+        this.ciudadesxEstado.push(this.ciudades[i]);
+      }
+    }
+  }
  
 }

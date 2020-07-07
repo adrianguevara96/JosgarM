@@ -1,4 +1,7 @@
 <div class="container">
+  <ngx-spinner [fullScreen]="false" bdColor = "rgb(8,8,8)" type="pacman" size="medium">
+    <p class="loading" style="color: white">Cargando datos del destinatario...</p>
+  </ngx-spinner>
     <div class="card">
       <div class="card-header">
           <div class='row'>
@@ -6,7 +9,7 @@
                 <h3>Destinatarios</h3>
               </div>
               <div class="col-4">
-                <button (click)="openModal()" tooltip="Añadir Destinatario" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirdestinatario.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                <button (click)="openModalCrear()" tooltip="Añadir Destinatario" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirdestinatario.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
               </div>
           </div>
       </div>
@@ -16,11 +19,11 @@
               <div class="form-row">
                   <div class="col-8">
                       <label for="destinatario">Buscar Destinatario</label><br>
-                      <input type="text" class="form-control" id="destinatario" placeholder="Indique el nombre del destinatario">
+                      <input type="text" [(ngModel)]="inputBuscar" class="form-control" id="destinatario" placeholder="Indique el rif del destinatario">
                   </div>
                   <div class="col-4">
                       <label class="invisible" for="destinatario">Destinatario</label><br>
-                      <button type="button" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar Destinatario" placement="right">
+                      <button type="button" (click)="buscarDestinatarios('see')" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar Destinatario" placement="right">
                         <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
                       </button>
                   </div>
@@ -48,15 +51,15 @@
               </thead>
               <tbody>
                 <tr *ngFor="let dest of destinatarios">
-                    <td>{{dest.nombre}}</td>
+                    <td>{{dest.nombres}}</td>
                     <td>{{dest.rif}}</td>
-                    <td>{{dest.tmovil}}</td>
-                    <td>{{dest.tlocal}}</td>
-                    <td>{{dest.dir}}</td>
-                    <td>{{dest.est}}</td>
+                    <td>{{dest.tlfmovil}}</td>
+                    <td>{{dest.tlfijo}}</td>
+                    <td>{{dest.direccion}}</td>
+                    <td>{{dest.estado}}</td>
                     <td>{{dest.ciudad}}</td>
                     <td>
-                        <button tooltip="Ver detalles" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                        <button tooltip="Ver detalles" placement="left"style="border-radius:60px" (click)="openModal('see', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                         <button tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                     </td>
                 </tr>

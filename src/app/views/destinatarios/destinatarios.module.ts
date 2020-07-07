@@ -11,6 +11,7 @@ import { DestinatariosComponent } from './destinatarios.component';
 import { DestinatariosRoutingModule } from './destinatarios-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { CommonModule } from '@angular/common';
     AngularSvgIconModule.forRoot(),
     CommonModule,
     TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxSpinnerModule
   ],
   declarations: [ DestinatariosComponent ]
 })
