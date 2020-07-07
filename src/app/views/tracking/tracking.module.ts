@@ -11,6 +11,10 @@ import { TrackingRoutingModule } from './tracking-routing.module';
 import { CommonModule } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DecimalPipe } from '@angular/common';
+
 
 
 @NgModule({
@@ -24,7 +28,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     TooltipModule.forRoot(),
     AngularSvgIconModule.forRoot(),
     ReactiveFormsModule,
+    PaginationModule.forRoot(),
+    NgbModule
+    
   ],
-  declarations: [ TrackingComponent ]
+  declarations: [ TrackingComponent ],
+  providers: [DecimalPipe]
 })
 export class TrackingModule { }

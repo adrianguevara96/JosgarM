@@ -26,7 +26,8 @@ export class ModalcrearordenComponent implements OnInit {
   facturas:any[]=[];
   facturaForm: FormGroup;
   //Lo que recibo para el modal
-  ciudadxEstado:any[]=[]
+  ciudadxEstado:any[]=[];
+  ciudadxEstados:any[]=[];
 
   esconderBoton:boolean = false;
   editrow:boolean= false; //Variable para editar la fila
@@ -85,7 +86,20 @@ export class ModalcrearordenComponent implements OnInit {
   }
 
   editarRow(factura:any){
-    factura.status = !factura.status;
+    console.log(this.facturas)
+    let validarFactura:boolean = true
+    console.log(factura)
+    for(let i =0; i<this.facturas.length; i++){
+      console.log(this.facturas[i].status);
+      if(this.facturas[i].status == false){
+        validarFactura = false;
+      }
+    }
+    if(validarFactura){
+      factura.status = !factura.status;
+    }else{
+      swal("Guarde su factura", "Por favor, guarde su factura antes de editar otra factura.", "info");
+    }
   }
 
   onSubmit() {
@@ -189,7 +203,7 @@ export class ModalcrearordenComponent implements OnInit {
         direccion: this.facturaForm.controls["direccion"].value,
         nrorelaciondespacho: this.iduser,
         fecha: moment().format('L'),
-        status: false
+        status: true
       });
       console.log("Agregando una factura: ", this.facturas)
     }else{
@@ -225,13 +239,22 @@ export class ModalcrearordenComponent implements OnInit {
   }
 
   CiudadxEstado(idestado:any){
+    console.log(idestado)
     this.ciudadxEstado = [];
     for(let j = 0; j<this.ciudades.length; j++){
       if(this.ciudades[j].idestado == idestado){
         this.ciudadxEstado.push(this.ciudades[j]);
       }
     }
-    console.log("Que tengo en ciudades? ", this.ciudadxEstado);
+  }
+  CiudadxEstados(idestado:any){
+    console.log(idestado)
+    this.ciudadxEstados = [];
+    for(let j = 0; j<this.ciudades.length; j++){
+      if(this.ciudades[j].idestado == idestado){
+        this.ciudadxEstados.push(this.ciudades[j]);
+      }
+    }
   }
 
   updateFactura(factura:any){

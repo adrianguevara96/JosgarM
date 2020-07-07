@@ -46,7 +46,7 @@
                         <tr>
                           <th>Nro.</th>
                           <th>Razón Social</th>
-                          <th>Fecha</th>
+                          <th tooltip="Fecha(YYYY/MM/DD)" placement="top">Fecha</th>
                           <th>Hora</th>
                           <th>Acciones</th>
                         </tr>
@@ -55,7 +55,7 @@
                         <tr *ngFor="let reladespa of relacionDespacho10">
                           <td>{{reladespa.nro}}</td>
                           <td>{{this.user.razonsocial}}</td>
-                          <td>{{reladespa.fecha}}</td>
+                          <td>{{reladespa.fecha.substr(0,10)}}</td>
                           <td>{{reladespa.hora}}</td>
                           <td>
                             <button (click)="openModal('see', reladespa.nro)" tooltip="Ver detalles" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>

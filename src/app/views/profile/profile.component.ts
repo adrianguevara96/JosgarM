@@ -16,24 +16,7 @@ export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup;
 
-  id:any[]= [
-    {
-      id: 1,
-      valor: 'V'
-    },
-    {
-      id: 2,
-      valor: 'J'
-    },
-    {
-      id: 3,
-      valor: 'E'
-    },
-    {
-      id: 4,
-      valor: 'G'
-    }
-  ]
+  id:any;
   estados:any;
   ciudades:any;
   ciudadxEstado:any[] = [];
@@ -50,6 +33,7 @@ export class ProfileComponent implements OnInit {
     this.getEstados();
     this.getCiudades();
     this.getTiposMercancia();
+    this.getTiposIdentificacion();
     this.createForm();
   }
 
@@ -121,9 +105,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  getTipoIdentificacion(){
-    this.service.get('tiposmercancia').then((result) => {
-      this.tiposMercancia = result;
+  getTiposIdentificacion(){
+    this.service.get('tiposidentificacion').then((result) => {
+      this.id = result;
     }, 
     (err) => {
       console.log("Error al hacer get a tiposMercancia ", err)

@@ -58,7 +58,9 @@ import { PruebaComponent } from './views/prueba/prueba.component';
 import { ModalsolicitudrecolectaComponent } from './views/solicitudrecolecta/modalsolicitudrecolecta/modalsolicitudrecolecta.component';
 import { PdfrelaciondespachoComponent } from './views/ordenescargas/pdfrelaciondespacho/pdfrelaciondespacho.component';
 import { ModalagregardestinatarioComponent } from './views/destinatarios/modalagregardestinatario/modalagregardestinatario.component';
-/*import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
+/*import { TablasbasicasComponent } from './views/tablasbasicas/tablasbasicas.component';
+import { DashboardadminComponent } from './views/dashboardadmin/dashboardadmin.component';
+import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
 import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
 import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
 import { TrackingComponent } from './views/tracking/tracking.component';
@@ -101,7 +103,9 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalsolicitudrecolectaComponent,
     ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent,
-    /*SolicitudrecolectaComponent,
+    /*TablasbasicasComponent,
+    DashboardadminComponent,
+    SolicitudrecolectaComponent,
     DestinatariosComponent,
     OrdenescargasComponent,
     TrackingComponent,
