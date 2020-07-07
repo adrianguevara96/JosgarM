@@ -6,7 +6,7 @@ export const navItemsUser: INavData[] = [
     name: 'Menú'
   },
   {
-    name: 'Dashboard',
+    name: 'Inicio',
     url: '/dashboard',
     icon: 'icon-home'
   },

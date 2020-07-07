@@ -46,7 +46,7 @@
                         <tr>
                           <th>Nro.</th>
                           <th>Bultos</th>
-                          <th>Fecha</th>
+                          <th tooltip="Fecha(YYYY/MM/DD)" placement="top">Fecha</th>
                           <th>Hora</th>
                           <th>Estatus</th>
                           <th>Acción</th>
@@ -56,7 +56,7 @@
                         <tr *ngFor="let solreco of solicitudesRecolecta; let i=index">
                           <td>{{solreco.nro}}</td>
                           <td>{{solreco.bultos}}</td>
-                          <td>{{solreco.fecha}}</td>
+                          <td>{{solreco.fecha.substr(0,10)}}</td>
                           <td>{{solreco.hora}}</td>
                           <td>
                             <div *ngFor="let sta of status">

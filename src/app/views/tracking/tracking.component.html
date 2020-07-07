@@ -19,10 +19,10 @@
                             <div class="form-check form-check-inline mr-1">
                                 <label class="form-check-label" style="margin-bottom: 0px;"><strong>Indique una opción:</strong></label><br>
 
-                                <input (click)="placehold()" style="margin-left: 10px; width: 5%;" type="radio" name="buscar" formControlName="buscar" class="form-control" value="2">
+                                <input (click)="placehold()" style="margin-left: 10px; width:15%;" type="radio" name="buscar" formControlName="buscar" class="form-control" value="2">
                                 <label class="form-check-label" style="margin-bottom: 0px;">Guía</label><br>
 
-                                <input (click)="placehold()" style="margin-left: 10px; width:5%;" type="radio" value="1" name="buscar" formControlName="buscar" class="form-control">
+                                <input (click)="placehold()" style="margin-left: 10px; width:15%;" type="radio" value="1" name="buscar" formControlName="buscar" class="form-control">
                                 <label style="margin-bottom: 0px;">Factura</label>
                             </div><br>
                         </div>
@@ -67,39 +67,42 @@
                                             <th tooltip="Nro. de Guia" placement="top">#Guia</th>
                                             <th>Remitente</th>
                                             <th>Destinatario</th>
-                                            <th>Monto</th>
+                                            <th tooltip="bs.S" placement="top">Monto</th>
                                             <th>Estado</th>
                                             <th>Ciudad</th>
                                             <th tooltip="Flete Destino" placement="top">F.D</th>
-                                            <th tooltip="Fecha de Entrega" placement="top">F. Entrega</th>
+                                            <th tooltip="Fecha de Entrega(YYYY/MM/DD)" placement="top">F.Entrega</th>
                                             <th>Estatus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr *ngFor="let fact of facturas; let index = i">
+                                            <td>{{fact.nrof}}</td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{user.razonsocial}}</td>
+                                            <td>{{fact.destinatario}}</td>
+                                            <td>{{fact.valor}}</td>
+                                            <td>
+                                                <div *ngFor="let estad of estados">
+                                                    <span *ngIf="estad.id == fact.estado">{{estad.nombre}}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let ciu of ciudades">
+                                                    <span *ngIf="ciu.id == fact.ciudad">{{ciu.nombre}}</span>
+                                                </div>
+                                            </td>
+                                            <td>{{fact.fletedestino}}</td>
+                                            <td>{{fact.fecha.substr(0,10)}}</td>
+                                            <td>
+                                                <div *ngFor="let sta of status">
+                                                    <span *ngIf="sta.id == fact.status">{{sta.nombre}}</span>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
+                                <pagination (pageChanged)="pageChanged($event)" [totalItems]="facturas.length"></pagination> 
                             </div>
                         </div>
                     </div>

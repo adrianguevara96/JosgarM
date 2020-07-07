@@ -23,9 +23,10 @@ export class DefaultLayoutComponent {
     if(valor == 3) {
       if(this.navItemsUser.length == 8){
         this.navItemsUser.push(
-          {title: true,name: 'Configuración'},
-          {name: 'Tablas Básicas', url: '', icon: 'fa fa-server'},
-          {name: 'Permisos de Usuarios',url: '/theme/colors',icon: 'icon-drop'},
+          {title: true,name: 'Administración'},
+          {name: 'Dashboard Administrativo', url: '/dashboardadmin', icon:'fa fa-star'},
+          {name: 'Tablas Básicas', url: '/tbasicas', icon: 'fa fa-server'},
+          {name: 'Permisos de Usuarios',url: '',icon: 'icon-drop'},
 
         /*  {title: true,name: 'Theme'},
           {name: 'Colors',url: '/theme/colors',icon: 'icon-drop'},

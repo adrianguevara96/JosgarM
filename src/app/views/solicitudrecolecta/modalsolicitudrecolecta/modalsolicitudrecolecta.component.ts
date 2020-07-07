@@ -91,15 +91,17 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
       });
     }
     else {
-      alert("FILL ALL FIELDS");
+      swal("Rellenar Campos", "Por favor, rellene todos los campos.", "info");
     }
   }
 
   limpiar(){
-    this.solicitudRecolectaForm.controls['cantbultos'].setValue(" ");
-    this.solicitudRecolectaForm.controls['tipoMercancia'].setValue(" ");
+    this.solicitudRecolectaForm.controls['bultos'].setValue(" ");
+    this.solicitudRecolectaForm.controls['tipomercancia'].setValue(" ");
     this.solicitudRecolectaForm.controls['fecha'].setValue(" ");
     this.solicitudRecolectaForm.controls['hora'].setValue(" ");
+    this.solicitudRecolectaForm.controls['estado'].setValue(0);
+    this.solicitudRecolectaForm.controls['ciudad'].setValue(0);
     this.solicitudRecolectaForm.controls['direccion'].setValue(" ");
     this.solicitudRecolectaForm.controls['observacion'].setValue(" ");
   }
@@ -111,7 +113,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
         this.ciudadxEstado.push(this.ciudades[j]);
       }
     }
-    console.log("Que tengo en ciudades? ", this.ciudadxEstado);
   }
 
   agregarSolicitudRecolecta(){

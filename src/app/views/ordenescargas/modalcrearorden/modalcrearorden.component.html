@@ -100,11 +100,11 @@
                                     <div class="col-2">
                                         <div class="form-group" style="margin-bottom: 0.3rem; margin-top:7px">                              
                                             <label class="form-check-label" style="margin-bottom: 0px;"><strong>Flete Destino</strong></label><br>
-                                            <div class="form-check form-check-inline mr-1">       
-                                                <input style="margin-left: 10px; width: 5%;" formControlName="fletedestino" type="radio" class="form-control" value="Si">
+                                            <div style="display: flex" class="form-check form-check-inline">       
+                                                <input style="margin-left: 10px; width:15%" formControlName="fletedestino" type="radio" class="form-control form-check-input" value="Si">
                                                 <label class="form-check-label" style="margin-bottom: 0px;">Si</label>
                 
-                                                <input style="margin-left: 10px; width: 5%;" formControlName="fletedestino" type="radio" class="form-control" value="No">
+                                                <input style="margin-left: 10px; width:15%" formControlName="fletedestino" type="radio" class="form-control form-check-input" value="No">
                                                 <label class="form-check-label" style="margin-bottom: 0px;">No</label>
                                             </div>
                                         </div>
@@ -118,9 +118,9 @@
                                     <div class="col-3">
                                         <div class="form-group" style="margin-bottom: 0.3rem;">
                                             <label for="estado">Estado</label>
-                                            <select formControlName="estado" class="form-control" required>
+                                            <select (change)="CiudadxEstado($event.target.value)" formControlName="estado" class="form-control" required>
                                                 <option value="0">-- Seleccione un Estado --</option>
-                                                <option *ngFor="let esta of estados" (click)="CiudadxEstado(esta.id)" [value]="esta.id">
+                                                <option *ngFor="let esta of estados" [value]="esta.id">
                                                     {{esta.nombre}}
                                                 </option>
                                             </select>
@@ -185,23 +185,23 @@
                               <tr *ngFor="let fact of facturas; let i = index">
                                 <td>
                                     <span *ngIf="fact.status">{{fact.nro}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].nro" type="text" id="text-input" name="nro" class="form-control" placeholder="Nro Factura">
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].nro" type="text" id="nro" name="nro" class="form-control" placeholder="Nro Factura">
                                 </td>
                                 <td>
                                     <span *ngIf="fact.status">{{fact.bultos}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].bultos" type="text" id="text-input" name="nrobultos" class="form-control" placeholder="Bultos">
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].bultos" type="text" id="bultos" name="nrobultos" class="form-control" placeholder="Bultos">
                                 </td>
                                 <td>
                                     <span *ngIf="fact.status">{{fact.valor}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="text-input" name="valor" class="form-control" placeholder="Valor">
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="valor" name="valor" class="form-control" placeholder="Valor">
                                 </td>
                                 <td>
                                     <span *ngIf="fact.status">{{fact.rif}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].rif" type="text" id="text-input" name="valor" class="form-control" placeholder="Rif">
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].rif" type="text" id="rif" name="valor" class="form-control" placeholder="Rif">
                                 </td>
                                 <td>
                                     <span *ngIf="fact.status">{{fact.razonsocial}}</span>
-                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].razonsocial" type="text" id="text-input" name="RazonSocial" class="form-control" placeholder="Razon Social">
+                                    <input *ngIf="!fact.status" [(ngModel)]="facturas[i].razonsocial" type="text" id="razonsocial" name="RazonSocial" class="form-control" placeholder="Razon Social">
                                 </td>
                                 <td> 
                                     <span *ngIf="fact.status">{{fact.fletedestino}}</span>
@@ -218,8 +218,8 @@
                                             <span *ngIf="estad.id == facturas[i].estado">{{estad.nombre}}</span>
                                         </div>
                                     </div>
-                                    <select  *ngIf="!fact.status" [(ngModel)]="facturas[i].estado" class="form-control">
-                                        <option *ngFor="let esta of estados" [value]="esta.id" (click)="CiudadxEstado(esta.id)">
+                                    <select (change)="CiudadxEstados($event.target.value)" *ngIf="!fact.status" [(ngModel)]="facturas[i].estado" class="form-control">
+                                        <option *ngFor="let esta of estados" [value]="esta.id">
                                             {{esta.nombre}}
                                         </option>
                                     </select>
@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                     <select *ngIf="!fact.status" [(ngModel)]="facturas[i].ciudad" class="form-control">
-                                        <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
+                                        <option *ngFor="let ciu of ciudadxEstados" [value]="ciu.id">
                                             {{ciu.nombre}}
                                         </option>
                                     </select>
@@ -241,7 +241,7 @@
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].direccion" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
                                 </td>
                                 <td *ngIf="accion!='see'">
-                                    <button *ngIf="fact.status" class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right">
+                                    <button *ngIf="fact.status && accion!='create'" class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right">
                                         <svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
                                     </button>
                                     <button *ngIf="!fact.status" class="btn btn-sm btn-pill" (click)="updateFactura(fact)" tooltip="Guardar" placement="right">

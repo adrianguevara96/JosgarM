@@ -85,9 +85,9 @@
                                     <span *ngIf="estad.id == solicitudRecolecta[0].estado">{{estad.nombre}}</span>
                                 </div>
                             </div> 
-                            <select *ngIf="!see" formControlName="estado" class="form-control" required>
+                            <select (change)="CiudadxEstado($event.target.value)" *ngIf="!see" formControlName="estado" class="form-control" required>
                                 <option value="0">-- Seleccione un Estado --</option>
-                                <option *ngFor="let esta of estados" (click)="CiudadxEstado(esta.id)" [value]="esta.id">
+                                <option *ngFor="let esta of estados" [value]="esta.id">
                                     {{esta.nombre}}
                                 </option>
                             </select>

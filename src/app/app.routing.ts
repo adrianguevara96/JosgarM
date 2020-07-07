@@ -50,7 +50,7 @@ export const routes: Routes = [
       title: 'Home'
     },
     children: [
-      /* ####### R U T A S   D E L    M E N U  ####### */
+      /* ####### R U T A S   D E L    M E N U    U S E R ####### */
       {
         path: 'profile',
         loadChildren: () => import('./views/profile/profile.module').then(m => m.ProfileModule)
@@ -74,6 +74,15 @@ export const routes: Routes = [
       {
         path: 'solicitudrecolecta',
         loadChildren: () => import('./views/solicitudrecolecta/solicitudrecolecta.module').then(m => m.SolicitudrecolectaModule)
+      },
+      /* ####### R U T A S   D E L    M E N U   A D M I N ####### */
+      {
+        path: 'dashboardadmin',
+        loadChildren: () => import('./views/dashboardadmin/dashboardadmin.module').then(m => m.DashboardadminModule)
+      },
+      {
+        path: 'tbasicas',
+        loadChildren: () => import('./views/tablasbasicas/tablasbasicas.module').then(m => m.TablasbasicasModule)
       },
       /* ############################################# */
       {
