@@ -10,7 +10,7 @@
                         <label for="nombre" style="font-weight: 700;">Nombre</label>
                         <br>
                         <input *ngIf="!esconderBoton" formControlName="nombre" type="text" class="form-control" placeholder="Nombre" required>
-                        <span *ngIf="esconderBoton">{{destinatario[0].nombresd}}</span>
+                        <span *ngIf="esconderBoton">{{destinatario.nombresd}}</span>
                     </div>
                     <div *ngIf="destForm.controls['nombre'].invalid &&(destForm.controls['nombre'].dirty || destForm.controls['nombre'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['nombre'].errors.required">
@@ -23,7 +23,7 @@
                         <label for="direccion" style="font-weight: 700;">Dirección</label>
                         <br>
                         <input *ngIf="!esconderBoton" formControlName="direccion" type="text" class="form-control" placeholder="Dirección" required>
-                        <span *ngIf="esconderBoton">{{destinatario[0].direcciond}}</span> 
+                        <span *ngIf="esconderBoton">{{destinatario.direcciond}}</span> 
                     </div>
                     <div *ngIf="destForm.controls['direccion'].invalid &&(destForm.controls['direccion'].dirty || destForm.controls['direccion'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['direccion'].errors.required">
@@ -35,12 +35,19 @@
                     <div class="form-group" style="margin-bottom: 0.3rem;">
                         <label style="font-weight: 700;" for="estado">Estado</label>
                         <br>
-                        <select *ngIf="!esconderBoton" formControlName="estado" class="form-control" required>
+                        <select *ngIf="!esconderBoton" (change)="ciudadesxEstados($event.target.value)" formControlName="estado" class="form-control" required>
+                            <option value="0">-- Seleccione un Estado --</option>
                             <option *ngFor="let esta of estados" [value]="esta.id">
                                 {{esta.nombre}}
                             </option>
                         </select>
-                        <span *ngIf="esconderBoton">{{destinatario[0].estadod}}</span>
+                        <div *ngIf="esconderBoton">
+                            <div *ngFor="let esta of estados">
+                                <span *ngIf="esta.id == destinatario.estadod">
+                                    {{esta.nombre}}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div *ngIf="destForm.controls['estado'].invalid &&(destForm.controls['estado'].dirty || destForm.controls['estado'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['estado'].errors.required">
@@ -53,11 +60,18 @@
                         <label style="font-weight: 700;" for="ciudad">Ciudad</label>
                         <br>
                         <select *ngIf="!esconderBoton" formControlName="ciudad" class="form-control" required>
+                            <option value="0">-- Seleccione una Ciudad --</option>
                             <option *ngFor="let ciu of ciudadesxEstado" [value]="ciu.id">
                                 {{ciu.nombre}}
                             </option>
                         </select>
-                        <span *ngIf="esconderBoton">{{destinatario[0].ciudadd}}</span>
+                        <div *ngIf="esconderBoton">
+                            <div *ngFor="let ciu of ciudades">
+                                <span *ngIf="ciu.id == destinatario.ciudadd">
+                                    {{ciu.nombre}}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div *ngIf="destForm.controls['ciudad'].invalid &&(destForm.controls['ciudad'].dirty || destForm.controls['ciudad'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['ciudad'].errors.required">
@@ -72,7 +86,7 @@
                         <label style="font-weight: 700;" for="tlfijo">Tlf. Fijo</label>
                         <br>
                         <input *ngIf="!esconderBoton" formControlName="tlfijo" type="text" maxlength="12" pattern="[0-9]{4}-[0-9]{7}" class="form-control"  placeholder="Tlf. Fijo" required>
-                        <span *ngIf="esconderBoton">{{destinatario[0].tlfijod}}</span>
+                        <span *ngIf="esconderBoton">{{destinatario.tlfijod}}</span>
                     </div>
                     <div *ngIf="destForm.controls['tlfijo'].invalid &&(destForm.controls['tlfijo'].dirty || destForm.controls['tlfijo'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['tlfijo'].errors.required">
@@ -85,7 +99,7 @@
                         <label style="font-weight: 700;" for="tlfmovil">Tlf. Móvil</label>
                         <br>
                         <input *ngIf="!esconderBoton" formControlName="tlfmovil" type="text" maxlength="12" pattern="[0-9]{4}-[0-9]{7}" class="form-control"  placeholder="Tlf. Móvil" required>
-                        <span *ngIf="esconderBoton">{{destinatario[0].tlfmovild}}</span>
+                        <span *ngIf="esconderBoton">{{destinatario.tlfmovild}}</span>
                     </div>
                     <div *ngIf="destForm.controls['tlfmovil'].invalid &&(destForm.controls['tlfmovil'].dirty || destForm.controls['tlfmovil'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['tlfmovil'].errors.required">
@@ -98,11 +112,18 @@
                         <label style="font-weight: 700;" for="identificacion">I.D</label>
                         <br>
                         <select *ngIf="!esconderBoton" formControlName="identificacion" class="form-control" required>
-                            <option *ngFor="let identif of id" [value]="identif.id">
-                                {{identif.valor}}
+                            <option value="0">-- Seleccione un tipo --</option>
+                            <option *ngFor="let identif of identificacion" [value]="identif.id">
+                                {{identif.nombre}}
                             </option>
                         </select>
-                        <span *ngIf="esconderBoton">{{destinatario[0].tid}}</span>
+                        <div *ngIf="esconderBoton">
+                            <div *ngFor="let identif of identificacion">
+                                <span *ngIf="identif.id == destinatario.tid">
+                                    {{identif.nombre}}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-3">
@@ -110,7 +131,7 @@
                         <label for="rif" style="font-weight: 700;">RIF</label>
                         <br>
                         <input *ngIf="!esconderBoton" type="text" formControlName="rif" class="form-control" placeholder="Ingrese su RIF" required>
-                        <span *ngIf="esconderBoton">{{destinatario[0].rifd}}</span>
+                        <span *ngIf="esconderBoton">{{destinatario.rifd}}</span>
                     </div>
                     <div *ngIf="destForm.controls['rif'].invalid &&(destForm.controls['rif'].dirty || destForm.controls['rif'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['rif'].errors.required">
@@ -126,7 +147,7 @@
                 </div>
                 <div class="col-4">
                     <div class="form-group" style="margin-bottom: 0.3rem;">
-                        <button [hidden]="esconderBoton" type="submit" class="btn btn-block btn-success">Guardar</button>
+                        <button [hidden]="esconderBoton" (click)="crearDestinatario()" type="button" class="btn btn-block btn-success">Guardar</button>
                     </div>
                 </div>
                 <div class="col-4">
@@ -185,8 +206,8 @@
                                 <div class="col-3">
                                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                                 <label for="estado">Estado</label>
-                                                <select formControlName="estado" class="form-control" required>
-                                                    <option *ngFor="let esta of estado" [value]="esta.id">
+                                                <select formControlName="estado" (change)="ciudadesxEstados($event.target.value)" class="form-control" required>
+                                                    <option *ngFor="let esta of estados" [value]="esta.id">
                                                         {{esta.nombre}}
                                                     </option>
                                                 </select>
@@ -201,7 +222,7 @@
                                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                                 <label for="ciudad">Ciudad</label>
                                                 <select formControlName="ciudad" class="form-control" required>
-                                                    <option *ngFor="let ciu of ciudad" [value]="ciu.id">
+                                                    <option *ngFor="let ciu of ciudadesxEstado" [value]="ciu.id">
                                                         {{ciu.nombre}}
                                                     </option>
                                                 </select>
@@ -226,34 +247,33 @@
                                 <th scope="col">Dirección</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Ciudad</th>
-                                <th *ngIf="accion=='edit' || accion=='see'" scope="col">Acción</th>
+                                <th *ngIf="accion=='edit' || accion=='see'">Acción</th>
                               </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dire of direccionesEntrega; let i = index" (click)="pos(i)">
+                                <tr *ngFor="let dire of direntrega; let i = index" (click)="pos(i)">
                                     <td>
-                                        <span *ngIf="dire.status">{{dire.nombres}}</span>
-                                        <input *ngIf="!dire.status" [(ngModel)]="dire[i].nombres" type="text" id="text-input" class="form-control" placeholder="Nombre">
-                                    </td> 
+                                        <span *ngIf="dire.status">{{dire.nombres}}</span>                                    </td> 
                                     <td>
                                         <span *ngIf="dire.status">{{dire.direccion}}</span>
-                                        <input *ngIf="!dire.status" [(ngModel)]="dire[i].direccion" type="text" id="text-input" class="form-control" placeholder="Dirección">
                                     </td>
                                     <td>
-                                        <span *ngIf="dire.status">{{dire.estado}}</span>
-                                        <select  *ngIf="!dire.status" [(ngModel)]="dire[i].estado" class="form-control">
-                                            <option *ngFor="let esta of estado" [value]="esta.id">
-                                                {{esta.nombre}}
-                                            </option>
-                                        </select>
+                                        <div *ngIf="dire.status">
+                                            <div *ngFor="let esta of estados">
+                                                <span *ngIf="esta.id == dire.estado">
+                                                    {{esta.nombre}}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span *ngIf="dire.status">{{dire.ciudad}}</span>
-                                        <select *ngIf="!dire.status" [(ngModel)]="dire[i].ciudad" class="form-control">
-                                            <option *ngFor="let ciu of ciudad" [value]="ciu.id">
-                                                {{ciu.nombre}}
-                                            </option>
-                                        </select>
+                                        <div *ngIf="dire.status">
+                                            <div *ngFor="let ciu of ciudades">
+                                                <span *ngIf="ciu.id == dire.ciudad">
+                                                    {{ciu.nombre}}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <button *ngIf="esconderBoton" tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>

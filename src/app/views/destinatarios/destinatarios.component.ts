@@ -18,8 +18,8 @@ export class DestinatariosComponent implements OnInit {
 
   destinatario:any[];
   destinatarios:any[] = [];
-  allDestinatarios:any[];
-  direccionesentrega: any[];
+  allDestinatarios:any[]=[];
+  direccionesentrega: any[]=[];
 
   inputBuscar = "";
 
@@ -27,6 +27,7 @@ export class DestinatariosComponent implements OnInit {
   estados:any;
   ciudades:any;
   ciudadesxEstado:any[] =[];
+  id:any; //Tipo de identificacion (V,J,G, etc)
 
   constructor(
     private modalService: NgbModal,
@@ -37,13 +38,56 @@ export class DestinatariosComponent implements OnInit {
   ngOnInit(){
     this.user = this.service.getUser();
     this.getDestinatarios();
+    this.getEstados();
+    this.getCiudades();
+    this.getTiposIdentificacion();
   }
 
 
   openModal(accion:any, dest:any) { 
     console.log("destinatario de openModal", dest);
-    this.getDireccionesEntxDestinatario(dest[0].idd);
-    console.log("dest.idd ", dest[0].idd)
+    this.getDireccionesEntxDestinatario(dest.idd);
+    console.log("dest.idd en ver ", dest.idd)
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+      const modalRef = this.modalService.open(ModalagregardestinatarioComponent, {size: 'xl'});
+      modalRef.componentInstance.direccionesEntrega = this.direccionesentrega;
+      modalRef.componentInstance.destinatario = dest;
+      modalRef.componentInstance.nombreDest = dest.nombre;
+      modalRef.componentInstance.accion = accion;
+      modalRef.componentInstance.estados = this.estados;
+      modalRef.componentInstance.ciudades = this.ciudades;
+      modalRef.componentInstance.identificacion = this.id;
+
+      modalRef.result.then((result) => {
+        console.log("Que me trae result al cerrar modal crear? ", result)
+        if(result){
+          let dataa:any[] = result
+          console.log("Que me trae data? :", dataa);
+          if(dataa){
+            //Solicitar relaciones de despacho al API
+            this.getDestinatarios();
+          }
+        }
+      }, (reason)=> {
+        console.log("Reason? :", reason)
+      })
+
+    }, 5000);
+  }
+  openModalCrear(){
+    setTimeout(()=>{
+      const modalRef = this.modalService.open(ModalagregardestinatarioComponent, {size: 'xl'});
+      modalRef.componentInstance.estados = this.estados;
+      modalRef.componentInstance.ciudades = this.ciudades;
+      modalRef.componentInstance.identificacion = this.id;
+    }, 3000);
+  }
+  OpenModalBuscar(accion:any,dest:any){
+    console.log("destinatario de openModalBuscar", dest);
+    this.getDireccionesEntxDestinatario(dest.idd);
+    console.log("dest.idd ", dest.idd)
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -54,13 +98,6 @@ export class DestinatariosComponent implements OnInit {
       modalRef.componentInstance.estados = this.estados;
       modalRef.componentInstance.ciudades = this.ciudades;
     }, 5000);
-  }
-  openModalCrear(){
-    setTimeout(()=>{
-      const modalRef = this.modalService.open(ModalagregardestinatarioComponent, {size: 'xl'});
-      modalRef.componentInstance.estados = this.estados;
-      modalRef.componentInstance.ciudades = this.ciudades;
-    }, 3000);
   }
 
   seeModal(){
@@ -104,19 +141,41 @@ buscarDestinatarios(accion:any){
     this.service.get(`destinatario/${this.inputBuscar}/user/${this.user.id}`).then((result) => {
       let data:any = result;
       if(data.message == "No existe el destinatario en la BD."){
-        swal("No existe el destinatario", "El rif del destinatario que esta buscando no existe. por favor ingrese otro rif.","info");
-        this.inputBuscar = "";
+        this.service.get(`destinatario/${this.inputBuscar}`).then((result) => {
+          let data:any = result;
+          if(data.message == "No existe el destinatario asociado al usuario en la BD."){
+            swal("No existe el destinatario", "El rif del destinatario que esta buscando no existe. por favor ingrese otro rif.","info");
+            this.inputBuscar = "";
+          }else{
+            this.destinatario = data[0];
+            console.log("Destinatario sin direcciones ", this.destinatario);
+            this.spinner.show();
+            this.inputBuscar = "";
+            this.OpenModalBuscar(accion, this.destinatario);
+          }
+        })
       }else{
         this.destinatario = data;
         console.log("Destinatarios trae en data ",this.destinatario);
         this.spinner.show();
         this.inputBuscar = "";
-        this.openModal(accion,this.destinatario);
+        this.OpenModalBuscar(accion,this.destinatario);
       }
     }, (err) => {
       console.log("Error en la busqueda de destinatario ");
     })
   }
+}
+
+eliminarDestinatarios(dest:any){
+  this.service.put(null, 'destinatario/cancel', dest.idd).then((result) =>{
+    let data:any = result;
+    console.log("data en eliminar ", data);
+    if(data.message =="El destinatario ha sido eliminado logicamente."){
+      swal("Eliminación correcta","El destinatario ha sido eliminado de forma exitosa. ","info");
+      this.getDestinatarios();
+    }
+  })
 }
 
 //Obtener estados y ciudades para enviarlos al modal
@@ -136,6 +195,15 @@ getCiudades(){
   });
 }
 
+getTiposIdentificacion(){
+  this.service.get('tiposidentificacion').then((result) => {
+    this.id = result;
+    console.log('id metodo ', this.id);
+  }, 
+  (err) => {
+    console.log("Error al hacer get a tipoIdentificacion ", err)
+  });
+}
  //Para la paginacion
  pageChanged(event: PageChangedEvent){
   //Event page: Pagina actual  ItemsPerPage: Datos por pagina.

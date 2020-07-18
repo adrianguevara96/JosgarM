@@ -51,30 +51,26 @@
               </thead>
               <tbody>
                 <tr *ngFor="let dest of destinatarios">
-                    <td>{{dest.nombres}}</td>
-                    <td>{{dest.rif}}</td>
-                    <td>{{dest.tlfmovil}}</td>
-                    <td>{{dest.tlfijo}}</td>
-                    <td>{{dest.direccion}}</td>
-                    <td>{{dest.estado}}</td>
-                    <td>{{dest.ciudad}}</td>
+                    <td>{{dest.nombresd}}</td>
+                    <td>{{dest.rifd}}</td>
+                    <td>{{dest.tlfmovild}}</td>
+                    <td>{{dest.tlfijod}}</td>
+                    <td>{{dest.direcciond}}</td>
+                    <td>
+                      <div *ngFor="let es of estados"><span *ngIf="es.id == dest.estadod">{{es.nombre}}</span></div>
+                    </td>
+                    <td>
+                      <div *ngFor="let ciu of ciudades"><span *ngIf="ciu.id == dest.ciudadd">{{ciu.nombre}}</span></div>
+                    </td>
                     <td>
                         <button tooltip="Ver detalles" placement="left"style="border-radius:60px" (click)="openModal('see', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
-                        <button tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                        <button tooltip="Modificar" placement="right"style="border-radius:60px" (click)="openModal('edit', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                        <button tooltip="Eliminar" placement="right" style="border-radius: 60px;" (click)="eliminarDestinatarios(dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
                     </td>
                 </tr>
               </tbody>
             </table>
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                    <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
+            <pagination (pageChanged)="pageChanged($event)" [totalItems]="allDestinatarios.length"></pagination> 
           </div>
         </div>
         

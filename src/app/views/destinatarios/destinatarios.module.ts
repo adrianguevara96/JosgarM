@@ -11,6 +11,7 @@ import { DestinatariosComponent } from './destinatarios.component';
 import { DestinatariosRoutingModule } from './destinatarios-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CommonModule,
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    PaginationModule.forRoot(),
   ],
   declarations: [ DestinatariosComponent ]
 })
