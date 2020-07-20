@@ -318,6 +318,10 @@ editarRow(direntrega:any){
     }
   }
 
+  onSubmit(){
+    
+  }
+
   ciudadesxEstados(idest:any){
     this.ciudadesxEstado = [];
     //console.log("Ciudades x estado ")
