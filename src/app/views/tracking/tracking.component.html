@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form [formGroup]="trackingForm" (ngSubmit)="onSubmit()" novalidate>
+            <form [formGroup]="trackingForm" (ngSubmit)="onSubmit(content)" novalidate>
                 <div class="form-row">
                     <!--   GUIA O FACTURA  -->
                     <div class="col-12">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar nro. de factura" placement="right">
+                        <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar nro. de factura" placement="right" data-toggle="modal">
                             <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
                         </button>
                     </div>
@@ -78,7 +78,7 @@
                                     <tbody>
                                         <tr *ngFor="let fact of facturas; let index = i">
                                             <td>{{fact.nrof}}</td>
-                                            <td></td>
+                                            <td>{{fact.nroguia}}</td>
                                             <td>{{user.razonsocial}}</td>
                                             <td>{{fact.destinatario}}</td>
                                             <td>{{fact.valor}}</td>
@@ -109,5 +109,74 @@
                 </div>
             </form>
         </div>
+        <!--  M O D A L   D E   V E R   D E S T I N A T A R I O S  -->
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">
+                  {{tituloModal}} 
+                  <span *ngIf="tituloModal == 'Factura'"># {{factguia[0].nrof}}</span>
+                  <span *ngIf="tituloModal == 'Guía'"># {{factguia[0].nroguia}}</span>
+            </h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-3">
+                        <label><b>Nro. de {{tituloModal}}</b></label><br>
+                        <span *ngIf="tituloModal == 'Factura'">{{factguia[0].nrof}}</span>
+                        <span *ngIf="tituloModal == 'Guía'">{{factguia[0].nroguia}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Remitente</b></label><br>
+                        <span>{{user.razonsocial}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Destinatario</b></label><br>
+                        <span>{{factguia[0].destinatario}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Monto</b></label><br>
+                        <span>{{factguia[0].valor}}</span>
+                        <br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-3">
+                        <label><b>Estado</b></label><br>
+                        <div *ngFor="let estad of estados">
+                            <span *ngIf="estad.id == factguia[0].estado">{{estad.nombre}}</span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Ciudad</b></label><br>
+                        <div *ngFor="let ciu of ciudades">
+                            <span *ngIf="ciu.id == factguia[0].ciudad">{{ciu.nombre}}</span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label><b>¿Flete Destino?</b></label><br>
+                        <span>{{factguia[0].fletedestino}}</span>
+                    </div>
+                    <div class="col-2">
+                        <label><b>Fecha</b></label><br>
+                        <span>{{factguia[0].fecha.substr(0,10)}}</span>
+                    </div>
+                    <div class="col-2">
+                        <label><b>Estatus</b></label><br>
+                        <div *ngFor="let sta of status">
+                            <span *ngIf="sta.id == factguia[0].status">{{sta.nombre}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+            </div>
+          </ng-template>
     </div>
 </div>

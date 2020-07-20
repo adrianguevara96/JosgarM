@@ -77,12 +77,21 @@ export class DestinatariosComponent implements OnInit {
     }, 5000);
   }
   openModalCrear(){
-    setTimeout(()=>{
-      const modalRef = this.modalService.open(ModalagregardestinatarioComponent, {size: 'xl'});
-      modalRef.componentInstance.estados = this.estados;
-      modalRef.componentInstance.ciudades = this.ciudades;
-      modalRef.componentInstance.identificacion = this.id;
-    }, 3000);
+    const modalRef = this.modalService.open(ModalagregardestinatarioComponent, {size: 'xl'});
+    modalRef.componentInstance.estados = this.estados;
+    modalRef.componentInstance.ciudades = this.ciudades;
+    modalRef.componentInstance.identificacion = this.id;
+
+    modalRef.result.then((result) => {
+      if(result){
+        let dataa:any = result
+        if(dataa.iduser){
+          this.getDestinatarios();
+        }
+      }
+    }, (reason)=> {
+      console.log("Reason? :", reason)
+    })
   }
   OpenModalBuscar(accion:any,dest:any){
     console.log("destinatario de openModalBuscar", dest);
@@ -97,6 +106,7 @@ export class DestinatariosComponent implements OnInit {
       modalRef.componentInstance.accion = accion;
       modalRef.componentInstance.estados = this.estados;
       modalRef.componentInstance.ciudades = this.ciudades;
+      modalRef.componentInstance.identificacion = this.id;
     }, 5000);
   }
 
@@ -112,7 +122,7 @@ export class DestinatariosComponent implements OnInit {
     this.service.get(`destinatarios/${this.user.id}`).then((result) =>{
       this.data = result;
       if(this.data.message == "No existen destinatarios asociados al usuario en la BD."){
-        swal("No existen destinatario. Ud no posee destinatarios, le invitamos a crear uno para disfrutar de nuestros servicios.","info");
+        swal("No existen destinatario.", "Ud no posee destinatarios, le invitamos a crear uno para disfrutar de nuestros servicios.","info");
       }else if(this.data.length>0){
         this.allDestinatarios = this.data;
         this.destinatarios = this.allDestinatarios.slice(0,10);
@@ -138,6 +148,7 @@ buscarDestinatarios(accion:any){
   if(this.inputBuscar==""){
     swal("Rellenar Campo", "Por favor, rellene el campo con el rif del destinatario.","info");
   }else{
+    console.log(`destinatario/${this.inputBuscar}/user/${this.user.id}`);
     this.service.get(`destinatario/${this.inputBuscar}/user/${this.user.id}`).then((result) => {
       let data:any = result;
       if(data.message == "No existe el destinatario en la BD."){
@@ -149,15 +160,15 @@ buscarDestinatarios(accion:any){
           }else{
             this.destinatario = data[0];
             console.log("Destinatario sin direcciones ", this.destinatario);
-            this.spinner.show();
+            //this.spinner.show();
             this.inputBuscar = "";
             this.OpenModalBuscar(accion, this.destinatario);
           }
         })
       }else{
-        this.destinatario = data;
+        this.destinatario = data[0];
         console.log("Destinatarios trae en data ",this.destinatario);
-        this.spinner.show();
+        //this.spinner.show();
         this.inputBuscar = "";
         this.OpenModalBuscar(accion,this.destinatario);
       }
@@ -167,13 +178,36 @@ buscarDestinatarios(accion:any){
   }
 }
 
+
+//ELIMINAR DESTINATARIO
+cancelarDestinatario(dest:any){
+  swal("¿Está seguro de eliminar este destinatario?", {
+    icon: "warning",
+    closeOnClickOutside: false,
+    buttons: {
+      rechazar: "Cancelar",
+      aceptar: true
+    },
+  } as any)
+  .then((value) => {
+    switch (value) {
+      case "aceptar":
+        this.eliminarDestinatarios(dest);
+        this.getDestinatarios();
+        break;
+      case "rechazar":
+      swal.close();
+      break;
+    }
+  });
+}
+
 eliminarDestinatarios(dest:any){
   this.service.put(null, 'destinatario/cancel', dest.idd).then((result) =>{
     let data:any = result;
     console.log("data en eliminar ", data);
-    if(data.message =="El destinatario ha sido eliminado logicamente."){
-      swal("Eliminación correcta","El destinatario ha sido eliminado de forma exitosa. ","info");
-      this.getDestinatarios();
+    if(data.message == "El destinatario ha sido eliminado logicamente."){
+      swal("Destinatario Eliminado","El destinatario ha sido eliminado satisfactoriamente. ","success");
     }
   })
 }
@@ -198,7 +232,6 @@ getCiudades(){
 getTiposIdentificacion(){
   this.service.get('tiposidentificacion').then((result) => {
     this.id = result;
-    console.log('id metodo ', this.id);
   }, 
   (err) => {
     console.log("Error al hacer get a tipoIdentificacion ", err)

@@ -21,12 +21,13 @@ export class DefaultLayoutComponent {
   setnavItems(valor:any){
     //tipoUsuario = Usuario Administrador
     if(valor == 3) {
-      if(this.navItemsUser.length == 8){
+        this.navItemsUser.splice(0);
         this.navItemsUser.push(
-          {title: true,name: 'Administración'},
-          {name: 'Dashboard Administrativo', url: '/dashboardadmin', icon:'fa fa-star'},
-          {name: 'Tablas Básicas', url: '/tbasicas', icon: 'fa fa-server'},
-          {name: 'Permisos de Usuarios',url: '',icon: 'icon-drop'},
+          {title: true, name: 'Administración'},
+          {name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
+          {name: 'Usuarios', url: '/administracion/usuarios', icon: 'fa fa-server'},
+          {name: 'Relaciones de Despacho',url: '/administracion/relacionesdespachos',icon: 'icon-drop'},
+          {name: 'Solicitudes de Recolectas',url: '/administracion/solicitudesrecolectas',icon: 'icon-drop'},
 
         /*  {title: true,name: 'Theme'},
           {name: 'Colors',url: '/theme/colors',icon: 'icon-drop'},
@@ -77,29 +78,59 @@ export class DefaultLayoutComponent {
           },
           {name: 'Widgets',url: '/widgets',icon: 'icon-calculator',
             badge: {variant: 'info',text: 'NEW'}
-          }*/
+          }
         )
       }else if(this.navItemsUser.length > 8){
         this.navItemsUser.splice(8,this.navItemsUser.length);
-      }
+      }*/
+        )
     //tipoUsuario = Operador
     }else if(valor == 2){
-      if(this.navItemsUser.length == 8){
-        /*this.navItemsUser.push(
-          {
-            name: 'Tracking',
-            url: '/tracking',
-            icon: 'fa fa-map-marker'
-          }
-        )*/
-      }else if(this.navItemsUser.length > 8){
-        this.navItemsUser.splice(8,this.navItemsUser.length);
-      }
-      //tipoUsuario = Usuario Comun
+      this.navItemsUser.splice(0);
+    //tipoUsuario = Usuario Comun
     }else{
-      if(this.navItemsUser.length > 8){
-        this.navItemsUser.splice(8,this.navItemsUser.length);
-      }
+      this.navItemsUser.splice(0);
+      this.navItemsUser.push(
+        {
+          title: true,
+          name: 'Menú'
+        },
+        {
+          name: 'Inicio',
+          url: '/dashboard',
+          icon: 'icon-home'
+        },
+        {
+          name: 'Usuario',
+          url: '/profile',
+          icon: 'icon-user'
+        },
+        {
+          name: 'Destinatarios',
+          url: '/destinatarios',
+          icon: 'icon-people'
+        },
+        {
+          name: 'Relación de Despacho',
+          url: '/relaciondespacho',
+          icon: 'fa fa-truck'
+        },
+        {
+          name: 'Tracking',
+          url: '/tracking',
+          icon: 'fa fa-map-marker'
+        },
+        {
+          name: 'Facturación',
+          url: '/estadocuenta',
+          icon: 'fa fa-money'
+        },
+        {
+          name: 'Solicitud Recolecta',
+          url: '/solicitudrecolecta',
+          icon: 'fa fa-file-text-o'
+        },
+      )
     }
   }
 }

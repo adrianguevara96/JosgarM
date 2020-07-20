@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { PdfrelaciondespachoComponent } from '../pdfrelaciondespacho/pdfrelaciondespacho.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServicesService } from '../../../services/services.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalagregardestinatarioComponent } from '../../destinatarios/modalagregardestinatario/modalagregardestinatario.component';
 
 @Component({
   selector: 'app-modalcrearorden',
@@ -28,6 +30,8 @@ export class ModalcrearordenComponent implements OnInit {
   //Lo que recibo para el modal
   ciudadxEstado:any[]=[];
   ciudadxEstados:any[]=[];
+  destinatarios:any;
+  direccionEntrega:any[]=[];
 
   esconderBoton:boolean = false;
   editrow:boolean= false; //Variable para editar la fila
@@ -36,12 +40,21 @@ export class ModalcrearordenComponent implements OnInit {
   //Variables para modificar o ver una relacion de despacho
   tipoAccion:any;
   numero: any;
+  nrorelaciond:any;
+
+  destinatario:any[]=[];
+  //Para esconder los modales de destinatarios y direcciondeentrega
+  hideModalDireccionesEntrega:boolean = false;
+  hideModalDestinatario:boolean = false;
+  
 
   constructor(
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
+    private modalService2: NgbModal,
     private formBuilder: FormBuilder,
-    public service: ServicesService){
+    public service: ServicesService,
+    private spinner2: NgxSpinnerService){
       this.createForm();
       this.iduser = this.service.getIDUser();
       this.saveeditrow = false;
@@ -67,6 +80,7 @@ export class ModalcrearordenComponent implements OnInit {
       this.tipoAccion = "Agregar";
       this.numero = "";
       this.esconderBoton = false;
+      this.getDestinatarios();
     }
     console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion, this.estados, this.ciudades, this.tipoAccion)
   }
@@ -133,6 +147,7 @@ export class ModalcrearordenComponent implements OnInit {
           this.service.post(relacionDespacho, 'relaciondespacho').then((result) => {
             this.data = result
             console.log("Creando relacion despacho", this.data);
+            this.nrorelaciond = this.data.nro;
             for(let i = 0; i<this.facturas.length; i++){
               let fact = {
                 nro: this.facturas[i].nro,
@@ -219,10 +234,15 @@ export class ModalcrearordenComponent implements OnInit {
 
   generatePDF(){
     const modalRef = this.modalService.open(PdfrelaciondespachoComponent, {size: 'xl'});
+    if(this.tipoAccion == "Agregar"){
+      for(let i = 0; i<this.facturas.length; i++){
+        this.facturas[i].nrorelaciondespacho = this.nrorelaciond;
+      }
+    }
     modalRef.componentInstance.facturasPDF = this.facturas;
     modalRef.componentInstance.estados = this.estados;
     modalRef.componentInstance.ciudades = this.ciudades;
-
+ 
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
       //console.log("Que me trae result al cerrar modal del pdf? ", result)
@@ -278,6 +298,7 @@ export class ModalcrearordenComponent implements OnInit {
         if(this.data.message == `La factura #${factura.nro} ha sido modificada.`){
           swal("Factura Modificada", `Su factura #${factura.nro} de la relación de despacho #${factura.nrorelaciondespacho} ha sido modificada exitosamente.`, "success");
           factura.status = !factura.status;
+          this.activeModal.close();
         }
       }
       //console.log(`Guardando factura #${fact.nro} editada: `, this.data)
@@ -286,5 +307,80 @@ export class ModalcrearordenComponent implements OnInit {
       swal("Factura no modificada", `Lo sentimos, hubo un error al actualizar la factura #${factura.nro}. Por favor, intentalo de nuevo.`, "warning");
     })
   }
+
+  //  M E T O D O S   P A R A   M O D A L   D E S T I N A T A R I O
+  getDestinatarios(){
+    this.service.get(`destinatarios/${this.iduser}`).then((result) => {
+      let data:any = result;
+      if(data.message == "No existen destinatarios asociados al usuario en la BD."){
+        //swal("No existen destinatarios", "Ud no posee destinatarios, le invitamos a registrar sus destinatarios y a disfrutar de nuestros servicios.", "info");
+      }else if(data.length > 0){
+        this.destinatarios = result;
+      }
+    }, (err) => {
+      console.log("Error al solicitar los destinatarios.")
+    })
+  }
+
+  openModal(content:any, dest:any) {
+    console.log("Abriendo modal: ", dest);
+    this.destinatario = [];
+    let destinatar = {
+      nombres: dest.nombresd,
+      direccion: dest.direcciond,
+      estado: dest.estadod,
+      ciudad: dest.ciudadd,
+      rif:  dest.rifd
+    }
+    this.destinatario.push(destinatar);
+    console.log("destinatario???? ", this.destinatario);
+
+    this.spinner2.show();
+    setTimeout(() => {
+      this.spinner2.hide();
+      this.getDireccionesEntxDestinatario(dest.idd);
+      this.modalService2.open(content, {size: 'md'});
+      //Esconde el modal de destinatario
+      this.hideModalDestinatario = true;
+    }, 3000);
+  }
+
+  openModalDestinatario(content1:any) {
+    this.modalService2.open(content1, {size: 'md'});
+  }
+
+  //Metodo para seleccionar la direccion del destinatario
+  seleccionar(objeto:any){
+    console.log("Que objeto? :", objeto);
+    this.facturaForm.controls['rif'].setValue(this.destinatario[0].rif);
+    this.facturaForm.controls['razonsocial'].setValue(objeto.nombres);
+    this.facturaForm.controls['direccion'].setValue(objeto.direccion);
+    this.facturaForm.controls['estado'].setValue(objeto.estado);
+    this.facturaForm.controls['ciudad'].setValue(objeto.ciudad);
+    this.ciudadxEstado = [];
+    for(let i = 0; i<this.ciudades.length; i++){
+      if(this.ciudades[i].id == objeto.ciudad){
+        this.ciudadxEstado.push(this.ciudades[i]);
+      }
+    }
+  }
+
+  //Metodo que se usa en el modal de destinatarios
+  getDireccionesEntxDestinatario(iddestinarario:any){
+    this.service.get(`direccionesentrega/${iddestinarario}`).then((result) => {
+      let dato:any = result;
+      if(dato.message== "No existen direcciones de entregas asociadas al destinatario en la BD."){
+        this.direccionEntrega = [];
+      }else{
+        this.direccionEntrega = [];
+        this.direccionEntrega = dato;
+      }
+
+    }, (err) => {
+      console.log("Error en la busqueda de direcciones de entrega ", err)
+    });
+  }
+
+
 
 }

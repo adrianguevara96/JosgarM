@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert';
 import { ServicesService } from '../../services/services.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -12,8 +13,10 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 })
 export class TrackingComponent implements OnInit {
 
+  closeResult = '';
   trackingForm: FormGroup;
   placeholderInput:string = "Indique un nro a buscar";
+  tituloModal = "";
   user:any;
   facturas:any[]=[];
   facturas10:any[]=[];
@@ -30,11 +33,16 @@ export class TrackingComponent implements OnInit {
   estados:any;
   ciudades:any;
   daata:any[]=[];
+  factguia:any[]=[];
  
   constructor(
     private formBuilder: FormBuilder,
-    public service: ServicesService) { 
-      this.createForm(); 
+    public service: ServicesService,
+    private modalService: NgbModal,
+    config: NgbModalConfig) { 
+      this.createForm();
+      config.backdrop = 'static';
+      config.keyboard = false; 
     }
 
   ngOnInit(){
@@ -61,13 +69,40 @@ export class TrackingComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.trackingForm.valid) {
-      console.log(this.trackingForm.value);
-    }
-    else {
-      swal("Error", `Por favor, ${this.placeholderInput}.`, "error");
-      console.log(this.trackingForm.value);
+  onSubmit(content) {
+    if (this.trackingForm.valid && (this.trackingForm.controls['buscar'].value == 1 || this.trackingForm.controls['buscar'].value == 2)) {
+      if(this.trackingForm.controls['buscar'].value == 1){
+        this.factguia = [];
+        for(let i=0; i<this.facturas.length; i++){
+          if(this.facturas[i].nrof == this.trackingForm.controls['inputBuscar'].value){
+            this.factguia.push(this.facturas[i]);
+          }
+        }
+        if(this.factguia.length != 0){
+          this.open(content);
+        }else{
+          swal("No existe", `No existe el nro de factura que esta buscando`, "info");
+        }
+      }else if(this.trackingForm.controls['buscar'].value == 2){
+        this.factguia = [];
+        for(let i=0; i<this.facturas.length; i++){
+          if(this.facturas[i].nroguia == this.trackingForm.controls['inputBuscar'].value){
+            this.factguia.push(this.facturas[i]);
+          }
+        }
+        if(this.factguia.length != 0){
+          this.open(content);
+        }else{
+          swal("No existe", `No existe el nro de guia que esta buscando`, "info");
+        }
+        
+      }
+    }else {
+      if(this.trackingForm.controls['inputBuscar'].value == ""){
+        swal("Error", `Por favor, ${this.placeholderInput}.`, "error");
+      }else if(this.trackingForm.controls['buscar'].value == 0){
+        swal("Error", `Por favor, indique una opcion para buscar.`, "error");
+      }
     }
   }
 
@@ -76,12 +111,15 @@ export class TrackingComponent implements OnInit {
     setTimeout( () => {
       if(this.trackingForm.controls['buscar'].value == 1){
         this.placeholderInput = 'Indique el nro de factura a buscar';
+        this.tituloModal = 'Factura';
       }else if(this.trackingForm.controls['buscar'].value == 2){
         this.placeholderInput = 'Indique el nro de guia a buscar';
+        this.tituloModal = 'Guía';
       }
     },200);
-
   }
+
+
   getFacturasxUsuario(){
     this.service.get(`facturas/user/${this.user.id}`).then((result) => {
       let datta:any = result;
@@ -113,6 +151,11 @@ export class TrackingComponent implements OnInit {
     (err) => {
       console.log("Error al hacer get a ciudades ", err)
     });
-  };
+  }
+
+
+  open(content) {
+    this.modalService.open(content, {size: 'lg'});
+  }
 
 }

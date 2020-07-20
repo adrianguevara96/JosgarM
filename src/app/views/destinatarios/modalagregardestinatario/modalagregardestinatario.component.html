@@ -206,7 +206,7 @@
                                 <div class="col-3">
                                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                                 <label for="estado">Estado</label>
-                                                <select formControlName="estado" (change)="ciudadesxEstados($event.target.value)" class="form-control" required>
+                                                <select formControlName="estado" (change)="ciudadesxEstados2($event.target.value)" class="form-control" required>
                                                     <option *ngFor="let esta of estados" [value]="esta.id">
                                                         {{esta.nombre}}
                                                     </option>
@@ -222,7 +222,7 @@
                                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                                 <label for="ciudad">Ciudad</label>
                                                 <select formControlName="ciudad" class="form-control" required>
-                                                    <option *ngFor="let ciu of ciudadesxEstado" [value]="ciu.id">
+                                                    <option *ngFor="let ciu of ciudadesxEstado2" [value]="ciu.id">
                                                         {{ciu.nombre}}
                                                     </option>
                                                 </select>
@@ -247,15 +247,18 @@
                                 <th scope="col">Dirección</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Ciudad</th>
-                                <th *ngIf="accion=='edit' || accion=='see'">Acción</th>
+                                <th *ngIf="accion != 'see' ">Acción</th>
                               </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dire of direntrega; let i = index" (click)="pos(i)">
+                                <tr *ngFor="let dire of direntrega; let i = index">
                                     <td>
-                                        <span *ngIf="dire.status">{{dire.nombres}}</span>                                    </td> 
+                                        <span *ngIf="dire.status">{{dire.nombres}}</span>
+                                        <input *ngIf="!dire.status" [(ngModel)]="direntrega[i].nombres" type="text" id="text-input" class="form-control" placeholder="Nombres">
+                                    </td> 
                                     <td>
                                         <span *ngIf="dire.status">{{dire.direccion}}</span>
+                                        <input *ngIf="!dire.status" [(ngModel)]="direntrega[i].direccion" type="text" id="text-input2" class="form-control" placeholder="Direccion">
                                     </td>
                                     <td>
                                         <div *ngIf="dire.status">
@@ -265,6 +268,11 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        <select (change)="ciudadesxEstados3($event.target.value)" *ngIf="!dire.status" [(ngModel)]="direntrega[i].estado" class="form-control">
+                                            <option *ngFor="let esta of estados" [value]="esta.id">
+                                                {{esta.nombre}}
+                                            </option>
+                                        </select>
                                     </td>
                                     <td>
                                         <div *ngIf="dire.status">
@@ -274,9 +282,18 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        <select *ngIf="!dire.status" [(ngModel)]="direntrega[i].ciudad" class="form-control">
+                                            <option *ngFor="let ciu of ciudadesxEstado3" [value]="ciu.id">
+                                                {{ciu.nombre}}
+                                            </option>
+                                        </select>
                                     </td>
-                                    <td>
-                                        <button *ngIf="esconderBoton" tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                                    <td *ngIf="accion == 'edit' ">
+                                        <button *ngIf="dire.status && !esconderBoton" (click)="editarRow(dire)" tooltip="Modificar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                                        <button *ngIf="dire.status && !esconderBoton" (click)="cancelarDireccionEntrega(dire)" tooltip="Eliminar" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                                        <button *ngIf="!dire.status" class="btn btn-sm btn-pill" (click)="updateDireccionEntrega(dire)" tooltip="Guardar" placement="right">
+                                            <svg-icon src="assets/save2.svg" [svgStyle]="{ 'height.px': 17, 'width.px':17 }"></svg-icon>
+                                        </button>
                                     </td>      
                                 </tr>
                             </tbody>

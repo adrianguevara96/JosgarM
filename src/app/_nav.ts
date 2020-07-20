@@ -1,46 +1,7 @@
 import { INavData } from '@coreui/angular';
 
 export const navItemsUser: INavData[] = [
-  {
-    title: true,
-    name: 'Menú'
-  },
-  {
-    name: 'Inicio',
-    url: '/dashboard',
-    icon: 'icon-home'
-  },
-  {
 
-    name: 'Usuario',
-    url: '/profile',
-    icon: 'icon-user'
-  },
-  {
-    name: 'Destinatarios',
-    url: '/destinatarios',
-    icon: 'icon-people'
-  },
-  {
-    name: 'Relación de Despacho',
-    url: '/relaciondespacho',
-    icon: 'fa fa-truck'
-  },
-  {
-    name: 'Tracking',
-    url: '/tracking',
-    icon: 'fa fa-map-marker'
-  },
-  {
-    name: 'Facturación',
-    url: '/estadocuenta',
-    icon: 'fa fa-money'
-  },
-  {
-    name: 'Solicitud Recolecta',
-    url: '/solicitudrecolecta',
-    icon: 'fa fa-file-text-o'
-  },
 ]
 export const navItemsAdmin: any[] = [
   {

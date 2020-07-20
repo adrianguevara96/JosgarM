@@ -54,8 +54,8 @@ export class LoginComponent {
   //Para Iniciar Sesion
   onSubmit() {
     if (this.loginForm.valid) {
-      //this.login();
-      console.log(this.loginForm.value);
+      this.login();
+      /*console.log(this.loginForm.value);
       if(this.loginForm.controls["email"].value == "adrian@adrian.com" && this.loginForm.controls["password"].value == "12345"){
         this.def.setnavItems(3);
         this.service.setUser(
@@ -88,7 +88,7 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       }else{
         alert("Credenciales Incorrectas.");
-      }
+      }*/
     }else {
       alert("FILL ALL FIELDS");
     }
@@ -109,34 +109,53 @@ export class LoginComponent {
     body.append('email', this.loginForm.controls["email"].value);
     body.append('password',this.loginForm.controls["password"].value);
     console.log("Body?: ", body.append)
-    this.service.logIn(this.loginForm.controls["email"].value, this.loginForm.controls["password"].value).then((result) => {
-      console.log("Que me trae result al iniciar sesion? ", result)
+    this.service.logIn(this.loginForm.controls["email"].value, this.loginForm.controls["password"].value).then((result) => {     
       this.data = result;
-      if(this.data.status!=0){
-        this.service.setUser(
-          this.data.user.id,
-          this.data.user.tipousuario,
-          this.data.user.nombres,
-          this.data.user.apellidos,
-          this.data.user.tlfijo,
-          this.data.user.tlfmovil,
-          this.data.user.tipoidentificacion,
-          this.data.user.rif,
-          this.data.user.email,
-          this.data.user.razonsocial,
-          this.data.user.dirfiscal,
-          this.data.user.estado,
-          this.data.user.ciudad,
-          this.data.user.tipomercancia,
-          this.data.user.status,
-          this.data.user.password,
-          this.data.token
-        );
-        console.log("Usuario? ", this.service.getUser)
-        this.router.navigate(['/dashboard']);
+      if(this.data.message == "No existe usuario asociado con ese email en la BD"){
+        swal("No existe el usuario", "Por favor, ingrese un usuario válido.", "info");
+      }else if(this.data.message == "Error al autenticar usuario, password incorrecto."){
+        swal("Contraseña Incorrecta", "Por favor, ingrese su contraseña correctamente.", "info");
+      }else{
+        if(this.data.status!=0){
+          this.service.setUser(
+            this.data.user.id,
+            this.data.user.tipousuario,
+            this.data.user.nombres,
+            this.data.user.apellidos,
+            this.data.user.tlfijo,
+            this.data.user.tlfmovil,
+            this.data.user.tipoidentificacion,
+            this.data.user.rif,
+            this.data.user.email,
+            this.data.user.razonsocial,
+            this.data.user.dirfiscal,
+            this.data.user.estado,
+            this.data.user.ciudad,
+            this.data.user.tipomercancia,
+            this.data.user.status,
+            this.data.user.password,
+            this.data.token
+          );
+          console.log("Usuario? ", this.service.getUser())
+        }
+        console.log(this.data);
+        if(this.data.user.tipousuario == 3){
+          this.def.setnavItems(3);
+          this.router.navigate(['/dashboard']);
+        }else if(this.data.user.tipousuario == 2){
+          this.def.setnavItems(2);
+          this.router.navigate(['/dashboard']);
+        }else if(this.data.user.tipousuario == 1){
+          this.def.setnavItems(1);
+          this.router.navigate(['/dashboard']);
+        }
       }
     }, (err) => {
-      console.log("Error al iniciar sesion ", err)
+      if(err.error.message == "Error al autenticar usuario, password incorrecto."){
+        swal("Contraseña Incorrecta", "Por favor, ingrese su contraseña correctamente.", "info");
+      }else if(err.error.message == "No existe usuario asociado con ese email en la BD"){
+        swal("No existe el usuario", "Por favor, ingrese un usuario válido.", "info");
+      }
     });
   }
 

@@ -1,0 +1,63 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-10">
+                    <h3 style="margin-bottom: 0px;">Administracion de Usuarios</h3>
+                </div>
+                <div class="col-2" align="center">
+                    <button (click)="openModal('create',null)" class="btn btn-sm btn-pill" tooltip="Crear Usuario" placement="left">
+                        <svg-icon src="assets/adduser2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-7">
+                    <input type="text" id="buscarUsuario" onkeyup="myFunction()" [(ngModel)]="buscarUsuario" class="form-control" placeholder="Indique el RIF del Usuario a buscar">
+                </div>
+            </div>
+            <hr>
+            <div class="form-row">
+                <div class="col-12">
+                    <table id="myTable" class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>RIF</th>
+                                <th>Razón Social</th>
+                                <th>Tlf. Fijo</th>
+                                <th>Tlf. Móvil</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>{{user.nombres}}</td>
+                                <td>{{user.apellidos}}</td>
+                                <td>{{user.rif}}</td>
+                                <td>{{user.razonsocial}}</td>
+                                <td>{{user.tlfijo}}</td>
+                                <td>{{user.tlfmovil}}</td>
+                                <td>
+                                    <button (click)="openModal('see', user)" tooltip="Ver Usuario" placement="left"style="border-radius:60px" class="btn btn-sm btn-pill">
+                                        <svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
+                                    </button>
+                                    <button (click)="openModal('edit', user)" tooltip="Modificar Usuario" placement="top"style="border-radius:60px" class="btn btn-sm btn-pill">
+                                        <svg-icon src="assets/edituser2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
+                                    </button>
+                                    <button (click)="cancelarUsuario(user)" tooltip="Eliminar Usuario" placement="right"style="border-radius:60px" class="btn btn-sm btn-pill">
+                                        <svg-icon src="assets/canceluser2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

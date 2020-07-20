@@ -58,6 +58,7 @@ import { PruebaComponent } from './views/prueba/prueba.component';
 import { ModalsolicitudrecolectaComponent } from './views/solicitudrecolecta/modalsolicitudrecolecta/modalsolicitudrecolecta.component';
 import { PdfrelaciondespachoComponent } from './views/ordenescargas/pdfrelaciondespacho/pdfrelaciondespacho.component';
 import { ModalagregardestinatarioComponent } from './views/destinatarios/modalagregardestinatario/modalagregardestinatario.component';
+import { ModalusersComponent } from './views/dashboardadmin/users/modalusers/modalusers.component';
 /*import { TablasbasicasComponent } from './views/tablasbasicas/tablasbasicas.component';
 import { DashboardadminComponent } from './views/dashboardadmin/dashboardadmin.component';
 import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
@@ -103,6 +104,7 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalsolicitudrecolectaComponent,
     ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent,
+    ModalusersComponent
     /*TablasbasicasComponent,
     DashboardadminComponent,
     SolicitudrecolectaComponent,
@@ -116,7 +118,8 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalcrearordenComponent,
     ModalsolicitudrecolectaComponent,
     ModalagregardestinatarioComponent,
-    PdfrelaciondespachoComponent
+    PdfrelaciondespachoComponent,
+    ModalusersComponent
   ],
   providers: [{
     provide: LocationStrategy,

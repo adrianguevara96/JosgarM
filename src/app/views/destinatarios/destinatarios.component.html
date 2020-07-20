@@ -63,9 +63,9 @@
                       <div *ngFor="let ciu of ciudades"><span *ngIf="ciu.id == dest.ciudadd">{{ciu.nombre}}</span></div>
                     </td>
                     <td>
-                        <button tooltip="Ver detalles" placement="left"style="border-radius:60px" (click)="openModal('see', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
-                        <button tooltip="Modificar" placement="right"style="border-radius:60px" (click)="openModal('edit', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
-                        <button tooltip="Eliminar" placement="right" style="border-radius: 60px;" (click)="eliminarDestinatarios(dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+                        <button tooltip="Ver detalles" placement="left"style="border-radius:60px" (click)="openModal('see', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                        <button tooltip="Modificar" placement="right"style="border-radius:60px" (click)="openModal('edit', dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                        <button tooltip="Eliminar" placement="right" style="border-radius: 60px;" (click)="cancelarDestinatario(dest)" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
                     </td>
                 </tr>
               </tbody>

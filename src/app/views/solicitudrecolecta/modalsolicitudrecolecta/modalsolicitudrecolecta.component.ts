@@ -46,6 +46,13 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
       this.solicitudRecolecta = [];
       this.solicitudRecolecta = this.solicitudReco;
       this.numero = `# ${this.solicitudRecolecta[0].nro}`;
+    }else if(this.accion == "edit"){
+      this.tipoAccion = "Editar";
+      this.solicitudRecolecta = [];
+      this.solicitudRecolecta = this.solicitudReco;
+      this.numero = `# ${this.solicitudRecolecta[0].nro}`;
+      this.esconderBoton = true;
+      this.llenarForm();
     }else{
       this.tipoAccion = "Agregar";
       this.numero = "";
@@ -137,6 +144,70 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
     }, (err) => {
       swal("Error del Sistema", "Ha ocurrido un error al crear su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
     })
+  }
+
+  saveSolicitudRecolecta(){
+    let solrec = {
+      bultos: this.solicitudRecolectaForm.controls["bultos"].value,
+      tipomercancia: this.solicitudRecolectaForm.controls["tipomercancia"].value,
+      fecha: this.solicitudRecolectaForm.controls["fecha"].value,
+      hora: moment(this.solicitudRecolectaForm.controls["hora"].value, "H:mm").format("HH:mm:ss"),
+      estado: this.solicitudRecolectaForm.controls["estado"].value,
+      ciudad: this.solicitudRecolectaForm.controls["ciudad"].value,
+      direccion: this.solicitudRecolectaForm.controls["direccion"].value,
+      observacion: this.solicitudRecolectaForm.controls["observacion"].value,
+      iduser: this.solicitudRecolecta[0].id
+    }
+    console.log(solrec)
+    this.service.put(solrec,'solicitudrecolecta',this.solicitudRecolecta[0].nro).then((result) =>{
+      let data:any = result;
+      if(data.message == `La solicitud de recolecta ha sido modificada.`){
+        swal("Solicitud de Recolecta Modificada", " ", "success");
+      }
+    }, (err) => {
+      swal("Error del Sistema", "Ha ocurrido un error al editar la solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
+    })
+  }
+  
+  //Para el administrador
+  editarSolicitud(){
+    swal("¿Está seguro de editar esta solicitud de recolecta?", {
+      icon: "warning",
+      closeOnClickOutside: false,
+      buttons: {
+        rechazar: "Cancelar",
+        aceptar: true
+      },
+    } as any)
+    .then((value) => {
+      switch (value) {
+        case "aceptar":
+          //console.log("Cancelando ...")
+          this.saveSolicitudRecolecta();
+          this.activeModal.close(this.solicitudRecolecta);
+          break;
+        case "rechazar":
+        swal.close();
+        break;
+      }
+    });
+  }
+
+  llenarForm(){
+    this.solicitudRecolectaForm.controls["bultos"].setValue(this.solicitudRecolecta[0].bultos),
+    this.solicitudRecolectaForm.controls["tipomercancia"].setValue(this.solicitudRecolecta[0].tipomercancia),
+    this.solicitudRecolectaForm.controls["fecha"].setValue(this.solicitudRecolecta[0].fecha.substr(0,10)),
+    this.solicitudRecolectaForm.controls["hora"].setValue(this.solicitudRecolecta[0].hora),
+    this.solicitudRecolectaForm.controls["estado"].setValue(this.solicitudRecolecta[0].estado),
+    this.solicitudRecolectaForm.controls["ciudad"].setValue(this.solicitudRecolecta[0].ciudad),
+    this.solicitudRecolectaForm.controls["direccion"].setValue(this.solicitudRecolecta[0].direccion),
+    this.solicitudRecolectaForm.controls["observacion"].setValue(this.solicitudRecolecta[0].observacion)
+    
+    for(let i =0; i<this.ciudades.length; i++){
+      if(this.ciudades[i].id == this.solicitudRecolecta[0].ciudad){
+        this.ciudadxEstado.push(this.ciudades[i]);
+      }
+    }
   }
 
 }

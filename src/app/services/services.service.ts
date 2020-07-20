@@ -131,8 +131,8 @@ export class ServicesService {
     return new Promise((resolve, reject) => {
       this.http.post(this.url +'auth', { email: email, password: pass})
         .subscribe(res => {
-          let datos = JSON.parse(JSON.stringify(res));
-          resolve(datos);
+          //let datos = JSON.parse(JSON.stringify(res));
+          resolve(res);
         }, (err) => {
           reject(err);
         });

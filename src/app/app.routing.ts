@@ -77,12 +77,8 @@ export const routes: Routes = [
       },
       /* ####### R U T A S   D E L    M E N U   A D M I N ####### */
       {
-        path: 'dashboardadmin',
+        path: 'administracion',
         loadChildren: () => import('./views/dashboardadmin/dashboardadmin.module').then(m => m.DashboardadminModule)
-      },
-      {
-        path: 'tbasicas',
-        loadChildren: () => import('./views/tablasbasicas/tablasbasicas.module').then(m => m.TablasbasicasModule)
       },
       /* ############################################# */
       {

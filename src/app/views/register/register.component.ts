@@ -11,9 +11,12 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   user:any = {
+    nombres: "",
+    apellidos: "",
     razonsocial: "",
     email: "",
-    password: ""
+    password: "",
+    tipousuario : 1
   }
   business:any;
 

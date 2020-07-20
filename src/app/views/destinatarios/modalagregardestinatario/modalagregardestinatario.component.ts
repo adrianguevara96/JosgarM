@@ -32,6 +32,8 @@ export class ModalagregardestinatarioComponent implements OnInit {
   data1:any;
 
   ciudadesxEstado:any[]=[];
+  ciudadesxEstado2:any[]=[];
+  ciudadesxEstado3:any[]=[];
   esconderBoton:boolean = false;
   editrow:boolean= false; //Variable para editar la fila
 
@@ -125,25 +127,53 @@ llenardestForm(){
   }
 }
 
-  editarRow(direntrega:any){
+editarRow(direntrega:any){
+  console.log(this.direntrega)
+  let validarFactura:boolean = true
+  console.log(direntrega)
+  for(let i =0; i<this.direntrega.length; i++){
+    console.log(this.direntrega[i].status);
+    if(this.direntrega[i].status == false){
+      validarFactura = false;
+    }
+  }
+  if(validarFactura){
     direntrega.status = !direntrega.status;
+  }else{
+    swal("Guarde su direccion de entrega", "Por favor, guarde su  direccion de entrega antes de editar otra direccion de entrega.", "info");
   }
 
+
+  //direntrega.status = !direntrega.status;
+}
+
   añadirDireccionEntrega(){
-    if(this.direntrega.length <5){
-      if(this.tipoAccion=="Modificar"){
-        let dire = {
-          nombres: this.direccionEntrega.controls['nombre'].value,
-          direccion: this.direccionEntrega.controls['direccion'].value,
-          estado: this.direccionEntrega.controls['estado'].value,
-          ciudad: this.direccionEntrega.controls['ciudad'].value,
-          destinatario: this.destinatario.idd
-        }
-        this.service.post(dire, "direccionentrega").then((result) => {
-          let dataa:any = result;
-          console.log("Result direccionentrega ", dataa);
-        })
+    if(this.tipoAccion=="Modificar"){
+      let dire = {
+        nombres: this.direccionEntrega.controls['nombre'].value,
+        direccion: this.direccionEntrega.controls['direccion'].value,
+        estado: this.direccionEntrega.controls['estado'].value,
+        ciudad: this.direccionEntrega.controls['ciudad'].value,
+        destinatario: this.destinatario.idd
       }
+      this.service.post(dire, "direccionentrega").then( (result) => {
+        let dataa:any = result;
+        if(dataa.message == `La direccion de entrega de ${dire.nombres} ha sido creada.`){
+          swal("Direccion de Entrega Creada", "Ud ha agregado una direccion de entrega al destinatario satisfactoriamente.","success");
+        }
+      }, (err) => {
+        console.log(`Ha ocurrido un error con el sistema: ${err}`);
+      })
+
+      setTimeout(() => {
+        this.getDireccionesEntxDestinatario(this.destinatario.idd);
+      }, 3000);
+      
+      this.direccionEntrega.controls['nombre'].setValue(" ");
+      this.direccionEntrega.controls['direccion'].setValue(" ");
+      this.direccionEntrega.controls['estado'].setValue(" ");
+      this.direccionEntrega.controls['ciudad'].setValue(" ");
+    }else{
       this.direntrega.push({
         nombres: this.direccionEntrega.controls['nombre'].value,
         direccion: this.direccionEntrega.controls['direccion'].value,
@@ -151,14 +181,15 @@ llenardestForm(){
         ciudad: this.direccionEntrega.controls['ciudad'].value,
         status: true
       });
+  
       this.direccionEntrega.controls['nombre'].setValue(" ");
       this.direccionEntrega.controls['direccion'].setValue(" ");
       this.direccionEntrega.controls['estado'].setValue(" ");
       this.direccionEntrega.controls['ciudad'].setValue(" ");
-    }else{
-      console.log("Direccion entrega length>5 ", this.direntrega);
+  
+      console.log('Direccion entrega ',this.direntrega);
     }
-    console.log('Direccion entrega ',this.direntrega);
+
   }
 
   eliminarFila(){
@@ -172,7 +203,7 @@ llenardestForm(){
     if (this.destForm.valid) {
       console.log("DIRENTREGA ", this.direntrega);
       if(this.direntrega.length==0 || this.direntrega == []){
-        swal("¿Desea guardar el destinatario sin dirección?", {
+        swal("¿Desea guardar el destinatario sin dirección de entrega?", {
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
@@ -206,12 +237,16 @@ llenardestForm(){
                   }
                 })
               }else{
-                this.service.post(destinatario, 'destinatario').then((result)=> {
+                this.service.post(destinatario, 'destinatario').then( (result)=> {
                   this.data = result;
-                  console.log("data post ", this.data);
+                  if(this.data.id){
+                    swal("Destinatario Creado", "El destinatario ha sido creado satisfactoriamente.","success");
+                    this.activeModal.close(destinatario);
+                    swal.close();
+                  }
+                }, (err) => {
+                  console.log(`Ha ocurrido un error: ${err}`);
                 })
-                this.activeModal.close(this.direntrega)
-                swal.close();
               }
               break;
             case "volver":
@@ -220,7 +255,7 @@ llenardestForm(){
           }
         });
       }else{
-        console.log("else ", this.data1);
+        console.log("Else: Si tengo direcciones de entrega.");
         let destinatario = {
           iduser: this.iduser,
           nombres: this.destForm.controls['nombre'].value,
@@ -244,15 +279,14 @@ llenardestForm(){
             }
           })
         }else{
-           this.service.post(destinatario, 'destinatario').then((result)=> {
-           this.data1 = result;
-           console.log("data1 result ", this.data1);
+          this.service.post(destinatario, 'destinatario').then((result)=> {
+          this.data1 = result;
+          //console.log("data1 result ", this.data1);
 
-           console.log("Antes del for ", this.data1);
           for (let i=0; i<this.direntrega.length; i++){
-          console.log("Entrando al for ", this.data1.id);
+          //console.log("Entrando al for ", this.data1.id);
           let directrega = {
-            nombres: this.direntrega[i].nombre,
+            nombres: this.direntrega[i].nombres,
             direccion: this.direntrega[i].direccion,
             estado: this.direntrega[i].estado,
             ciudad: this.direntrega[i].ciudad,
@@ -260,7 +294,7 @@ llenardestForm(){
           }
           this.service.post(directrega, 'direccionentrega').then((result) => {
             let data2 = result;
-            console.log('DireccionE guardada ', data2);
+            this.activeModal.close(destinatario);
           },(err) => {
             console.log("Error al guardar la direccion de entrega ", err);
           })
@@ -271,29 +305,115 @@ llenardestForm(){
         }
       }
     }else{
-       alert('Complete el formulario ');
+      //Aqui va un swal
+      swal("Rellenar Campos", "Por favor, rellene todos los campos del destinatario.", "info");
      }
   }
 
   onSubmit2() {
     if (this.direccionEntrega.valid) {
-      console.log("onsubmit2 ", this.destForm.value);
       this.añadirDireccionEntrega();
-    }
-    else {
-      console.log("Direccion Entrega ", this.direccionEntrega.value);
-      alert("FILL ALL FIELDS");
+    }else {
+      swal("Rellenar Campos", "Por favor, rellene todos los campos de la direccion de entrega.", "info");
     }
   }
 
   ciudadesxEstados(idest:any){
     this.ciudadesxEstado = [];
-    console.log("Ciudades x estado ")
+    //console.log("Ciudades x estado ")
     for(let i=0; i<this.ciudades.length; i++){
       if(this.ciudades[i].idestado == idest){
         this.ciudadesxEstado.push(this.ciudades[i]);
       }
     }
   }
- 
+
+  ciudadesxEstados2(idest:any){
+    this.ciudadesxEstado2 = [];
+    //console.log("Ciudades x estado ")
+    for(let i=0; i<this.ciudades.length; i++){
+      if(this.ciudades[i].idestado == idest){
+        this.ciudadesxEstado2.push(this.ciudades[i]);
+      }
+    }
+  }
+
+  ciudadesxEstados3(idest:any){
+    this.ciudadesxEstado3 = [];
+    console.log("Ciudades x estado ")
+    for(let i=0; i<this.ciudades.length; i++){
+      if(this.ciudades[i].idestado == idest){
+        this.ciudadesxEstado3.push(this.ciudades[i]);
+      }
+    }
+  }
+
+  updateDireccionEntrega(dire:any){
+    console.log("Actualizando direccion entrega del destinatario: ", dire);
+    let directrega = {
+      nombres: dire.nombres,
+      direccion: dire.direccion,
+      estado: dire.estado,
+      ciudad: dire.ciudad,
+      destinatario: dire.destinatario
+    }
+    console.log("Lo que envio al actualizar: ", directrega)
+    this.service.put(directrega, 'direccionentrega', dire.id).then((result) => {
+      this.data = result;
+      if(this.data){
+        if(this.data.message == `La direccion de entrega de ${dire.nombres} ha sido actualizada correctamente.`){
+          swal("Direccion de Entrega Modificada", `La direccion de entrega de ${dire.nombres} ha sido modificada exitosamente.`, "success");
+          dire.status = !dire.status;
+          //this.activeModal.close();
+        }
+      }
+      //console.log(`Guardando factura #${fact.nro} editada: `, this.data)
+    }, (err) => {
+      console.log(`No se pudo actualizar la factura ${dire.id}`, err)
+      swal("Factura no modificada", `Lo sentimos, hubo un error al actualizar la factura. Por favor, intentalo de nuevo.`, "warning");
+    })
+  }
+
+  getDireccionesEntxDestinatario(iddestinarario:any){
+    this.service.get(`direccionesentrega/${iddestinarario}`).then((result) => {
+      let dato:any = result;
+      this.direntrega = dato;
+    }, (err) => {
+      console.log("Error en la busqueda de direcciones de entrega ", err)
+    });
+  }
+
+  deleterDirentrega(dire:any){
+    this.service.put(null, `direccionentrega/cancel`, dire.id).then( (result)=> {
+      let data:any = result;
+      if(data.message == "La direccion de entrega ha sido eliminada logicamente."){
+        swal("Direccion de Entrega Eliminada",`La direccion de entrega de ${dire.nombres} ha sido eliminada satisfactoriamente. `,"success");
+      }
+    }, (err) => {
+      swal("Error del Sistema",`Ha ocurrido un error del sistema, por favor, intente de nuevo La direccion de entrega de ${dire.nombres} ha sido eliminada satisfactoriamente. `,"success");
+    })
+  }
+
+  //ELIMINAR DESTINATARIO
+cancelarDireccionEntrega(dire:any){
+  swal("¿Está seguro de eliminar este direccion de entrega?", {
+    icon: "warning",
+    closeOnClickOutside: false,
+    buttons: {
+      rechazar: "Cancelar",
+      aceptar: true
+    },
+  } as any)
+  .then((value) => {
+    switch (value) {
+      case "aceptar":
+        this.deleterDirentrega(dire);
+        this.getDireccionesEntxDestinatario(dire.destinatario);
+        break;
+      case "rechazar":
+      swal.close();
+      break;
+    }
+  });
+}
 }

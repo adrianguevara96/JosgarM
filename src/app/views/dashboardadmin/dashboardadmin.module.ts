@@ -16,7 +16,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
 import { DefaultLayoutComponent } from '../../containers/default-layout/default-layout.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { UsersComponent } from './users/users.component';
+import { SolicitudesrecolectasComponent } from './solicitudesrecolectas/solicitudesrecolectas.component';
+import { RelacionesdespachosComponent } from './relacionesdespachos/relacionesdespachos.component';
 
 @NgModule({
   imports: [
@@ -36,6 +38,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   providers: [
   DefaultLayoutComponent
 ],
-  declarations: [ DashboardadminComponent ]
+  declarations: [ DashboardadminComponent, UsersComponent, SolicitudesrecolectasComponent, RelacionesdespachosComponent ]
 })
 export class DashboardadminModule { }

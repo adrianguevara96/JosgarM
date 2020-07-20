@@ -73,8 +73,11 @@
                                     <!-- RIF -->
                                     <div class="col-3">
                                         <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>RIF</label>
-                                            <input formControlName="rif" type="text" class="form-control" placeholder="RIF" required>
+                                            <label>RIF</label><br>
+                                            <input style="width: 75%; display:inline-block;position: relative;" formControlName="rif" type="text" class="form-control" placeholder="RIF" required>
+                                            <button style="padding:0px" type="button" class="btn btn-sm btn-pill" tooltip="Buscar Destinatario" placement="top" data-toggle="modal" (click)="openModalDestinatario(content1)">
+                                                <svg-icon src="assets/agenda2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                                            </button>
                                         </div>
                                         <div *ngIf="facturaForm.controls['rif'].invalid &&(facturaForm.controls['rif'].dirty || facturaForm.controls['rif'].touched)" class="text-danger">
                                             <div *ngIf="facturaForm.controls['rif'].errors.required">
@@ -109,8 +112,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div *ngIf="facturaForm.controls['rif'].invalid &&(facturaForm.controls['rif'].dirty || facturaForm.controls['rif'].touched)" class="text-danger">
-                                        <div *ngIf="facturaForm.controls['rif'].errors.required">
+                                    <div *ngIf="facturaForm.controls['fletedestino'].invalid &&(facturaForm.controls['fletedestino'].dirty || facturaForm.controls['fletedestino'].touched)" class="text-danger">
+                                        <div *ngIf="facturaForm.controls['fletedestino'].errors.required">
                                             ¿Desea Flete de Destino?
                                         </div>
                                     </div>
@@ -168,18 +171,18 @@
                     <div class="form-row">
                         <table class="table table-sm">
                             <thead>
-                              <tr>
-                                <th scope="col" tooltip="Nro. de Factura" placement="top">Nº Fact.</th>
-                                <th scope="col">Bultos</th>
-                                <th scope="col">Valor</th>
-                                <th scope="col">RIF</th>
-                                <th scope="col">Razón Social</th>
-                                <th scope="col" tooltip="Flete Destino" placement="top">F.D</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Ciudad</th>
-                                <th scope="col">Direccion</th>
-                                <th *ngIf="accion!='see'" scope="col">Accion</th>
-                              </tr>
+                                <tr>
+                                    <th scope="col" tooltip="Nro. de Factura" placement="top">Nº Fact.</th>
+                                    <th scope="col">Bultos</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">RIF</th>
+                                    <th scope="col">Razón Social</th>
+                                    <th scope="col" tooltip="Flete Destino" placement="top">F.D</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Ciudad</th>
+                                    <th scope="col">Direccion</th>
+                                    <th *ngIf="accion!='see'" scope="col">Accion</th>
+                                </tr>
                             </thead>
                             <tbody>
                               <tr *ngFor="let fact of facturas; let i = index">
@@ -264,6 +267,118 @@
                     <button [hidden]="esconderBoton" class="btn btn-danger" >Limpiar</button>
                 </div>
             </div>
+        </div>
+        <!--  M O D A L   D E   V E R   D E S T I N A T A R I O S  -->
+        <div [hidden]="hideModalDestinatario">
+        <!--  M O D A L   D E   V E R   D E S T I N A T A R I O S  -->
+        <ng-template #content1 let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title">Destinatarios</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li *ngFor="let dest of destinatarios; let i=index" data-dismiss="modal" aria-hidden="true" (click)="c(openModal(content,dest))" class="list-group-item">{{dest.nombresd}}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+            </div>
+          </ng-template>
+        </div>
+        <!--  MODAL DE VER DIRECCIONES DE ENTREGA DEL DESTINATARIOS  -->
+        <div [hidden]="hideModalDireccionesEntrega">
+            <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4>Direcciones de Entrega</h4>
+                    <button type="button" class="close" (click)="c('Save click')" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Seleccione una direccion.</label>
+                    <div class="form-row">
+                        <div class="col-12">
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Ciudad</th>
+                                    <th scope="col">Acción</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dest of destinatario;">
+                                        <td><span>{{dest.nombres}}</span></td>
+                                        <td><span>{{dest.direccion}}</span></td>
+                                        <td>
+                                            <div>
+                                                <div *ngFor="let esta of estados">
+                                                    <span *ngIf="esta.id == dest.estado">
+                                                        {{esta.nombre}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div *ngFor="let ciu of ciudades">
+                                                    <span *ngIf="ciu.id == dest.ciudad">
+                                                        {{ciu.nombre}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button (click)="c(seleccionar(dest))" class="btn btn-sm btn-pill" tooltip="Seleccionar" placement="right">
+                                                <svg-icon src="assets/select2.svg" [svgStyle]="{ 'height.px': 17, 'width.px':17 }"></svg-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let dee of direccionEntrega; let i = index">
+                                        <td>
+                                            <span>{{dee.nombres}}</span>
+                                        </td> 
+                                        <td>
+                                            <span>{{dee.direccion}}</span>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div *ngFor="let esta of estados">
+                                                    <span *ngIf="esta.id == dee.estado">
+                                                        {{esta.nombre}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div *ngFor="let ciu of ciudades">
+                                                    <span *ngIf="ciu.id == dee.ciudad">
+                                                        {{ciu.nombre}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button (click)="c(seleccionar(dee))" class="btn btn-sm btn-pill" tooltip="Seleccionar" placement="right">
+                                                <svg-icon src="assets/select2.svg" [svgStyle]="{ 'height.px': 17, 'width.px':17 }"></svg-icon>
+                                            </button>
+                                        </td>      
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

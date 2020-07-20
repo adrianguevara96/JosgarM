@@ -111,7 +111,7 @@ export class OrdenescargasComponent{
       this.facturas = dato;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      console.log("Error al hacer get a en facturasxNroRelacionDespacho ", err)
     });
   };
 

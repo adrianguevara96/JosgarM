@@ -1,1 +1,94 @@
-<p>dashboardadmin works!</p>
+<div class="animated fadeIn">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-dashboard-tab" data-toggle="tab" href="#nav-dashboard" role="tab" aria-controls="nav-dashboard" aria-selected="true">Inicio</a>
+            <a class="nav-item nav-link" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="true">Usuarios</a>
+            <a class="nav-item nav-link" id="nav-solicitudes-tab" data-toggle="tab" href="#nav-solicitudes" role="tab" aria-controls="nav-solicitudes" aria-selected="false">Solicitudes de Recolecta</a>
+            <a class="nav-item nav-link" id="nav-relaciones-tab" data-toggle="tab" href="#nav-relaciones" role="tab" aria-controls="nav-relaciones" aria-selected="false">Relaciones de Despacho</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="brand-card">
+                        <div style="background-color: #20a8d8 !important" class="brand-card-header">
+                          <i class="fa fa-user"></i>
+                        </div>
+                        <div class="brand-card-body">
+                          <div>
+                            <div class="text-value">89k</div>
+                            <div class="text-uppercase text-muted small">Usuarios</div>
+                          </div>
+                          <div>
+                            <div class="text-value">459</div>
+                            <div class="text-uppercase text-muted small">Usuarios Eliminados</div>
+                          </div>
+                          <div>
+                            <button class="btn btn-sm btn-pill" tooltip="Configurar Usuarios" placement="button">
+                                <svg-icon src="assets/config2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                            </button>
+                            <div class="text-uppercase text-muted small">Configurar</div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="brand-card">
+                        <div style="background-color: #20a8d8 !important" class="brand-card-header">
+                          <i class="fa fa-file-text-o"></i>
+                        </div>
+                        <div class="brand-card-body">
+                          <div>
+                            <div class="text-value">89k</div>
+                            <div class="text-uppercase text-muted small">Solicitudes de Recolecta Aceptadas</div>
+                          </div>
+                          <div>
+                            <div class="text-value">459</div>
+                            <div class="text-uppercase text-muted small">Solicitudes de Recolecta Pendientes</div>
+                          </div>
+                          <div>
+                            <button class="btn btn-sm btn-pill" tooltip="Configurar Solicitudes de Recolecta" placement="button">
+                                <svg-icon src="assets/config2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                            </button>
+                            <div class="text-uppercase text-muted small">Configurar</div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="brand-card">
+                        <div style="background-color: #20a8d8 !important" class="brand-card-header">
+                          <i class="fa fa-truck"></i>
+                        </div>
+                        <div class="brand-card-body">
+                          <div>
+                            <div class="text-value">89k</div>
+                            <div class="text-uppercase text-muted small">Relaciones de Despacho</div>
+                          </div>
+                          <div>
+                            <div class="text-value">459</div>
+                            <div class="text-uppercase text-muted small">Nuevas Relaciones de Despacho</div>
+                          </div>
+                          <div>
+                            <button class="btn btn-sm btn-pill" tooltip="Configurar Relaciones de Despacho" placement="button">
+                                <svg-icon src="assets/config2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                            </button>
+                            <div class="text-uppercase text-muted small">Configurar</div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+          <app-users></app-users>
+        </div>
+        <div class="tab-pane fade" id="nav-solicitudes" role="tabpanel" aria-labelledby="nav-solicitudes-tab">
+          <app-solicitudesrecolectas></app-solicitudesrecolectas>
+        </div>
+        <div class="tab-pane fade" id="nav-relaciones" role="tabpanel" aria-labelledby="nav-relaciones-tab">
+          <app-relacionesdespachos></app-relacionesdespachos>
+        </div>
+    </div>
+</div>
