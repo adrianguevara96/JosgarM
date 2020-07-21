@@ -1,6 +1,15 @@
 <div class="card">
     <div class="card-header">
-        <h1>{{tipoAccion}} Destinatario</h1>
+        <div class="form-row">
+            <div class="col-10">
+                <h3>{{tipoAccion}} Destinatario</h3>
+            </div>
+            <div class="col-2">
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.close('Cross click')">
+                    <span style="font-size: 30px" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <form [formGroup]="destForm" (ngSubmit)="onSubmit()" novalidate>
@@ -92,6 +101,9 @@
                         <div *ngIf="destForm.controls['tlfijo'].errors.required">
                             Por favor, ingrese el número de tlf fijo del destinatario
                         </div>
+                        <div *ngIf="profileForm.controls['tlfmovil'].errors.pattern">
+                            Ingrese un nº de tlf. fijo válido (Ej: 1234-1234567)
+                        </div>
                     </div>
                 </div>
                 <div class="col-3">
@@ -104,6 +116,9 @@
                     <div *ngIf="destForm.controls['tlfmovil'].invalid &&(destForm.controls['tlfmovil'].dirty || destForm.controls['tlfmovil'].touched)" class="text-danger">
                         <div *ngIf="destForm.controls['tlfmovil'].errors.required">
                             Ingrese el número de tlf móvil del destinatario
+                        </div>
+                        <div *ngIf="profileForm.controls['tlfmovil'].errors.pattern">
+                            Ingrese un nº de tlf. móvil válido (Ej: 1234-1234567)
                         </div>
                     </div>
                 </div>
