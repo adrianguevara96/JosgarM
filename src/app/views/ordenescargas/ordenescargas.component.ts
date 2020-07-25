@@ -22,6 +22,7 @@ export class OrdenescargasComponent{
   //lo que envio al modal
   estados:any;
   ciudades:any;
+  tiposidentificacion:any;
 
   facturas:any[] = []
   facturastosee:any;
@@ -40,6 +41,7 @@ export class OrdenescargasComponent{
     this.user = this.service.getUser();
     this.getEstados();
     this.getCiudades();
+    this.getTiposIdentificacion();
     this.getRelacionesDespacho();
   }
 
@@ -49,6 +51,7 @@ export class OrdenescargasComponent{
     modalRef.componentInstance.accion = accion;
     modalRef.componentInstance.estados = this.estados;
     modalRef.componentInstance.ciudades = this.ciudades;
+    modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
 
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
@@ -84,6 +87,8 @@ export class OrdenescargasComponent{
         modalRef.componentInstance.accion = accion;
         modalRef.componentInstance.estados = this.estados;
         modalRef.componentInstance.ciudades = this.ciudades;
+        modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
+
       }, 5000);
   }
 
@@ -93,6 +98,15 @@ export class OrdenescargasComponent{
     }, 
     (err) => {
       console.log("Error al hacer get a estados ", err)
+    });
+  };
+
+  getTiposIdentificacion(){
+    this.service.get('tiposidentificacion').then((result) => {
+      this.tiposidentificacion = result;
+    }, 
+    (err) => {
+      console.log("Error al hacer get a tipos de identificacion ", err)
     });
   };
 
@@ -150,6 +164,7 @@ export class OrdenescargasComponent{
             modalRef.componentInstance.accion = accion;
             modalRef.componentInstance.estados = this.estados;
             modalRef.componentInstance.ciudades = this.ciudades;
+            modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
           }, 5000);
         }
       }, (err) => {

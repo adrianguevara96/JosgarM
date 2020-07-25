@@ -21,6 +21,8 @@ export class ModalcrearordenComponent implements OnInit {
   @Input() accion;
   @Input() estados; //Los estados desde la clase
   @Input() ciudades; //Las ciudades desde la clase
+  @Input() tiposidentificacion;
+
 
   iduser:any;
   data:any;
@@ -91,6 +93,7 @@ export class ModalcrearordenComponent implements OnInit {
       bultos: ["", Validators.required],
       valor: ["", Validators.required],
       rif: ["", Validators.required],
+      tipoidentificacion: [0, Validators.required],
       razonsocial: ["", Validators.required],
       fletedestino: ["", Validators.required],
       estado: [0, Validators.required],
@@ -153,6 +156,7 @@ export class ModalcrearordenComponent implements OnInit {
                 nro: this.facturas[i].nro,
                 bultos: this.facturas[i].bultos,
                 valor: this.facturas[i].valor,
+                tipoidentificacion: this.facturas[i].tipoidentificacion,
                 rif: this.facturas[i].rif,
                 razonsocial: this.facturas[i].razonsocial,
                 fletedestino: this.facturas[i].fletedestino,
@@ -211,6 +215,7 @@ export class ModalcrearordenComponent implements OnInit {
         bultos: this.facturaForm.controls["bultos"].value,
         valor: this.facturaForm.controls["valor"].value,
         rif: this.facturaForm.controls["rif"].value,
+        tipoidentificacion: this.facturaForm.controls["tipoidentificacion"].value,
         razonsocial: this.facturaForm.controls["razonsocial"].value,
         fletedestino: this.facturaForm.controls["fletedestino"].value,
         estado: this.facturaForm.controls["estado"].value,
@@ -242,6 +247,8 @@ export class ModalcrearordenComponent implements OnInit {
     modalRef.componentInstance.facturasPDF = this.facturas;
     modalRef.componentInstance.estados = this.estados;
     modalRef.componentInstance.ciudades = this.ciudades;
+    modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
+
  
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
@@ -284,6 +291,7 @@ export class ModalcrearordenComponent implements OnInit {
       bultos: factura.bultos,
       valor: factura.valor,
       rif: factura.rif,
+      tipoidentificacion: factura.tipoidentificacion,
       razonsocial: factura.razonsocial,
       fletedestino: factura.fletedestino,
       estado: factura.estado,
@@ -330,6 +338,7 @@ export class ModalcrearordenComponent implements OnInit {
       direccion: dest.direcciond,
       estado: dest.estadod,
       ciudad: dest.ciudadd,
+      tipoidentificacion: dest.tid,
       rif:  dest.rifd
     }
     this.destinatario.push(destinatar);
@@ -352,6 +361,7 @@ export class ModalcrearordenComponent implements OnInit {
   //Metodo para seleccionar la direccion del destinatario
   seleccionar(objeto:any){
     console.log("Que objeto? :", objeto);
+    this.facturaForm.controls['tipoidentificacion'].setValue(this.destinatario[0].tipoidentificacion);
     this.facturaForm.controls['rif'].setValue(this.destinatario[0].rif);
     this.facturaForm.controls['razonsocial'].setValue(objeto.nombres);
     this.facturaForm.controls['direccion'].setValue(objeto.direccion);

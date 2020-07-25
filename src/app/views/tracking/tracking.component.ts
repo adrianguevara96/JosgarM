@@ -28,6 +28,10 @@ export class TrackingComponent implements OnInit {
     {
       id: false,
       nombre: 'Entregado'
+    },
+    {
+      id: null,
+      nombre: 'Cancelado'
     }
   ]
   estados:any;
@@ -129,6 +133,7 @@ export class TrackingComponent implements OnInit {
         }else if(datta.length > 0){
           this.facturas = [];
           this.facturas = datta;
+          this.facturas10 = this.facturas.slice(0, 10);
         }
       }
     }, (err) => {

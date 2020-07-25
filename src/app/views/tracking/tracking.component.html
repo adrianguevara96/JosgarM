@@ -76,12 +76,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let fact of facturas; let index = i">
+                                        <tr *ngFor="let fact of facturas10; let index = i">
                                             <td>{{fact.nrof}}</td>
                                             <td>{{fact.nroguia}}</td>
                                             <td>{{user.razonsocial}}</td>
                                             <td>{{fact.destinatario}}</td>
-                                            <td>{{fact.valor}}</td>
+                                            <td>{{fact.valor | number: '1.0-2'}}</td>
                                             <td>
                                                 <div *ngFor="let estad of estados">
                                                     <span *ngIf="estad.id == fact.estado">{{estad.nombre}}</span>
@@ -93,7 +93,10 @@
                                                 </div>
                                             </td>
                                             <td>{{fact.fletedestino}}</td>
-                                            <td>{{fact.fecha.substr(0,10)}}</td>
+                                            <td>
+                                                <span *ngIf="fact.status == false">{{fact.fechaentrega.substr(0,10)}}</span>
+                                                <span *ngIf="fact.status != false">-</span>
+                                            </td>
                                             <td>
                                                 <div *ngFor="let sta of status">
                                                     <span *ngIf="sta.id == fact.status">{{sta.nombre}}</span>

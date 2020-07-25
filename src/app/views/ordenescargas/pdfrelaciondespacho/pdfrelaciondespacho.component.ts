@@ -17,6 +17,7 @@ export class PdfrelaciondespachoComponent implements OnInit {
   @Input() facturasPDF; //Lo que me trae envia el modal
   @Input() estados;
   @Input() ciudades;
+  @Input() tiposidentificacion;
   //Atributos del PDF
   remitente: '';
   rif: '';
@@ -32,6 +33,7 @@ export class PdfrelaciondespachoComponent implements OnInit {
   relacionDespachoPDFForm: FormGroup;
   esconderInputyBoton: boolean;
   user:any={};
+  tipoidentificacionusuario:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,20 +42,29 @@ export class PdfrelaciondespachoComponent implements OnInit {
     public service: ServicesService) {
       this.esconderInputyBoton = false;
       //this.spinner.show();
-      this.user = this.service.getUser();
+      //this.user = this.service.getUser();
     }
 
   ngOnInit() {
     this.user = this.service.getUser();
+    console.log("FACTURASPDF? ", this.facturasPDF);
+    this.tipoIdentificacionUsuario();
     this.createForm(); 
-    console.log("FACTURASPDF? ", this.facturasPDF)
+  }
+
+  tipoIdentificacionUsuario(){
+    for(let i =0; i<this.tiposidentificacion.length; i++){
+      if(this.tiposidentificacion[i].id == this.user.tipoidentificacion){
+        this.tipoidentificacionusuario = this.tiposidentificacion[i].nombre;
+      }
+    }
   }
 
   createForm() {
     //this.solicitudRecolecta = [];
     this.relacionDespachoPDFForm = this.formBuilder.group({
-      remitente: [this.user.nombres +" "+this.user.apellidos, Validators.required],
-      rifremitente: [this.user.rif, Validators.required],
+      remitente: [this.user.razonsocial, Validators.required],
+      rifremitente: [this.tipoidentificacionusuario+"-"+this.user.rif, Validators.required],
       direccion: [this.user.dirfiscal, Validators.required],
       nombreCompletoChofer: ["", Validators.required],
       cedChofer: ["", Validators.required],

@@ -16,7 +16,7 @@
                             <h6>Teléfonos: 0424-3296590 - 0414-4137944</h6>
                             <h6>RIF: J- 41148473-3</h6><br>
                             <button *ngIf="!esconderInputyBoton" type="submit" class="btn btn-primary btn-sm btn-pill" >Generar PDF</button>
-                            <button type="button" class="btn btn-outline-primary" (click)="activeModal.close('Close click')">Cerrar</button>
+                            <button *ngIf="!esconderInputyBoton" type="button" class="btn btn-outline-primary" (click)="activeModal.close('Close click')">Cerrar</button>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         <div class="col-4">
                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                 <h6><strong>Tipo Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['tipoCamionChofer'].value}}</h6>
-                                <input *ngIf="!esconderInputyBoton" formControlName="tipoCamionChofer" type="text" class="form-control" placeholder="Placa del Camión" required>
+                                <input *ngIf="!esconderInputyBoton" formControlName="tipoCamionChofer" type="text" class="form-control" placeholder="Tipo de Camión" required>
                             </div>
                             <div *ngIf="relacionDespachoPDFForm.controls['tipoCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['tipoCamionChofer'].dirty || relacionDespachoPDFForm.controls['tipoCamionChofer'].touched)" class="text-danger">
                                 <div *ngIf="relacionDespachoPDFForm.controls['tipoCamionChofer'].errors.required">
@@ -135,11 +135,11 @@
                         <div class="col-4">
                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                 <h6><strong>Color Camión:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['colorCamionChofer'].value}}</h6>
-                                <input *ngIf="!esconderInputyBoton" formControlName="colorCamionChofer" type="text" class="form-control" placeholder="Placa del Camión" required>
+                                <input *ngIf="!esconderInputyBoton" formControlName="colorCamionChofer" type="text" class="form-control" placeholder="Color del Camión" required>
                             </div>
                             <div *ngIf="relacionDespachoPDFForm.controls['colorCamionChofer'].invalid &&(relacionDespachoPDFForm.controls['colorCamionChofer'].dirty || relacionDespachoPDFForm.controls['colorCamionChofer'].touched)" class="text-danger">
                                 <div *ngIf="relacionDespachoPDFForm.controls['colorCamionChofer'].errors.required">
-                                    Ingrese el tipo de camion
+                                    Ingrese el color del camion
                                 </div>
                             </div>
                         </div>
@@ -170,10 +170,13 @@
                                             <span>{{fact.bultos}}</span>
                                         </td>
                                         <td>
-                                            <span>{{fact.valor}} bs.S</span>
+                                            <span>{{fact.valor | number: '1.0-2'}} Bs.S</span>
                                         </td>
                                         <td>
-                                            <span>{{fact.rif}}</span>
+                                            <div *ngFor="let ti of tiposidentificacion">
+                                                <span *ngIf="ti.id == facturasPDF[i].tipoidentificacion">
+                                                    {{ti.nombre}}-{{fact.rif}}</span>
+                                            </div>
                                         </td>
                                         <td>
                                             <span>{{fact.razonsocial}}</span>

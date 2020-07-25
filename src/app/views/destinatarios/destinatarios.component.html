@@ -5,11 +5,13 @@
     <div class="card">
       <div class="card-header">
           <div class='row'>
-              <div class="col-8">
+              <div class="col-9">
                 <h3>Destinatarios</h3>
               </div>
-              <div class="col-4">
-                <button (click)="openModalCrear()" tooltip="Añadir Destinatario" placement="left" style="border-radius:60px;position:relative;left:70%" class="btn btn-primary"><svg-icon src="assets/anadirdestinatario.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon></button>
+              <div class="col-3" align="center">
+                <button (click)="openModalCrear()" tooltip="Añadir Destinatario" placement="left" style="border-radius:60px;position:relative;" class="btn btn-primary">
+                  <svg-icon src="assets/anadirdestinatario.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon> <span style="color:black">Añadir destinatario</span>
+                </button>
               </div>
           </div>
       </div>
@@ -52,12 +54,22 @@
               <tbody>
                 <tr *ngFor="let dest of destinatarios">
                     <td>{{dest.nombresd}}</td>
-                    <td>{{dest.rifd}}</td>
+                    <td>
+                      <div *ngFor="let tipoi of id">
+                        <span *ngIf="tipoi.id == dest.tid">
+                          {{tipoi.nombre}}-{{dest.rifd}}
+                        </span>
+                      </div>
+                    </td>
                     <td>{{dest.tlfmovild}}</td>
                     <td>{{dest.tlfijod}}</td>
                     <td>{{dest.direcciond}}</td>
                     <td>
-                      <div *ngFor="let es of estados"><span *ngIf="es.id == dest.estadod">{{es.nombre}}</span></div>
+                      <div *ngFor="let es of estados">
+                        <span *ngIf="es.id == dest.estadod">
+                          {{es.nombre}}
+                        </span>
+                      </div>
                     </td>
                     <td>
                       <div *ngFor="let ciu of ciudades"><span *ngIf="ciu.id == dest.ciudadd">{{ciu.nombre}}</span></div>

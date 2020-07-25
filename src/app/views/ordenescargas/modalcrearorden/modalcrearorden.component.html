@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-2" align="center">
                                         <button style="padding:0px" [hidden]="esconderBoton" type="submit" class="btn btn-sm btn-pill" tooltip="Añadir factura" placement="left">
-                                            <svg-icon src="assets/add2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                                            <svg-icon src="assets/add2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>Añadir factura
                                         </button>
                                     </div>
                                 </div>
@@ -79,8 +79,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Tipo de Identificacion -->
+                                    <div class="col-2">
+                                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                                            <label for="ti">Tipo Identificacion</label>
+                                            <select formControlName="tipoidentificacion" class="form-control" required>
+                                                <option value="0">-- Seleccione un T.I --</option>
+                                                <option *ngFor="let ti of tiposidentificacion" [value]="ti.id">
+                                                    {{ti.nombre}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="facturaForm.controls['tipoidentificacion'].invalid &&(facturaForm.controls['tipoidentificacion'].dirty || facturaForm.controls['tipoidentificacion'].touched)" class="text-danger">
+                                            <div *ngIf="facturaForm.controls['tipoidentificacion'].errors.required">
+                                                Escoja tipo de identificacion
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- RIF -->
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <div class="form-group" style="margin-bottom: 0.3rem;">
                                             <label>RIF</label><br>
                                             <input style="width: 75%; display:inline-block;position: relative;" formControlName="rif" type="text" class="form-control" placeholder="RIF" required>
@@ -95,7 +112,7 @@
                                         </div>
                                     </div>
                                     <!-- Razon Social -->
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <div class="form-group" style="margin-bottom: 0.3rem;">
                                             <label>Razón Social</label>
                                             <input formControlName="razonsocial" type="text" class="form-control" placeholder="Razón Social" required>
@@ -204,11 +221,15 @@
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].bultos" type="text" id="bultos" name="nrobultos" class="form-control" placeholder="Bultos">
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{fact.valor}}</span>
+                                    <span *ngIf="fact.status">{{fact.valor | number: '1.0-2'}}</span>
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="valor" name="valor" class="form-control" placeholder="Valor">
                                 </td>
                                 <td>
-                                    <span *ngIf="fact.status">{{fact.rif}}</span>
+                                    <div *ngFor="let tipoi of tiposidentificacion">
+                                        <span *ngIf="fact.status && fact.tipoidentificacion == tipoi.id">
+                                            {{tipoi.nombre}}-{{fact.rif}}
+                                        </span>
+                                    </div>
                                     <input *ngIf="!fact.status" [(ngModel)]="facturas[i].rif" type="text" id="rif" name="valor" class="form-control" placeholder="Rif">
                                 </td>
                                 <td>
@@ -259,7 +280,7 @@
                                     <button *ngIf="!fact.status" class="btn btn-sm btn-pill" (click)="updateFactura(fact)" tooltip="Guardar" placement="right">
                                         <svg-icon src="assets/save2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
                                     </button>
-                                    <button *ngIf="fact.status" class="btn btn-sm btn-pill" (click)="eliminarFactura(i)" tooltip="Eliminar" placement="left">
+                                    <button *ngIf="fact.status && accion!='edit'" class="btn btn-sm btn-pill" (click)="eliminarFactura(i)" tooltip="Eliminar" placement="left">
                                         <svg-icon src="assets/less2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
                                     </button>
                                 </td>
