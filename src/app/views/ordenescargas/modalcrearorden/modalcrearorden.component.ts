@@ -22,6 +22,7 @@ export class ModalcrearordenComponent implements OnInit {
   @Input() estados; //Los estados desde la clase
   @Input() ciudades; //Las ciudades desde la clase
   @Input() tiposidentificacion;
+  @Input() reldespacho;
 
 
   iduser:any;
@@ -63,7 +64,7 @@ export class ModalcrearordenComponent implements OnInit {
    }
 
   ngOnInit() {
-    if(this.accion == "see"){
+    if(this.accion == "see" || this.accion == "seeadmin"){
       console.log("Entre aqui por la opcion SEE")
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
@@ -71,7 +72,7 @@ export class ModalcrearordenComponent implements OnInit {
       this.facturas = [];
       this.facturas = this.relacionDespacho;
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
-    }else if(this.accion == "edit"){
+    }else if(this.accion == "edit" || this.accion == "editadmin"){
       this.tipoAccion = "Modificar";
       this.esconderBoton = true;
       this.facturas = [];

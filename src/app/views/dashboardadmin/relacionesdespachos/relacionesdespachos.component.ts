@@ -16,6 +16,7 @@ export class RelacionesdespachosComponent implements OnInit {
   estados:any;
   relacionesdespacho:any[]=[];
   data:any;
+  tiposidentificacion:any;
   buscarNroRelacionDespacho = "";
   facturas:any[] = []
 
@@ -27,12 +28,14 @@ export class RelacionesdespachosComponent implements OnInit {
 
   ngOnInit() {
     this.getEstados();
+    this.getTiposIdentificacion();
     this.getCiudades();
     this.getRelacionesDespacho();
   }
 
-  openModal(accion:any, nro:any) {
-    this.getFacturasxNroRelacionDespacho(nro);
+  openModal(accion:any, relaciondespacho:any) {
+    console.log("???: ",relaciondespacho)
+    this.getFacturasxNroRelacionDespacho(relaciondespacho.nro);
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -41,7 +44,9 @@ export class RelacionesdespachosComponent implements OnInit {
       modalRef.componentInstance.accion = accion;
       modalRef.componentInstance.estados = this.estados;
       modalRef.componentInstance.ciudades = this.ciudades;
-      }, 5000);
+      modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
+      modalRef.componentInstance.reldespacho = relaciondespacho;  
+    }, 5000);
 
   }
 
@@ -51,6 +56,15 @@ export class RelacionesdespachosComponent implements OnInit {
     }, 
     (err) => {
       console.log("Error al hacer get a estados ", err)
+    });
+  };
+
+  getTiposIdentificacion(){
+    this.service.get('tiposidentificacion').then((result) => {
+      this.tiposidentificacion = result;
+    }, 
+    (err) => {
+      console.log("Error al hacer get a tiposidentificacion ", err)
     });
   };
 

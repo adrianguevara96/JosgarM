@@ -55,7 +55,13 @@
                                     <tr *ngFor="let solreco of solicitudesrecolecta; let i=index">
                                         <td>{{solreco.nombres}} {{solreco.apellidos}}</td>
                                         <td>{{solreco.razonsocial}}</td>
-                                        <td>{{solreco.rif}}</td>
+                                        <td>
+                                            <div *ngFor="let ti of tiposidentificacion">
+                                                <span *ngIf="ti.id == solreco.tipoidentificacion">
+                                                    {{ti.nombre}}-{{solreco.rif}}
+                                                </span>
+                                            </div>
+                                        </td>
                                         <td>{{solreco.nro}}</td>
                                         <td>{{solreco.bultos}}</td>
                                         <td>{{solreco.fecha.substr(0,10)}}</td>

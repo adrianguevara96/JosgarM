@@ -15,6 +15,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
   data: any;
   estados:any;
   ciudades:any;
+  tiposidentificacion:any;
   tiposmercancia:any;
   status:any[] = [
     {
@@ -45,6 +46,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
     this.getEstados();
     this.getCiudades();
     this.getTiposMercancia();
+    this.getTiposIdentificacion();
     this.getSolicitudesRecolecta();
   }
 
@@ -129,6 +131,15 @@ export class SolicitudesrecolectasComponent implements OnInit {
     }, 
     (err) => {
       console.log("Error al hacer get a estados ", err)
+    });
+  };
+
+  getTiposIdentificacion(){
+    this.service.get('tiposidentificacion').then((result) => {
+      this.tiposidentificacion = result;
+    }, 
+    (err) => {
+      console.log("Error al hacer get a tipos de identificacion ", err)
     });
   };
 
