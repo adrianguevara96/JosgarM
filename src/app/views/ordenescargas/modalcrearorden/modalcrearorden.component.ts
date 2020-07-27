@@ -85,7 +85,7 @@ export class ModalcrearordenComponent implements OnInit {
       this.esconderBoton = false;
       this.getDestinatarios();
     }
-    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion, this.estados, this.ciudades, this.tipoAccion)
+    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion, this.estados, this.ciudades, this.tipoAccion, this.reldespacho)
   }
 
   createForm() {
@@ -249,7 +249,7 @@ export class ModalcrearordenComponent implements OnInit {
     modalRef.componentInstance.estados = this.estados;
     modalRef.componentInstance.ciudades = this.ciudades;
     modalRef.componentInstance.tiposidentificacion = this.tiposidentificacion;
-
+    modalRef.componentInstance.reldespacho = this.reldespacho;
  
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {

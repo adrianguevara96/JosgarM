@@ -18,7 +18,9 @@ export class PdfrelaciondespachoComponent implements OnInit {
   @Input() estados;
   @Input() ciudades;
   @Input() tiposidentificacion;
-  //Atributos del PDF
+  @Input() reldespacho;
+
+  //Para mostrar en el PDF
   remitente: '';
   rif: '';
   direccion: '';
@@ -35,6 +37,9 @@ export class PdfrelaciondespachoComponent implements OnInit {
   user:any={};
   tipoidentificacionusuario:any;
 
+  
+
+
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
@@ -48,13 +53,13 @@ export class PdfrelaciondespachoComponent implements OnInit {
   ngOnInit() {
     this.user = this.service.getUser();
     console.log("FACTURASPDF? ", this.facturasPDF);
-    this.tipoIdentificacionUsuario();
     this.createForm(); 
+    this.rellenarPDF();
   }
 
-  tipoIdentificacionUsuario(){
+  tipoIdentificacionUsuario(tipoidentificacionusuario:any){
     for(let i =0; i<this.tiposidentificacion.length; i++){
-      if(this.tiposidentificacion[i].id == this.user.tipoidentificacion){
+      if(this.tiposidentificacion[i].id == tipoidentificacionusuario){
         this.tipoidentificacionusuario = this.tiposidentificacion[i].nombre;
       }
     }
@@ -63,9 +68,9 @@ export class PdfrelaciondespachoComponent implements OnInit {
   createForm() {
     //this.solicitudRecolecta = [];
     this.relacionDespachoPDFForm = this.formBuilder.group({
-      remitente: [this.user.razonsocial, Validators.required],
-      rifremitente: [this.tipoidentificacionusuario+"-"+this.user.rif, Validators.required],
-      direccion: [this.user.dirfiscal, Validators.required],
+      remitente: ["", Validators.required],
+      rifremitente: ["", Validators.required],
+      direccion: ["", Validators.required],
       nombreCompletoChofer: ["", Validators.required],
       cedChofer: ["", Validators.required],
       modeloCamionChofer: ["", Validators.required],
@@ -107,6 +112,20 @@ export class PdfrelaciondespachoComponent implements OnInit {
     }
     else {
       swal("Error", "Por favor, rellene todos los campos.", "error");
+    }
+  }
+
+  rellenarPDF(){
+    if(this.reldespacho != undefined){
+      this.tipoIdentificacionUsuario(this.reldespacho.tipoidentificacion);
+      this.relacionDespachoPDFForm.controls['remitente'].setValue(this.reldespacho.razonsocial);
+      this.relacionDespachoPDFForm.controls['rifremitente'].setValue(this.tipoidentificacionusuario+"-"+this.reldespacho.rif);
+      this.relacionDespachoPDFForm.controls['direccion'].setValue(this.reldespacho.dirfiscal);
+    }else{
+      this.tipoIdentificacionUsuario(this.user.tipoidentificacion);
+      this.relacionDespachoPDFForm.controls['remitente'].setValue(this.user.razonsocial);
+      this.relacionDespachoPDFForm.controls['rifremitente'].setValue(this.tipoidentificacionusuario+"-"+this.user.rif);
+      this.relacionDespachoPDFForm.controls['direccion'].setValue(this.user.dirfiscal);
     }
   }
 
