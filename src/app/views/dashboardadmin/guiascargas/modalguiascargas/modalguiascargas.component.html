@@ -1,0 +1,267 @@
+<div class="animated fadeIn">
+    <div class="card" style="margin-bottom: 0px;">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-10">
+                    <h3 style="margin-bottom: 0px;">{{tipoAccion}} Guía de Carga {{numero}}</h3>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="close" aria-label="Close" (click)="activeModal.close('Cross click')">
+                        <span style="font-size: 30px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="guiaForm" (ngSubmit)="onSubmit()">
+                <div *ngIf="accion == 'create'" class="form-row">
+                    <!-- Rutas -->
+                    <div class="col-auto">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado">Ruta</label>
+                            <select (change)="CiudadesxRuta($event.target.value)" formControlName="ruta" class="form-control" required>
+                                <option value="0">-- Seleccione una Ruta --</option>
+                                <option *ngFor="let ru of rutas" [value]="ru.id">
+                                    {{ru.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="guiaForm.controls['ruta'].invalid &&(guiaForm.controls['ruta'].dirty || guiaForm.controls['ruta'].touched)" class="text-danger">
+                            <div *ngIf="guiaForm.controls['ruta'].errors.required">
+                                Escoja una Ruta
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ciudad -->
+                    <div class="col-auto">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado">Ciudad</label>
+                            <select formControlName="ciudad" class="form-control" required>
+                                <option value="0">-- Seleccione una Ciudad --</option>
+                                <option *ngFor="let ciu of ciudadesxRuta" [value]="ciu.id">
+                                    {{ciu.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="guiaForm.controls['ciudad'].invalid &&(guiaForm.controls['ciudad'].dirty || guiaForm.controls['ciudad'].touched)" class="text-danger">
+                            <div *ngIf="guiaForm.controls['ciudad'].errors.required">
+                                Escoja una Ciudad
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <label class="invisible">Boton</label><br>
+                        <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar facturas" placement="right">
+                            <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color: black">Buscar Facturas</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div [hidden]="!esconderBoton" class="form-row">
+                <!--  NOMBRE CHOFER  -->
+                <div class="col-4">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <div *ngIf="accion == 'see'">
+                            <span><b>Nombre del Chofer: </b></span><br>
+                            <span>{{nombrechofer}}</span>
+                        </div>
+                        <div *ngIf="accion != 'see'">
+                            <span><b>Nombre del Chofer: </b></span><br>
+                            <input [(ngModel)]="nombrechofer" type="text" class="form-control" placeholder="Nombre del Chofer">
+                        </div>
+                    </div>
+                </div>
+                <!--  CEDULA DEL CHOFER  -->
+                <div class="col-4">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <div *ngIf="accion == 'see'">
+                            <span><b>Cédula del Chofer: </b></span><br>
+                            <span>{{cedulachofer}}</span>
+                        </div>
+                        <div *ngIf="accion != 'see'">
+                            <span><b>Cédula del Chofer: </b></span><br>
+                            <input  [(ngModel)]="cedulachofer" type="text" class="form-control" placeholder="Cédula del Chofer">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <span class="invisible">asdad</span><br>
+                    <button *ngIf="accion != 'see'" style="border-radius:60px;position:relative;" class="btn btn-primary" style="color:black" (click)="modificarGuiaCarga()">Modificar Guía de Carga</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-8">
+                            <h4>Listado de la Guia de Carga</h4>
+                        </div>
+                        <div class="col-2" align="center">
+                            <button [hidden]="!esconderBoton" style="border-radius:60px;position:relative;" class="btn btn-primary" (click)="generatePDF()" tooltip="Crear PDF" placement="left">
+                                <svg-icon src="assets/pdf4.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color:black">Crear PDF</span>
+                            </button>
+                        </div>
+                        <div class="col-2" align="center">
+                            <button *ngIf="accion == 'edit'" style="border-radius:60px;position:relative;" class="btn btn-primary" data-toggle="modal" (click)="openModalGuiadeCarga(content)" tooltip="Agregar Facturas" placement="right">
+                                <svg-icon src="assets/add2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon> <span style="color:black"> Agregar Facturas</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th># Factura</th>
+                                        <th>Remitente</th>
+                                        <th>Destino</th>
+                                        <th># Bultos</th>
+                                        <th>Monto</th>
+                                        <th *ngIf="accion!='see'">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let guia of guiacarga; let i=index">
+                                        <td>{{guia.nrof}}</td>
+                                        <td>{{guia.remitente}}</td>
+                                        <td>
+                                            <div *ngFor="let ciu of ciudades">
+                                                <span *ngIf="ciu.id == guia.ciudad">
+                                                    {{ciu.nombre}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>{{guia.bultos}}</td>
+                                        <td>{{guia.valor | number: '1.0-2'}} BsS</td>
+                                        <td *ngIf="accion!='see'">
+                                            <button *ngIf="accion == 'create'" (click)="eliminarFactura(i, guia)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill">
+                                                <svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon>
+                                            </button>
+                                            <button *ngIf="accion == 'edit'" (click)="quitarFacturaGuiaCarga(guia)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill">
+                                                <svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total de Bultos: {{totalBultos}}</b></td>
+                                        <td><b>Monto total BsS</b></td>
+                                        <td><b>{{totalBsS | number: '1.0-2'}} BsS</b></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" align="center">
+                            <button [hidden]="esconderBoton" style="border-radius:60px;position:relative;color:black" class="btn btn-primary" (click)="crearGuiaCarga()">Crear Guía de Carga</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--  ####  M O D A L  ####  -->
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4>Guia de Carga</h4>
+                <button type="button" class="close" (click)="c('Save click')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="modalForm" (ngSubmit)="onSubmit2()">
+                    <div class="form-row">
+                        <!-- Rutas -->
+                        <div class="col-auto">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <label for="estado">Ruta</label>
+                                <select (change)="CiudadesxRuta($event.target.value)" formControlName="ruta2" class="form-control" required>
+                                    <option value="0">-- Seleccione una Ruta --</option>
+                                    <option *ngFor="let ru of rutas" [value]="ru.id">
+                                        {{ru.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="modalForm.controls['ruta2'].invalid &&(modalForm.controls['ruta2'].dirty || modalForm.controls['ruta2'].touched)" class="text-danger">
+                                <div *ngIf="modalForm.controls['ruta2'].errors.required">
+                                    Escoja una Ruta
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Ciudad -->
+                        <div class="col-auto">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <label for="estado">Ciudad</label>
+                                <select formControlName="ciudad2" class="form-control" required>
+                                    <option value="0">-- Seleccione una Ciudad --</option>
+                                    <option *ngFor="let ciu of ciudadesxRuta" [value]="ciu.id">
+                                        {{ciu.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="modalForm.controls['ciudad2'].invalid &&(modalForm.controls['ciudad2'].dirty || modalForm.controls['ciudad2'].touched)" class="text-danger">
+                                <div *ngIf="modalForm.controls['ciudad2'].errors.required">
+                                    Escoja una Ciudad
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <label class="invisible">Boton</label><br>
+                            <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar facturas" placement="right">
+                                <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color: black">Buscar Facturas</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th># Factura</th>
+                                    <th>Remitente</th>
+                                    <th>Destino</th>
+                                    <th># Bultos</th>
+                                    <th>Monto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let g of guiacarga2; let i=index">
+                                    <td>{{g.nrof}}</td>
+                                    <td>{{g.remitente}}</td>
+                                    <td>
+                                        <div *ngFor="let ciu of ciudades">
+                                            <span *ngIf="ciu.id == g.ciudad">
+                                                {{ciu.nombre}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>{{g.bultos}}</td>
+                                    <td>{{g.valor | number: '1.0-2'}} BsS</td>
+                                    <td>
+                                        <button (click)="agregarFacturaGuiaCarga(g, i)" tooltip="Agregar Factura" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill">
+                                            <svg-icon src="assets/add.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+            </div>
+        </ng-template>
+
+    </div>
+</div>

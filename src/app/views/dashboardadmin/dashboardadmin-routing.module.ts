@@ -5,6 +5,8 @@ import { DashboardadminComponent } from './dashboardadmin.component';
 import { UsersComponent } from './users/users.component';
 import { RelacionesdespachosComponent } from './relacionesdespachos/relacionesdespachos.component';
 import { SolicitudesrecolectasComponent } from './solicitudesrecolectas/solicitudesrecolectas.component';
+import { GuiascargasComponent } from './guiascargas/guiascargas.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,20 @@ const routes: Routes = [
           title: 'Solicitudes de Recolecta'
         }
       },
+      {
+        path: 'guiascarga',
+        component: GuiascargasComponent,
+        data: {
+          title: 'Guías de Carga'
+        }
+      },
+      {
+        path: 'tracking',
+        component: TrackingComponent,
+        data: {
+          title: 'Tracking'
+        }
+      }
     ]
   }
 ];

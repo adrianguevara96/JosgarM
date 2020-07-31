@@ -1,0 +1,216 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-10">
+                    <h3 style="margin-bottom: 0px;">Tracking de Facturas por Entregar</h3>
+                </div>
+                <div class="col-2">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="trackingForm" (ngSubmit)="onSubmit(content)" novalidate>
+                <div class="form-row">
+                    <!--   GUIA O FACTURA  -->
+                    <div class="col-12">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <div class="form-check form-check-inline mr-1">
+                                <label class="form-check-label" style="margin-bottom: 0px;"><strong>Indique una opción:</strong></label><br>
+
+                                <input (click)="placehold()" style="margin-left: 10px; width:15%;" type="radio" name="buscar" formControlName="buscar" class="form-control" value="2">
+                                <label class="form-check-label" style="margin-bottom: 0px;">Guía</label><br>
+
+                                <input (click)="placehold()" style="margin-left: 10px; width:15%;" type="radio" value="1" name="buscar" formControlName="buscar" class="form-control">
+                                <label style="margin-bottom: 0px;">Factura</label>
+                            </div><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-6">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <input type="text" class="form-control" formControlName="inputBuscar" [placeholder]="placeholderInput">
+                        </div>
+                        <div *ngIf="trackingForm.controls['inputBuscar'].invalid &&(trackingForm.controls['inputBuscar'].dirty || trackingForm.controls['inputBuscar'].touched)" class="text-danger">
+                            <div *ngIf="trackingForm.controls['inputBuscar'].errors.required">
+                                Ingrese un nro a buscar
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar nro. de factura" placement="right" data-toggle="modal">
+                            <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="form-row">
+                            <div class="col-9">
+                                <h4>Listado de Guías/Facturas</h4>
+                            </div>
+                            <div class="col-3">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
+                                            <th tooltip="Nro. de Guia" placement="top">#Guia</th>
+                                            <th>Remitente</th>
+                                            <th>Destinatario</th>
+                                            <th tooltip="bs.S" placement="top">Monto</th>
+                                            <th>Estado</th>
+                                            <th>Ciudad</th>
+                                            <th tooltip="Flete Destino" placement="top">F.D</th>
+                                            <th tooltip="Fecha de Entrega(YYYY/MM/DD)" placement="top">F.Entrega</th>
+                                            <th>Estatus</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let fact of facturas; let index = i">
+                                            <td>{{fact.nrof}}</td>
+                                            <td>{{fact.nroguia}}</td>
+                                            <td>{{fact.remitente}}</td>
+                                            <td>{{fact.destinatario}}</td>
+                                            <td>{{fact.valor | number: '1.0-2'}} BsS</td>
+                                            <td>
+                                                <div *ngFor="let estad of estados">
+                                                    <span *ngIf="estad.id == fact.estado">{{estad.nombre}}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let ciu of ciudades">
+                                                    <span *ngIf="ciu.id == fact.ciudad">{{ciu.nombre}}</span>
+                                                </div>
+                                            </td>
+                                            <td>{{fact.fletedestino}}</td>
+                                            <td>
+                                                <span *ngIf="fact.status == false">{{fact.fechaentrega.substr(0,10)}}</span>
+                                                <span *ngIf="fact.status != false">-</span>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let sta of status">
+                                                    <span *ngIf="sta.id == fact.status">{{sta.nombre}}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" (click)="aceptarFactura(fact,content2)" tooltip="Aceptar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/accept2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                                                <button type="button" (click)="cancelarFactura(fact)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--  M O D A L   D E   V E R   D E S T I N A T A R I O S  -->
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">
+                  {{tituloModal}} 
+                  <span *ngIf="tituloModal == 'Factura'"># {{factguia[0].nrof}}</span>
+                  <span *ngIf="tituloModal == 'Guía'"># {{factguia[0].nroguia}}</span>
+            </h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-3">
+                        <label><b>Nro. de {{tituloModal}}</b></label><br>
+                        <span *ngIf="tituloModal == 'Factura'">{{factguia[0].nrof}}</span>
+                        <span *ngIf="tituloModal == 'Guía'">{{factguia[0].nroguia}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Remitente</b></label><br>
+                        <span>{{factguia[0].remitente}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Destinatario</b></label><br>
+                        <span>{{factguia[0].destinatario}}</span>
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Monto</b></label><br>
+                        <span>{{factguia[0].valor}}</span>
+                        <br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-3">
+                        <label><b>Estado</b></label><br>
+                        <div *ngFor="let estad of estados">
+                            <span *ngIf="estad.id == factguia[0].estado">{{estad.nombre}}</span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Ciudad</b></label><br>
+                        <div *ngFor="let ciu of ciudades">
+                            <span *ngIf="ciu.id == factguia[0].ciudad">{{ciu.nombre}}</span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label><b>¿Flete Destino?</b></label><br>
+                        <span>{{factguia[0].fletedestino}}</span>
+                    </div>
+                    <div class="col-2">
+                        <label><b>Fecha</b></label><br>
+                        <span>{{factguia[0].fecha.substr(0,10)}}</span>
+                    </div>
+                    <div class="col-2">
+                        <label><b>Estatus</b></label><br>
+                        <div *ngFor="let sta of status">
+                            <span *ngIf="sta.id == factguia[0].status">{{sta.nombre}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+            </div>
+        </ng-template>
+        <!--  M O D A L   D E   V E R   D E S T I N A T A R I O S  -->
+        <ng-template #content2 let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                    Factura #{{factparafechaentrega.nrof}} 
+                </h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <!--   FECHA   -->
+                    <div class="col-auto" align="center">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label><b>Fecha de Entrega</b></label><br>
+                            <input [(ngModel)]="fechaentrega" type="date" class="form-control" placeholder="dd-mm-yyyy" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="c(guardarFechaEntrega())">Guardar Fecha</button>
+
+                <button type="button" class="btn btn-outline-primary" (click)="c('Save click')">Cerrar</button>
+            </div>
+        </ng-template>
+    </div>
+</div>

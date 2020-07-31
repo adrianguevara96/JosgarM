@@ -59,6 +59,10 @@ import { ModalsolicitudrecolectaComponent } from './views/solicitudrecolecta/mod
 import { PdfrelaciondespachoComponent } from './views/ordenescargas/pdfrelaciondespacho/pdfrelaciondespacho.component';
 import { ModalagregardestinatarioComponent } from './views/destinatarios/modalagregardestinatario/modalagregardestinatario.component';
 import { ModalusersComponent } from './views/dashboardadmin/users/modalusers/modalusers.component';
+import { PdfguiascargasComponent } from './views/dashboardadmin/guiascargas/pdfguiascargas/pdfguiascargas.component';
+import { ModalguiascargasComponent } from './views/dashboardadmin/guiascargas/modalguiascargas/modalguiascargas.component';
+
+
 /*import { TablasbasicasComponent } from './views/tablasbasicas/tablasbasicas.component';
 import { DashboardadminComponent } from './views/dashboardadmin/dashboardadmin.component';
 import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
@@ -104,7 +108,9 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalsolicitudrecolectaComponent,
     ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent,
-    ModalusersComponent
+    ModalusersComponent,
+    PdfguiascargasComponent,
+    ModalguiascargasComponent
     /*TablasbasicasComponent,
     DashboardadminComponent,
     SolicitudrecolectaComponent,
@@ -119,7 +125,9 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     ModalsolicitudrecolectaComponent,
     ModalagregardestinatarioComponent,
     PdfrelaciondespachoComponent,
-    ModalusersComponent
+    ModalusersComponent,
+    PdfguiascargasComponent,
+    ModalguiascargasComponent
   ],
   providers: [{
     provide: LocationStrategy,

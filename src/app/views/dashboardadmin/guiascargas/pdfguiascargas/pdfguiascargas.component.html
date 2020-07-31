@@ -1,0 +1,176 @@
+<div>
+    <ngx-spinner [fullScreen]="false" bdColor = "rgb(8,8,8)" type="pacman" size="medium">
+        <p class="loading">Generando PDF...</p>
+    </ngx-spinner>
+    <div id="contentToConvert">
+        <div class="card" style="margin-bottom: 0px;">
+            <form [formGroup]="guiacargaPDFForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-5">
+                            <img src="" height="120px" width="300px"/>
+                        </div>
+                        <div class="col-7">
+                            <h5><strong>INVERSIONES Y SERVICIOS JOSGAR M, C.A</strong></h5>
+                            <h6>Zona industrial Castillito, fundo  La Unión, parcela N°11.San Diego Edo. Carabobo.</h6>
+                            <h6>Teléfonos: 0424-3296590 - 0414-4137944</h6>
+                            <h6>RIF: J- 41148473-3</h6><br>
+                            <button *ngIf="!esconderInputyBoton" type="submit" class="btn btn-primary btn-sm btn-pill" >Generar PDF</button>
+                            <button *ngIf="!esconderInputyBoton" type="button" class="btn btn-outline-primary" (click)="activeModal.close('Close click')">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12" align="center">
+                            <h5><strong>GUIA DE CARGA #{{nroguiacarga}}</strong></h5>
+                            <h5><strong>FECHA: {{fecha}}</strong></h5>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <!--  NOMBRE CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Nombre del Chofer:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['nombre'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton && accion != 'see' " formControlName="nombre" type="text" class="form-control" placeholder="Nombre del Chofer" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['nombre'].invalid &&(guiacargaPDFForm.controls['nombre'].dirty || guiacargaPDFForm.controls['nombre'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['nombre'].errors.required">
+                                    Ingrese el nombre completo del chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--   VEHICULO DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Vehículo:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['vehiculo'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="vehiculo" type="text" class="form-control" placeholder="Vehículo" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['vehiculo'].invalid &&(guiacargaPDFForm.controls['vehiculo'].dirty || guiacargaPDFForm.controls['vehiculo'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['vehiculo'].errors.required">
+                                    Ingrese el vehiculo del chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--   PLACA DEL VEHICULO DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Placa:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['placa'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="placa" type="text" class="form-control" placeholder="Placa del Vehículo" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['placa'].invalid &&(guiacargaPDFForm.controls['placa'].dirty || guiacargaPDFForm.controls['placa'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['placa'].errors.required">
+                                    Ingrese la placa del vehiculo del Chofer
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <!--   CEDULA DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>C.I del Chofer:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['cedula'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton && gc.accion != 'see'" formControlName="cedula" type="text" class="form-control" placeholder="C.I" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['cedula'].invalid &&(guiacargaPDFForm.controls['cedula'].dirty || guiacargaPDFForm.controls['cedula'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['cedula'].errors.required">
+                                    Ingrese la C.I del Chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--  MARCA DEL VEHICULO DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Marca:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['marca'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="marca" type="text" class="form-control" placeholder="Marca del Vehículo" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['marca'].invalid &&(guiacargaPDFForm.controls['marca'].dirty || guiacargaPDFForm.controls['marca'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['marca'].errors.required">
+                                    Ingrese la marca del vehiculo del chofer
+                                </div>
+                            </div>
+                        </div>
+                        <!--  TELEFONO DEL CHOFER  -->
+                        <div class="col-4">
+                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                <h6><strong>Teléfono del Chofer:</strong></h6><h6 class="texto">{{guiacargaPDFForm.controls['telefono'].value}}</h6>
+                                <input *ngIf="!esconderInputyBoton" formControlName="telefono" type="text" class="form-control" placeholder="Tlf. del Chofer" required>
+                            </div>
+                            <div *ngIf="guiacargaPDFForm.controls['telefono'].invalid &&(guiacargaPDFForm.controls['telefono'].dirty || guiacargaPDFForm.controls['telefono'].touched)" class="text-danger">
+                                <div *ngIf="guiacargaPDFForm.controls['telefono'].errors.required">
+                                    Ingrese el tlf. del chofer
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th># Factura</th>
+                                        <th>Remitente</th>
+                                        <th>Destino</th>
+                                        <th># Bultos</th>
+                                        <th>Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let guia of guiacarga; let i=index">
+                                        <td>{{guia.nrof}}</td>
+                                        <td>{{guia.remitente}}</td>
+                                        <td>
+                                            <div *ngFor="let ciu of ciudades">
+                                                <span *ngIf="ciu.id == guia.ciudad">
+                                                    {{ciu.nombre}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>{{guia.bultos}}</td>
+                                        <td>{{guia.valor | number: '1.0-2'}} BsS</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><b>Monto Liquidación: </b></td>
+                                        <td>
+                                            <div class="form-group" style="margin-bottom: 0.3rem;">
+                                                <b>{{guiacargaPDFForm.controls['montoliquidacion'].value | number: '1.0-2'}} BsS</b>
+                                                <input *ngIf="!esconderInputyBoton" formControlName="montoliquidacion" type="text" class="form-control" placeholder="Monto Liquidación" required>
+                                            </div>
+                                            <div *ngIf="guiacargaPDFForm.controls['montoliquidacion'].invalid &&(guiacargaPDFForm.controls['montoliquidacion'].dirty || guiacargaPDFForm.controls['montoliquidacion'].touched)" class="text-danger">
+                                                <div *ngIf="guiacargaPDFForm.controls['montoliquidacion'].errors.required">
+                                                    Ingrese el monto de liquidación
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><b>Total de Bultos: {{totalBultos}}</b></td>
+                                        <td><b>Monto total BsS</b></td>
+                                        <td><b>{{totalBsS | number: '1.0-2'}} BsS</b></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:none; border:none;" class="card-footer">
+                    <div class="form-row">
+                        <div class="col-6" align="center">
+                            <br>
+                            <span>___________________________</span><br>
+                            <span>Firma y Cédula del Chofer</span>
+                        </div>
+                        <div class="col-6" align="center">
+                            <br>
+                            <span>________________________________________________</span><br>
+                            <span>________________________________________________</span><br>
+                            <span>Observaciones</span>
+                        </div>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+</div>

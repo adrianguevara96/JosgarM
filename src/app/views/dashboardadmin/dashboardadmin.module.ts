@@ -6,6 +6,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { DashboardadminComponent } from './dashboardadmin.component';
 import { DashboardadminRoutingModule } from './dashboardadmin-routing.module';
@@ -19,6 +20,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { UsersComponent } from './users/users.component';
 import { SolicitudesrecolectasComponent } from './solicitudesrecolectas/solicitudesrecolectas.component';
 import { RelacionesdespachosComponent } from './relacionesdespachos/relacionesdespachos.component';
+import { GuiascargasComponent } from './guiascargas/guiascargas.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 @NgModule({
   imports: [
@@ -33,11 +36,12 @@ import { RelacionesdespachosComponent } from './relacionesdespachos/relacionesde
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [
   DefaultLayoutComponent
 ],
-  declarations: [ DashboardadminComponent, UsersComponent, SolicitudesrecolectasComponent, RelacionesdespachosComponent ]
+  declarations: [ DashboardadminComponent, UsersComponent, SolicitudesrecolectasComponent, RelacionesdespachosComponent, GuiascargasComponent, TrackingComponent ]
 })
 export class DashboardadminModule { }

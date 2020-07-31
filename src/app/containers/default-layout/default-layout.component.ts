@@ -28,8 +28,9 @@ export class DefaultLayoutComponent {
           {name: 'Usuarios', url: '/administracion/usuarios', icon: 'fa fa-server'},
           {name: 'Relaciones de Despacho',url: '/administracion/relacionesdespachos',icon: 'icon-drop'},
           {name: 'Solicitudes de Recolectas',url: '/administracion/solicitudesrecolectas',icon: 'icon-drop'},
-
-        /*  {title: true,name: 'Theme'},
+          {name: 'Guías de Carga',url: '/administracion/guiascarga',icon: 'icon-drop'},
+          {name: 'Tracking',url: '/administracion/tracking',icon: 'icon-drop'},
+          /*  {title: true,name: 'Theme'},
           {name: 'Colors',url: '/theme/colors',icon: 'icon-drop'},
           {name: 'Typography',url: '/theme/typography',icon: 'icon-pencil'},
           {title: true,name: 'Components'},
