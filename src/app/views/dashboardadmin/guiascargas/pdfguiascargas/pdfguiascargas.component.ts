@@ -57,7 +57,6 @@ export class PdfguiascargasComponent implements OnInit {
       marca: ["", Validators.required],
       placa: ["", Validators.required],
       telefono: ["", Validators.required],
-      montoliquidacion: ["", Validators.required]
     });
   }
 
@@ -122,7 +121,8 @@ export class PdfguiascargasComponent implements OnInit {
   guardarNombreCedulaChofer(){
     let guiacarga = {
       chofer: this.guiacargaPDFForm.controls['nombre'].value,
-      cedula: this.guiacargaPDFForm.controls['cedula'].value
+      cedula: this.guiacargaPDFForm.controls['cedula'].value,
+      montoliquidacion: this.gc.montoliquidacion
     }
     this.service.put(guiacarga,'guiacarga/chofer',this.nroguiacarga).then((result) =>{
       let data:any = result;

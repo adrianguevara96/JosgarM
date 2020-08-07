@@ -34,6 +34,7 @@ export class ModalguiascargasComponent implements OnInit {
 
   nombrechofer = "";
   cedulachofer = "";
+  montoliquidacion = 0;
 
   tipoAccion:any;
   numero: any;
@@ -61,6 +62,7 @@ export class ModalguiascargasComponent implements OnInit {
       if(this.guia != undefined){
         this.nombrechofer = this.guia.chofer;
         this.cedulachofer = this.guia.cedula;
+        this.montoliquidacion = this.guia.montoliquidacion;
       }
     }else if(this.accion == "edit"){
       this.tipoAccion = "Modificar";
@@ -72,6 +74,7 @@ export class ModalguiascargasComponent implements OnInit {
       if(this.guia != undefined){
         this.nombrechofer = this.guia.chofer;
         this.cedulachofer = this.guia.cedula;
+        this.montoliquidacion = this.guia.montoliquidacion;
       }
       //Hacer un for para editar las facturas que hayan en la relacion de despacho
     }else{
@@ -84,6 +87,9 @@ export class ModalguiascargasComponent implements OnInit {
 
   createForm() {
     this.guiaForm = this.formBuilder.group({
+      nombrechofer: ["", Validators.required],
+      cedulachofer: ["", Validators.required],
+      montoliquidacion: [0,Validators.required],
       ruta: [0, Validators.required],
       ciudad: [0, Validators.required],
     });
@@ -231,6 +237,8 @@ export class ModalguiascargasComponent implements OnInit {
   crearGuiaCarga(){
     if(this.guiacarga.length == 0){
       swal("No hay facturas en la guia de carga", "Por favor, seleccione alguna factura para llenar la guia de carga.", "info");
+    }else if(this.guiaForm.controls['cedulachofer'].value == "" && this.guiaForm.controls['nombrechofer'].value == ""){
+      swal("Complete los campos", "Por favor, ingrese el nombre y la cedula de chofer.", "info");
     }else{
       swal("¿Está seguro de crear esta nueva guía de carga?", {
         icon: "warning",
@@ -245,6 +253,9 @@ export class ModalguiascargasComponent implements OnInit {
           case "guardar":
             //Crear guia de carga
             let guiacarga = {
+              cedula: this.guiaForm.controls['cedulachofer'].value,
+              chofer: this.guiaForm.controls['nombrechofer'].value,
+              montoliquidacion: this.guiaForm.controls['montoliquidacion'].value,
               fecha: moment().format('L'),
               usuario: this.service.getIDUser()
             }
@@ -266,28 +277,7 @@ export class ModalguiascargasComponent implements OnInit {
             }, (err) => {
               console.log("Error al crear la guia de carga ", err)
             })
-            swal("¿Desea imprimir esta guía de carga?", {
-              icon: "info",
-              closeOnClickOutside: false,
-              buttons: {
-                rechazar: "No",
-                imprimir: true
-              }
-            } as any)
-            .then((value) => {
-              switch (value) {
-                case "imprimir":
-                  console.log("Generando PDF ...");
-                  this.activeModal.close(this.guiacarga);
-                  this.generatePDF();
-                  swal.close();
-                  break;
-                case "rechazar":
-                  this.activeModal.close(this.guiacarga);
-                  swal.close();
-                  break;
-              }
-            });
+            this.activeModal.close(this.guiacarga);
             break;
           case "cancel":
           swal.close();
@@ -302,6 +292,7 @@ export class ModalguiascargasComponent implements OnInit {
     let gc = {
       nombre: this.nombrechofer,
       cedula: this.cedulachofer,
+      montoliquidacion: this.montoliquidacion,
       accion: this.accion
     }
     modalRef.componentInstance.guiacarga = this.guiacarga;
@@ -337,7 +328,8 @@ export class ModalguiascargasComponent implements OnInit {
   modificarGuiaCarga(){
     let guiacarga = {
       chofer: this.nombrechofer,
-      cedula: this.cedulachofer
+      cedula: this.cedulachofer,
+      montoliquidacion: this.montoliquidacion
     }
     this.service.put(guiacarga,'guiacarga/chofer',this.facturas[0].nroguiacarga).then((result) =>{
       let data:any = result;

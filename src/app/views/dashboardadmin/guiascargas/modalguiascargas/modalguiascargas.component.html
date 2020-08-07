@@ -15,8 +15,44 @@
         <div class="card-body">
             <form [formGroup]="guiaForm" (ngSubmit)="onSubmit()">
                 <div *ngIf="accion == 'create'" class="form-row">
+                    <!-- Nombre del Chofer -->
+                    <div class="col-2">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado"><b>Nombre del Chofer</b></label>
+                            <input formControlName="nombrechofer" type="text" class="form-control" placeholder="Nombre del Chofer" required>
+                        </div>
+                        <div *ngIf="guiaForm.controls['nombrechofer'].invalid &&(guiaForm.controls['nombrechofer'].dirty || guiaForm.controls['nombrechofer'].touched)" class="text-danger">
+                            <div *ngIf="guiaForm.controls['nombrechofer'].errors.required">
+                                Ingrese el nombre del chofer
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cedula del Chofer -->
+                    <div class="col-2">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado"><b>Cédula del Chofer</b></label>
+                            <input formControlName="cedulachofer" type="text" class="form-control" placeholder="Nombre del Chofer" required>
+                        </div>
+                        <div *ngIf="guiaForm.controls['cedulachofer'].invalid &&(guiaForm.controls['cedulachofer'].dirty || guiaForm.controls['cedulachofer'].touched)" class="text-danger">
+                            <div *ngIf="guiaForm.controls['cedulachofer'].errors.required">
+                                Ingrese la cédula del chofer
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Monto Liquidacion del Chofer -->
+                    <div class="col-2">
+                        <div class="form-group" style="margin-bottom: 0.3rem;">
+                            <label for="estado"><b>Monto de Liquidación</b></label>
+                            <input formControlName="montoliquidacion" type="text" class="form-control" placeholder="Nombre del Chofer" required>
+                        </div>
+                        <div *ngIf="guiaForm.controls['montoliquidacion'].invalid &&(guiaForm.controls['montoliquidacion'].dirty || guiaForm.controls['montoliquidacion'].touched)" class="text-danger">
+                            <div *ngIf="guiaForm.controls['montoliquidacion'].errors.required">
+                                Ingrese un monto de liquidación
+                            </div>
+                        </div>
+                    </div>
                     <!-- Rutas -->
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado">Ruta</label>
                             <select (change)="CiudadesxRuta($event.target.value)" formControlName="ruta" class="form-control" required>
@@ -33,7 +69,7 @@
                         </div>
                     </div>
                     <!-- Ciudad -->
-                    <div class="col-auto">
+                    <div class="col-3">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado">Ciudad</label>
                             <select formControlName="ciudad" class="form-control" required>
@@ -49,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-2">
                         <label class="invisible">Boton</label><br>
                         <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar facturas" placement="right">
                             <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color: black">Buscar Facturas</span>
@@ -57,9 +93,10 @@
                     </div>
                 </div>
             </form>
+            <!-- CUANDO EL USUARIO SOLO VE LAS GUIAS DE CARGA-->
             <div [hidden]="!esconderBoton" class="form-row">
                 <!--  NOMBRE CHOFER  -->
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group" style="margin-bottom: 0.3rem;">
                         <div *ngIf="accion == 'see'">
                             <span><b>Nombre del Chofer: </b></span><br>
@@ -72,7 +109,7 @@
                     </div>
                 </div>
                 <!--  CEDULA DEL CHOFER  -->
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group" style="margin-bottom: 0.3rem;">
                         <div *ngIf="accion == 'see'">
                             <span><b>Cédula del Chofer: </b></span><br>
@@ -84,7 +121,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <!--  MONTO LIQUIDACION CHOFER  -->
+                <div class="col-3">
+                    <div class="form-group" style="margin-bottom: 0.3rem;">
+                        <div *ngIf="accion == 'see'">
+                            <span><b>Monto de Liquidación: </b></span><br>
+                            <span>{{montoliquidacion | number: '1.0-2'}} BsS</span>
+                        </div>
+                        <div *ngIf="accion != 'see'">
+                            <span><b>Monto de Liquidación: </b></span><br>
+                            <input [(ngModel)]="montoliquidacion" type="text" class="form-control" placeholder="Nombre del Chofer">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
                     <span class="invisible">asdad</span><br>
                     <button *ngIf="accion != 'see'" style="border-radius:60px;position:relative;" class="btn btn-primary" style="color:black" (click)="modificarGuiaCarga()">Modificar Guía de Carga</button>
                 </div>
