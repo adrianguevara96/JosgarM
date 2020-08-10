@@ -91,7 +91,8 @@ export class RelacionesdespachosComponent implements OnInit {
     this.service.get(`users/relacionesdespacho`).then((result) =>{
       this.data = result;
       if(this.data.message == "No existen relaciones de despachos en la BD."){
-        swal("No existen usuarios con relaciones de despacho creadas", "info");
+        this.relacionesdespacho = [];
+        swal("No existen relaciones de despacho", "No existen usuarios con relaciones de despacho creadas.", "info");
       }else if(this.data.length>0){
         this.relacionesdespacho = [];
         this.relacionesdespacho = this.data;
@@ -101,15 +102,15 @@ export class RelacionesdespachosComponent implements OnInit {
       console.log("Error al hacer get a ciudades ", err)
     });
   };
-
+  
   cancelRelacionDespacho(nro:any){
-    this.service.put(null,'factura/cancel', nro).then((result) => {
+    this.service.delete('factura/delete', nro).then((result) => {
       this.data = result;
-      if(this.data.message == "La factura ha sido eliminada logicamente."){
-        this.service.put(null,'relaciondespacho/cancel', nro).then((result) =>{
+      if(this.data.message == "La factura ha sido eliminada fisicamente."){
+        this.service.delete('relaciondespacho/delete', nro).then((result) =>{
           this.data = result;
-          if(this.data.message == `La relacion de despacho #${nro} ha sido eliminada logicamente.`){
-            swal("Relacion de Despacho Cancelada", `Se ha cancelado la relacion de recolecta #${nro} satisfactoriamente`, "success");
+          if(this.data.message == `La relacion de despacho #${nro} ha sido eliminada fisicamente.`){
+            swal("Relacion de Despacho Eliminada", `Se ha eliminado la relación de despacho #${nro} satisfactoriamente`, "success");
             this.getRelacionesDespacho();
           }
         }, (err) => {
@@ -123,7 +124,7 @@ export class RelacionesdespachosComponent implements OnInit {
 
   cancelarRelacionDespacho(nro:any){
     console.log("??? ", nro);
-    swal("¿Está seguro de cancelar esta solicitud de recolecta?", {
+    swal("¿Está seguro de eliminar ésta relación de despacho?", {
       icon: "warning",
       closeOnClickOutside: false,
       buttons: {

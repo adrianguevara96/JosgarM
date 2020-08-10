@@ -67,8 +67,8 @@
                             <td>{{reladespa.hora}}</td>
                             <td>
                               <button (click)="openModal('seeadmin', reladespa)" tooltip="Ver detalles" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
-                              <button (click)="openModal('editadmin', reladespa.nro)" tooltip="Modificar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
-                              <button (click)="cancelarRelacionDespacho(reladespa.nro)" tooltop="Eliminar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
+                              <button (click)="openModal('editadmin', reladespa.nro)" tooltip="Modificar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
+                              <button (click)="cancelarRelacionDespacho(reladespa.nro)" tooltop="Eliminar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
                             </td>
                           </tr>
                         </tbody>

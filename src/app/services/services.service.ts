@@ -62,6 +62,25 @@ export class ServicesService {
     });
   }
 
+  //DELETE
+  delete(entidad: string, valor) {
+    const head = new HttpHeaders({
+      'Content-Type': 'application/json',
+       //Authorization: 'Bearer: ' + this.getUserToken()
+    })
+    return new Promise((resolve, reject) => {
+      console.log(this.url + entidad + '/'+ valor);
+      this.http.delete(this.url + entidad + '/' + valor)
+        .subscribe(res => {
+          console.log(res);
+          resolve(res);
+        }, (err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
   //PUT PARA ELIMINACION LOGICA
   putLogic(entidad: string, valor) {
     const head = new HttpHeaders({

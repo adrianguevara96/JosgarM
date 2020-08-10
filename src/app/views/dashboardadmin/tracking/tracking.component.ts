@@ -17,6 +17,7 @@ export class TrackingComponent implements OnInit {
 
   closeResult = '';
   trackingForm: FormGroup;
+  tracking2Form: FormGroup;
   placeholderInput:string = "Indique un nro a buscar";
   tituloModal = "";
   user:any;
@@ -37,11 +38,14 @@ export class TrackingComponent implements OnInit {
   ]
   estados:any;
   ciudades:any;
+  rutas:any;
   daata:any[]=[];
   factguia:any[]=[];
 
   factparafechaentrega:any;
   fechaentrega:any;
+
+  ciudadesxRuta:any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,9 +58,10 @@ export class TrackingComponent implements OnInit {
     }
 
   ngOnInit(){
-    this.getFacturasxUsuario();
+    //this.getFacturasxUsuario();
     this.getCiudades();
     this.getEstados();
+    this.getRutas();
   }
 
   createForm() {
@@ -64,6 +69,10 @@ export class TrackingComponent implements OnInit {
     this.trackingForm = this.formBuilder.group({
       buscar: [0],
       inputBuscar: ["", Validators.required],
+    });
+    this.tracking2Form = this.formBuilder.group({
+      ruta: [0, Validators.required],
+      ciudad: [0, Validators.required],
     });
   }
 
@@ -101,6 +110,18 @@ export class TrackingComponent implements OnInit {
       }else if(this.trackingForm.controls['buscar'].value == 0){
         swal("Error", `Por favor, indique una opcion para buscar.`, "error");
       }
+    }
+  }
+
+  onSubmit2() {
+    if (this.tracking2Form.valid) {
+      console.log(this.tracking2Form.value);
+      this.buscarFacturasxCiudad(this.tracking2Form.controls['ciudad'].value);
+      this.tracking2Form.controls['ruta'].setValue(0);
+      this.tracking2Form.controls['ciudad'].setValue(0);
+      this.ciudadesxRuta = [];
+    }else {
+      swal("Seleccione los campos", "Por favor, seleccione todos los campos.", "info");
     }
   }
 
@@ -149,7 +170,16 @@ export class TrackingComponent implements OnInit {
     (err) => {
       console.log("Error al hacer get a ciudades ", err)
     });
-  }
+  };
+
+  getRutas(){
+    this.service.get('rutas').then((result) => {
+      this.rutas = result;
+    }, 
+    (err) => {
+      console.log("Error al hacer get a estados ", err)
+    });
+  };
 
 
   open(content) {
@@ -184,6 +214,29 @@ export class TrackingComponent implements OnInit {
       })
     }else{
       swal("Especifique una fecha", `Por favor, especifique una fecha inferior o igual a la fecha actual.`, "info");
+    }
+  }
+
+  buscarFacturasxCiudad(ciudad:any){
+    this.service.get(`facturas/tracking/ciudad/${ciudad}`).then( (result) => {
+      let data:any = result;
+      if(data.message == "No existen las facturas en la BD."){
+        swal("No existen facturas", "No existen facturas por entregar para esa ruta y ciudad. Por favor, seleccione otra ruta y otra ciudad.", "info");
+      }else{
+        this.facturas = [];
+        this.facturas = data;
+      }
+    }, (err) => {
+      console.log("Error al hacer get a buscarFacturas.", err)
+    })
+  }
+
+  CiudadesxRuta(idruta:any){
+    this.ciudadesxRuta = [];
+    for(let j = 0; j<this.ciudades.length; j++){
+      if(this.ciudades[j].idruta == idruta){
+        this.ciudadesxRuta.push(this.ciudades[j]);
+      }
     }
   }
 }
