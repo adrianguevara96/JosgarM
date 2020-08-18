@@ -58,7 +58,7 @@ export class TrackingComponent implements OnInit {
     }
 
   ngOnInit(){
-    //this.getFacturasxUsuario();
+    this.getFacturasxUsuario();
     this.getCiudades();
     this.getEstados();
     this.getRutas();
@@ -72,7 +72,7 @@ export class TrackingComponent implements OnInit {
     });
     this.tracking2Form = this.formBuilder.group({
       ruta: [0, Validators.required],
-      ciudad: [0, Validators.required],
+      //ciudad: [0, Validators.required],
     });
   }
 
@@ -116,10 +116,10 @@ export class TrackingComponent implements OnInit {
   onSubmit2() {
     if (this.tracking2Form.valid) {
       console.log(this.tracking2Form.value);
-      this.buscarFacturasxCiudad(this.tracking2Form.controls['ciudad'].value);
+      this.buscarFacturasxRuta(this.tracking2Form.controls['ruta'].value);
       this.tracking2Form.controls['ruta'].setValue(0);
-      this.tracking2Form.controls['ciudad'].setValue(0);
-      this.ciudadesxRuta = [];
+      //this.tracking2Form.controls['ciudad'].setValue(0);
+      //this.ciudadesxRuta = [];
     }else {
       swal("Seleccione los campos", "Por favor, seleccione todos los campos.", "info");
     }
@@ -217,17 +217,17 @@ export class TrackingComponent implements OnInit {
     }
   }
 
-  buscarFacturasxCiudad(ciudad:any){
-    this.service.get(`facturas/tracking/ciudad/${ciudad}`).then( (result) => {
+  buscarFacturasxRuta(ruta:any){
+    this.service.get(`facturas/tracking/ruta/${ruta}`).then( (result) => {
       let data:any = result;
       if(data.message == "No existen las facturas en la BD."){
-        swal("No existen facturas", "No existen facturas por entregar para esa ruta y ciudad. Por favor, seleccione otra ruta y otra ciudad.", "info");
+        swal("No existen facturas", "No existen facturas por entregar para esa ruta. Por favor, seleccione otra ruta.", "info");
       }else{
         this.facturas = [];
         this.facturas = data;
       }
     }, (err) => {
-      console.log("Error al hacer get a buscarFacturas.", err)
+      console.log("Error al hacer get a buscarFacturasxRuta.", err)
     })
   }
 
