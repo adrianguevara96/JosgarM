@@ -49,173 +49,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div *ngIf="!esconderBoton" class="card border-primary">
-                        <form [formGroup]="facturaForm" (ngSubmit)="onSubmit()">
-                            <div class="card-header">
-                                <div class="form-row">
-                                    <div class="col-10">
-                                        <h5>Agregar Factura</h5>
-                                    </div>
-                                    <div class="col-2" align="center">
-                                        <button style="padding:0px" [hidden]="esconderBoton" type="submit" class="btn btn-sm btn-pill" tooltip="Añadir factura" placement="left">
-                                            <svg-icon src="assets/add2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>Añadir factura
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <!-- Nro Factura -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>Nº Fact.</label>
-                                            <input formControlName="nro" type="text" class="form-control" placeholder="Nº de factura" required>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['nro'].invalid &&(facturaForm.controls['nro'].dirty || facturaForm.controls['nro'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['nro'].errors.required">
-                                                Ingrese el Nº de factura
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Bultos -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>Bultos</label>
-                                            <input formControlName="bultos" type="number" class="form-control" placeholder="Cant. de bultos" required>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['bultos'].invalid &&(facturaForm.controls['bultos'].dirty || facturaForm.controls['bultos'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['bultos'].errors.required">
-                                                Ingrese la cant. de bultos
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Valor -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>Valor</label>
-                                            <input formControlName="valor" type="text" class="form-control" placeholder="Valor (bsS) " required>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['valor'].invalid &&(facturaForm.controls['valor'].dirty || facturaForm.controls['valor'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['valor'].errors.required">
-                                                Ingrese el valor bsS
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Tipo de Identificacion -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label for="ti">Tipo Identificacion</label>
-                                            <select formControlName="tipoidentificacion" class="form-control" required>
-                                                <option value="0">-- Seleccione un T.I --</option>
-                                                <option *ngFor="let ti of tiposidentificacion" [value]="ti.id">
-                                                    {{ti.nombre}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['tipoidentificacion'].invalid &&(facturaForm.controls['tipoidentificacion'].dirty || facturaForm.controls['tipoidentificacion'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['tipoidentificacion'].errors.required">
-                                                Escoja tipo de identificacion
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- RIF -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>RIF</label><br>
-                                            <input style="width: 75%; display:inline-block;position: relative;" formControlName="rif" type="text" class="form-control" placeholder="RIF" required>
-                                            <button style="padding:0px" type="button" class="btn btn-sm btn-pill" tooltip="Buscar Destinatario" placement="top" data-toggle="modal" (click)="openModalDestinatario(content1)">
-                                                <svg-icon src="assets/agenda2.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
-                                            </button>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['rif'].invalid &&(facturaForm.controls['rif'].dirty || facturaForm.controls['rif'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['rif'].errors.required">
-                                                Ingrese el RIF
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Razon Social -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label>Razón Social</label>
-                                            <input formControlName="razonsocial" type="text" class="form-control" placeholder="Razón Social" required>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['razonsocial'].invalid &&(facturaForm.controls['razonsocial'].dirty || facturaForm.controls['razonsocial'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['razonsocial'].errors.required">
-                                                Ingrese Razon Social
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <!-- Flete Destino -->
-                                    <div class="col-2">
-                                        <div class="form-group" style="margin-bottom: 0.3rem; margin-top:7px">                              
-                                            <label class="form-check-label" style="margin-bottom: 0px;"><strong>Flete Destino</strong></label><br>
-                                            <div style="display: flex" class="form-check form-check-inline">       
-                                                <input style="margin-left: 10px; width:15%" formControlName="fletedestino" type="radio" class="form-control form-check-input" value="Si">
-                                                <label class="form-check-label" style="margin-bottom: 0px;">Si</label>
-                
-                                                <input style="margin-left: 10px; width:15%" formControlName="fletedestino" type="radio" class="form-control form-check-input" value="No">
-                                                <label class="form-check-label" style="margin-bottom: 0px;">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="facturaForm.controls['fletedestino'].invalid &&(facturaForm.controls['fletedestino'].dirty || facturaForm.controls['fletedestino'].touched)" class="text-danger">
-                                        <div *ngIf="facturaForm.controls['fletedestino'].errors.required">
-                                            ¿Desea Flete de Destino?
-                                        </div>
-                                    </div>
-                                    <!-- Estado -->
-                                    <div class="col-3">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label for="estado">Estado</label>
-                                            <select (change)="CiudadxEstado($event.target.value)" formControlName="estado" class="form-control" required>
-                                                <option value="0">-- Seleccione un Estado --</option>
-                                                <option *ngFor="let esta of estados" [value]="esta.id">
-                                                    {{esta.nombre}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['estado'].invalid &&(facturaForm.controls['estado'].dirty || facturaForm.controls['estado'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['estado'].errors.required">
-                                                Escoja un Estado
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Ciudad -->
-                                    <div class="col-3">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label for="ciudad">Ciudad</label>
-                                            <select formControlName="ciudad" class="form-control" required>
-                                                <option value="0">-- Seleccione una Ciudad --</option>
-                                                <option *ngFor="let ciu of ciudadxEstado" [value]="ciu.id">
-                                                    {{ciu.nombre}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['ciudad'].invalid &&(facturaForm.controls['ciudad'].dirty || facturaForm.controls['ciudad'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['ciudad'].errors.required">
-                                                Escoja una Ciudad
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Direccion -->
-                                    <div class="col-4">
-                                        <div class="form-group" style="margin-bottom: 0.3rem;">
-                                            <label for="dirfiscal">Dirección Fiscal</label>
-                                            <input formControlName="direccion" type="text" class="form-control" placeholder="Ingrese su dir. fiscal">
-                                        </div>
-                                        <div *ngIf="facturaForm.controls['direccion'].invalid &&(facturaForm.controls['direccion'].dirty || facturaForm.controls['direccion'].touched)" class="text-danger">
-                                            <div *ngIf="facturaForm.controls['direccion'].errors.required">
-                                                Ingrese su direccion
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>    
-                    </div>
-                    <hr *ngIf="!esconderBoton">
                     <div class="form-row">
                         <table class="table table-sm">
                             <thead>
@@ -229,47 +62,56 @@
                                     <th scope="col">Estado</th>
                                     <th scope="col">Ciudad</th>
                                     <th scope="col">Direccion</th>
-                                    <th *ngIf="accion != 'see'" scope="col">Accion</th>
+                                    <th *ngIf="accion != 'seeadmin'" scope="col">Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
                               <tr *ngFor="let fact of facturas; let i = index">
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.nro}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.nro}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
-                                        <span *ngIf="fact.status">{{fact.nro}}</span>
+                                    <div *ngIf="accion == 'editadmin'">
+                                        <!--  STATUS INTERNO PARA METODO EDITAR FACTURA-->
+                                        <span *ngIf="fact.status"> {{fact.nro}} </span>
                                         <input *ngIf="!fact.status" [(ngModel)]="facturas[i].nro" type="text" id="nro" name="nro" class="form-control" placeholder="Nro Factura">
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.bultos}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.bultos}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
-                                        <span *ngIf="fact.status">{{fact.bultos}}</span>
+                                    <div *ngIf="accion == 'editadmin'">
+                                        <!--  STATUS INTERNO PARA METODO EDITAR FACTURA-->
+                                        <span *ngIf="fact.status"> {{fact.bultos}}</span>
                                         <input *ngIf="!fact.status" [(ngModel)]="facturas[i].bultos" type="text" id="bultos" name="nrobultos" class="form-control" placeholder="Bultos">
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.valor | number: '1.0-2'}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.valor | number: '1.0-2'}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
+                                        <!--  STATUS INTERNO PARA METODO EDITAR FACTURA-->
                                         <span *ngIf="fact.status">{{fact.valor | number: '1.0-2'}}</span>
                                         <input *ngIf="!fact.status" [(ngModel)]="facturas[i].valor" type="text" id="valor" name="valor" class="form-control" placeholder="Valor">
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
+                                    <!-- VER -->
                                     <div *ngFor="let tipoi of tiposidentificacion">
-                                        <span *ngIf="accion != 'edit' && fact.tipoidentificacion == tipoi.id">
+                                        <span *ngIf="accion == 'seeadmin' && fact.tipoidentificacion == tipoi.id">
                                             {{tipoi.nombre}}-{{fact.rif}}
                                         </span>
                                     </div>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <div *ngFor="let tipoi of tiposidentificacion">
                                             <span *ngIf="fact.status && fact.tipoidentificacion == tipoi.id">
                                                 {{tipoi.nombre}}-{{fact.rif}}
@@ -279,19 +121,23 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.razonsocial}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.razonsocial}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <span *ngIf="fact.status">{{fact.razonsocial}}</span>
                                         <input *ngIf="!fact.status" [(ngModel)]="facturas[i].razonsocial" type="text" id="razonsocial" name="RazonSocial" class="form-control" placeholder="Razon Social">
                                     </div>
                                 </td>
                                 <td> 
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.fletedestino}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.fletedestino}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <span *ngIf="fact.status">{{fact.fletedestino}}</span>
                                         <div *ngIf="!fact.status" style="width:150%; margin-right: 10px;">
                                             <input type="radio" value="Si" name="fletedestino{{facturas[i].nro}}" [(ngModel)]="facturas[i].fletedestino">
@@ -302,20 +148,20 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <div *ngIf="accion != 'edit'">
+                                    <!-- VER -->
+                                    <div *ngIf="accion == 'seeadmin'">
                                         <div *ngFor="let estad of estados">
                                             <span *ngIf="estad.id == facturas[i].estado">{{estad.nombre}}</span>
                                         </div>
                                     </div>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <div *ngIf="fact.status">
                                             <div *ngFor="let estad of estados">
                                                 <span *ngIf="estad.id == facturas[i].estado">{{estad.nombre}}</span>
                                             </div>
                                         </div>
-                                        <select (change)="CiudadxEstados($event.target.value)" *ngIf="!fact.status" [(ngModel)]="facturas[i].estado" class="form-control">
+                                        <select *ngIf="!fact.status" (change)="CiudadxEstados($event.target.value)"  [(ngModel)]="facturas[i].estado" class="form-control">
                                             <option *ngFor="let esta of estados" [value]="esta.id">
                                                 {{esta.nombre}}
                                             </option>
@@ -323,14 +169,14 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <div *ngIf="accion != 'edit'">
+                                    <!-- VER -->
+                                    <div *ngIf="accion == 'seeadmin'">
                                         <div *ngFor="let ciud of ciudades">
                                             <span *ngIf="ciud.id == facturas[i].ciudad">{{ciud.nombre}}</span>
                                         </div>
                                     </div>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <div *ngIf="fact.status">
                                             <div *ngFor="let ciud of ciudades">
                                                 <span *ngIf="ciud.id == facturas[i].ciudad">{{ciud.nombre}}</span>
@@ -344,28 +190,26 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <!-- VER O CREAR-->
-                                    <span *ngIf="accion != 'edit'">{{fact.direccion}}</span>
+                                    <!-- VER -->
+                                    <span *ngIf="accion == 'seeadmin'">
+                                        {{fact.direccion}}
+                                    </span>
                                     <!-- EDITAR -->
-                                    <div *ngIf="accion == 'edit'">
+                                    <div *ngIf="accion == 'editadmin'">
                                         <span *ngIf="fact.status">{{fact.direccion}}</span>
                                         <input *ngIf="!fact.status" [(ngModel)]="facturas[i].direccion" type="text" id="text-input" name="Direccion" class="form-control" placeholder="Direccion">
                                     </div>
                                 </td>
-                                <td *ngIf="accion != 'see'">
-                                    <div *ngIf="accion != 'see'">
-                                        <div *ngIf="fact.statusfact == 0">
-                                            <button *ngIf="fact.status && accion!='create'" class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right">
-                                                <svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
-                                            </button>
-                                        </div>
-                                        <button *ngIf="!fact.status && accion != 'seeadmin'" class="btn btn-sm btn-pill" (click)="updateFactura(fact)" tooltip="Guardar" placement="right">
+                                <td *ngIf="accion != 'seeadmin'">
+                                        <button *ngIf="fact.status" class="btn btn-sm btn-pill" (click)="editarRow(fact)" tooltip="Modificar" placement="right">
+                                            <svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
+                                        </button>
+                                        <button *ngIf="!fact.status" class="btn btn-sm btn-pill" (click)="updateFactura(fact)" tooltip="Guardar" placement="right">
                                             <svg-icon src="assets/save2.svg" [svgStyle]="{ 'height.px': 20, 'width.px':20 }"></svg-icon>
                                         </button>
-                                        <button *ngIf="fact.status && accion!='edit'" class="btn btn-sm btn-pill" (click)="eliminarFactura(fact, i)" tooltip="Eliminar" placement="left">
+                                        <button class="btn btn-sm btn-pill" (click)="eliminarFactura(fact, i)" tooltip="Eliminar" placement="left">
                                             <svg-icon src="assets/less2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
                                         </button>
-                                    </div>
                                 </td>
                               </tr>
                             </tbody>
@@ -509,3 +353,4 @@
         </div>
     </div>
 </div>
+

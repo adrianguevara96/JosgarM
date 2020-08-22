@@ -1,21 +1,19 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
 import swal from 'sweetalert';
 import * as moment from 'moment';
-import { PdfrelaciondespachoComponent } from '../pdfrelaciondespacho/pdfrelaciondespacho.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ServicesService } from '../../../services/services.service';
+import { ServicesService } from '../../../../services/services.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalagregardestinatarioComponent } from '../../destinatarios/modalagregardestinatario/modalagregardestinatario.component';
+import { PdfrelaciondespachoComponent } from '../../../ordenescargas/pdfrelaciondespacho/pdfrelaciondespacho.component';
 
 @Component({
-  selector: 'app-modalcrearorden',
-  templateUrl: './modalcrearorden.component.html',
-  styleUrls: ['./modalcrearorden.component.css']
+  selector: 'app-modaladminrelacionesdespachos',
+  templateUrl: './modaladminrelacionesdespachos.component.html',
+  styleUrls: ['./modaladminrelacionesdespachos.component.css']
 })
-export class ModalcrearordenComponent implements OnInit {
+export class ModaladminrelacionesdespachosComponent implements OnInit {
 
   @Input() relacionDespacho;
   @Input() accion;
@@ -23,8 +21,8 @@ export class ModalcrearordenComponent implements OnInit {
   @Input() ciudades; //Las ciudades desde la clase
   @Input() tiposidentificacion;
   @Input() reldespacho;
-
-
+  
+  
   iduser:any;
   data:any;
   data2:any;
@@ -52,8 +50,9 @@ export class ModalcrearordenComponent implements OnInit {
   //Para esconder los modales de destinatarios y direcciondeentrega
   hideModalDireccionesEntrega:boolean = false;
   hideModalDestinatario:boolean = false;
-  
 
+  visible:boolean = false;
+  
   constructor(
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
@@ -66,9 +65,9 @@ export class ModalcrearordenComponent implements OnInit {
       this.saveeditrow = false;
    }
 
-  ngOnInit() {
-    if(this.accion == "see" || this.accion == "seeadmin"){
-      console.log("Entre aqui por la opcion SEE")
+   ngOnInit() {
+    if(this.accion == "seeadmin"){
+      console.log(`Entre aqui por la accion ${this.accion}`);
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las facturas que hayan en la relacion de despacho
@@ -76,7 +75,8 @@ export class ModalcrearordenComponent implements OnInit {
       this.facturas = this.relacionDespacho;
       this.llenarTotales();
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
-    }else if(this.accion == "edit" || this.accion == "editadmin"){
+    }else if(this.accion == "editadmin"){
+      console.log(`Entre aqui por la accion ${this.accion}`);
       this.tipoAccion = "Modificar";
       this.esconderBoton = true;
       this.facturas = [];
@@ -84,20 +84,21 @@ export class ModalcrearordenComponent implements OnInit {
       this.llenarTotales();
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
       //Hacer un for para editar las facturas que hayan en la relacion de despacho
-    }else{
-      this.tipoAccion = "Agregar";
-      this.numero = "";
-      this.esconderBoton = false;
-      this.getDestinatarios();
     }
-    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion, this.estados, this.ciudades, this.tipoAccion, this.reldespacho)
+    console.log("Que trae al iniciar modal?: ",
+    "relacionDespacho: ", this.relacionDespacho, 
+    "accion: ", this.accion, 
+    "estados: ", this.estados, 
+    "ciudades: ", this.ciudades, 
+    "tipoAccion: ", this.tipoAccion, 
+    "relaciondespacho: ", this.reldespacho)
   }
 
   llenarTotales(){
     this.totalBultos = 0;
     this.totalBsS = 0;
     for(let i=0;i<this.facturas.length;i++){
-      this.totalBultos = this.totalBultos + parseInt(this.facturas[i].bultos);
+      this.totalBultos = this.totalBultos + this.facturas[i].bultos;
       this.totalBsS = this.totalBsS + parseInt(this.facturas[i].valor);
     }
   }
@@ -118,16 +119,17 @@ export class ModalcrearordenComponent implements OnInit {
   }
 
   editarRow(factura:any){
-    //console.log(this.facturas)
+    console.log(this.facturas)
     let validarFactura:boolean = true
-    //console.log(factura)
+    console.log(factura)
     for(let i =0; i<this.facturas.length; i++){
-      //console.log(this.facturas[i].status);
+      console.log(this.facturas[i].status);
       if(this.facturas[i].status == false){
         validarFactura = false;
       }
     }
     if(validarFactura){
+      //this.visible = true;
       this.ciudadxEstado = [];
       for(let i = 0; i<this.ciudades.length; i++){
         if(this.ciudades[i].id == factura.ciudad){
@@ -246,29 +248,28 @@ export class ModalcrearordenComponent implements OnInit {
         fecha: moment().format('L'),
         status: true
       });
-      console.log("Agregando una factura: ", this.facturas);
-      this.llenarTotales();
+      console.log("Agregando una factura: ", this.facturas)
     }else{
       console.log("Solo se permiten 10 facturas ")
     }
   }
 
   eliminarFactura(fact:any, pos:any){
-    if(this.facturas.length > 0){
+    /*if(this.facturas.length > 0){
       this.facturas.splice(pos,1);
-      this.llenarTotales();
-    }
-    console.log("factura: ", fact, "posicion: ", pos)
-    /*if(this.accion == 'editadmin'){
-      this.service.delete('factura', fact.nro).then( (result) => {
-        let data:any = result;
-        if(data.message == `La factura #${fact.nro} ha sido eliminada fisicamente.`){
-          swal("Factura Eliminada", `Su factura #${fact.nro} de la relación de despacho #${fact.nrorelaciondespacho} ha sido eliminada exitosamente.`, "success");
-        }
-      }, (err) => {
-        console.log("Ha ocurrido un error al borrar la factura(admin)", err)
-      })
     }*/
+    console.log("factura: ", fact, "posicion: ", pos);
+    this.service.delete('factura', fact.nro).then( (result) => {
+      let data:any = result;
+      if(data.message == `La factura #${fact.nro} ha sido eliminada fisicamente.`){
+        this.facturas.slice(pos,1);
+        swal("Factura Eliminada", `Su factura #${fact.nro} de la relación de despacho #${fact.nrorelaciondespacho} ha sido eliminada exitosamente.`, "success");
+        this.llenarTotales();
+        
+      }
+    }, (err) => {
+      console.log("Ha ocurrido un error al borrar la factura(admin)", err)
+    })
   }
 
   generatePDF(){
@@ -334,11 +335,12 @@ export class ModalcrearordenComponent implements OnInit {
       nrorelaciondespacho: factura.nrorelaciondespacho,
       fecha: moment().format('L')
     }
-    this.service.put(fact, 'factura/nroguia',factura.nroguia).then((result) => {
+    this.service.put(fact, 'factura/nroguia', factura.nroguia).then((result) => {
       this.data = result;
       if(this.data){
         if(this.data.message == `La factura #${factura.nro} ha sido modificada.`){
           swal("Factura Modificada", `Su factura #${factura.nro} de la relación de despacho #${factura.nrorelaciondespacho} ha sido modificada exitosamente.`, "success");
+          //this.visible = false;
           factura.status = !factura.status;
           this.llenarTotales();
           //this.activeModal.close();
@@ -425,7 +427,5 @@ export class ModalcrearordenComponent implements OnInit {
       console.log("Error en la busqueda de direcciones de entrega ", err)
     });
   }
-
-
 
 }

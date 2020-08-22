@@ -36,8 +36,8 @@
                 </div>
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="col-12">
-                      <table id="myTable2" class="table table-sm">
+                    <div class="table-responsive">
+                      <table id="myTable2" class="table">
                         <thead>
                           <tr>
                             <th>Nombres</th>
@@ -67,7 +67,7 @@
                             <td>{{reladespa.hora}}</td>
                             <td>
                               <button (click)="openModal('seeadmin', reladespa)" tooltip="Ver detalles" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/eye2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
-                              <button (click)="openModal('editadmin', reladespa.nro)" tooltip="Modificar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
+                              <button (click)="openModal('editadmin', reladespa)" tooltip="Modificar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/editarorden2.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
                               <button (click)="cancelarRelacionDespacho(reladespa.nro)" tooltop="Eliminar" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon></button>
                             </td>
                           </tr>

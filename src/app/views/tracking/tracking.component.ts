@@ -22,16 +22,12 @@ export class TrackingComponent implements OnInit {
   facturas10:any[]=[];
   status:any[] = [
     {
-      id: true,
+      id: 0,
       nombre: 'Pendiente'
     },
     {
-      id: false,
+      id: 1,
       nombre: 'Entregado'
-    },
-    {
-      id: null,
-      nombre: 'Cancelado'
     }
   ]
   estados:any;

@@ -22,19 +22,16 @@ export class TrackingComponent implements OnInit {
   tituloModal = "";
   user:any;
   facturas:any[]=[];
-  status:any[] = [
+  statusfact:any[] = [
     {
-      id: true,
+      id: 0,
       nombre: 'Pendiente'
     },
     {
-      id: false,
+      id: 1,
       nombre: 'Entregado'
     },
-    {
-      id: null,
-      nombre: 'Cancelado'
-    }
+
   ]
   estados:any;
   ciudades:any;
@@ -115,9 +112,9 @@ export class TrackingComponent implements OnInit {
 
   onSubmit2() {
     if (this.tracking2Form.valid) {
-      console.log(this.tracking2Form.value);
+      //console.log(this.tracking2Form.value);
       this.buscarFacturasxRuta(this.tracking2Form.controls['ruta'].value);
-      this.tracking2Form.controls['ruta'].setValue(0);
+      //this.tracking2Form.controls['ruta'].setValue(0);
       //this.tracking2Form.controls['ciudad'].setValue(0);
       //this.ciudadesxRuta = [];
     }else {
@@ -192,11 +189,6 @@ export class TrackingComponent implements OnInit {
   }
 
   guardarFechaEntrega(){
-    console.log(moment(this.fechaentrega).format('L')>moment().format('L'))
-    console.log(this.fechaentrega);
-    console.log(moment(this.fechaentrega).format('L'));
-    //moment().format('L')
-    console.log(this.factparafechaentrega);
     if(moment(this.fechaentrega).format('L')>moment().format('L')){
       swal("Error", `No se puede colocar una fecha mayor a la actual. Por favor especifique una fecha inferior o igual a la actual`, "info");
     }else if(this.fechaentrega != undefined){
@@ -207,7 +199,8 @@ export class TrackingComponent implements OnInit {
         let data:any = result;
         if(data.message == `La factura #${this.factparafechaentrega.nrof} ha sido modificada.`){
           swal("Fecha de Entrega Agregada", `Se ha agregado la fecha de entrega ${fact.fechaentrega} a la factura # ${this.factparafechaentrega.nrof}`, "success");
-          this.getFacturasxUsuario();
+          //this.getFacturasxUsuario();
+          this.buscarFacturasxRuta(this.tracking2Form.controls['ruta'].value);
         }
       }, (err) => {
         console.log("Ha ocurrido un error al guardar la fecha de entrega para la factura. ", err)

@@ -61,6 +61,7 @@ import { ModalagregardestinatarioComponent } from './views/destinatarios/modalag
 import { ModalusersComponent } from './views/dashboardadmin/users/modalusers/modalusers.component';
 import { PdfguiascargasComponent } from './views/dashboardadmin/guiascargas/pdfguiascargas/pdfguiascargas.component';
 import { ModalguiascargasComponent } from './views/dashboardadmin/guiascargas/modalguiascargas/modalguiascargas.component';
+import { ModaladminrelacionesdespachosComponent } from './views/dashboardadmin/relacionesdespachos/modaladminrelacionesdespachos/modaladminrelacionesdespachos.component';
 
 
 /*import { TablasbasicasComponent } from './views/tablasbasicas/tablasbasicas.component';
@@ -110,7 +111,8 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     PdfrelaciondespachoComponent,
     ModalusersComponent,
     PdfguiascargasComponent,
-    ModalguiascargasComponent
+    ModalguiascargasComponent,
+    ModaladminrelacionesdespachosComponent
     /*TablasbasicasComponent,
     DashboardadminComponent,
     SolicitudrecolectaComponent,
@@ -127,7 +129,8 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     PdfrelaciondespachoComponent,
     ModalusersComponent,
     PdfguiascargasComponent,
-    ModalguiascargasComponent
+    ModalguiascargasComponent,
+    ModaladminrelacionesdespachosComponent
   ],
   providers: [{
     provide: LocationStrategy,

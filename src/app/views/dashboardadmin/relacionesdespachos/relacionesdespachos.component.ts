@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalcrearordenComponent } from '../../ordenescargas/modalcrearorden/modalcrearorden.component';
+import { ModaladminrelacionesdespachosComponent } from './modaladminrelacionesdespachos/modaladminrelacionesdespachos.component';
 
 @Component({
   selector: 'app-relacionesdespachos',
@@ -39,7 +40,7 @@ export class RelacionesdespachosComponent implements OnInit {
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
-      const modalRef = this.modalService.open(ModalcrearordenComponent, {size: 'xl'});
+      const modalRef = this.modalService.open(ModaladminrelacionesdespachosComponent, {size: 'xl'});
       modalRef.componentInstance.relacionDespacho = this.facturas;
       modalRef.componentInstance.accion = accion;
       modalRef.componentInstance.estados = this.estados;

@@ -63,8 +63,8 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
                                             <th tooltip="Nro. de Guia" placement="top">#Guia</th>
+                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
                                             <th>Remitente</th>
                                             <th>Destinatario</th>
                                             <th tooltip="bs.S" placement="top">Monto</th>
@@ -77,8 +77,8 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let fact of facturas10; let index = i">
-                                            <td>{{fact.nrof}}</td>
                                             <td>{{fact.nroguia}}</td>
+                                            <td>{{fact.nrof}}</td>
                                             <td>{{user.razonsocial}}</td>
                                             <td>{{fact.destinatario}}</td>
                                             <td>{{fact.valor | number: '1.0-2'}}</td>
@@ -94,12 +94,12 @@
                                             </td>
                                             <td>{{fact.fletedestino}}</td>
                                             <td>
-                                                <span *ngIf="fact.status == false">{{fact.fechaentrega.substr(0,10)}}</span>
-                                                <span *ngIf="fact.status != false">-</span>
+                                                <span *ngIf="fact.fechaentrega">{{fact.fechaentrega.substr(0,10)}}</span>
+                                                <span *ngIf="!fact.fechaentrega">-</span>
                                             </td>
                                             <td>
                                                 <div *ngFor="let sta of status">
-                                                    <span *ngIf="sta.id == fact.status">{{sta.nombre}}</span>
+                                                    <span *ngIf="sta.id == fact.statusfact">{{sta.nombre}}</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -172,7 +172,7 @@
                     <div class="col-2">
                         <label><b>Estatus</b></label><br>
                         <div *ngFor="let sta of status">
-                            <span *ngIf="sta.id == factguia[0].status">{{sta.nombre}}</span>
+                            <span *ngIf="sta.id == factguia[0].statusfact">{{sta.nombre}}</span>
                         </div>
                     </div>
                 </div>

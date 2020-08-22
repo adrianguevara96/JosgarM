@@ -136,9 +136,9 @@ export class GuiascargasComponent implements OnInit {
     this.service.put(null,'factura/cancelnroguiacarga', nro).then((result) => {
       this.data = result;
       if(this.data.message == "El nroguiacarga de la factura ha sido eliminado logicamente."){
-        this.service.put(null,'guiacarga/cancel', nro).then((result) =>{
+        this.service.put(null,'guiacarga', nro).then((result) =>{
           this.data = result;
-          if(this.data.message == `La guia de carga ha sido eliminada logicamente.`){
+          if(this.data.message == `La guia de carga ha sido eliminada fisicamente.`){
             swal("Guia de Carga Eliminada", `Se ha eliminado la guia de carga #${nro} satisfactoriamente`, "success");
             this.getGuiasCarga();
           }

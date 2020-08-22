@@ -60,19 +60,19 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="form-row">
-                            <div class="col-9">
+                            <div class="col-8">
                                 <h4>Listado de Guías/Facturas</h4>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4" align="center">
                                 <label class="invisible">Boton</label><br>
-                                <button (click)="getFacturasxUsuario()" type="button" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar todas las facturas entregadas" placement="right">
+                                <button (click)="getFacturasxUsuario()" type="button" class="btn btn btn-primary btn-sm btn-pill" >
                                     <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color: black">Buscar facturas entregadas</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <!--
+                        
                         <form [formGroup]="trackingForm" (ngSubmit)="onSubmit(content)" novalidate>
                             <div class="form-row">
                                 
@@ -102,20 +102,20 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar nro. de factura" placement="right" data-toggle="modal">
-                                        <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                                    <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar factura" placement="right" data-toggle="modal">
+                                        <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon> <span style="color: black">Buscar factura</span>
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        -->
+                        
                         <div class="form-row">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
                                             <th tooltip="Nro. de Guia" placement="top">#Guia</th>
+                                            <th tooltip="Nro. de Factura" placement="top">#Fact.</th>
                                             <th>Remitente</th>
                                             <th>Destinatario</th>
                                             <th tooltip="bs.S" placement="top">Monto</th>
@@ -129,8 +129,8 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let fact of facturas; let index = i">
-                                            <td>{{fact.nrof}}</td>
                                             <td>{{fact.nroguia}}</td>
+                                            <td>{{fact.nrof}}</td>
                                             <td>{{fact.remitente}}</td>
                                             <td>{{fact.destinatario}}</td>
                                             <td>{{fact.valor | number: '1.0-2'}} BsS</td>
@@ -149,16 +149,24 @@
                                                 <span *ngIf="fact.fechaentrega">
                                                     {{fact.fechaentrega.substr(0,10)}}
                                                 </span>
+                                                <span *ngIf="!fact.fechaentrega">
+                                                    -
+                                                </span>
                                                 <!-- <span *ngIf="fact.status == false">{{fact.fechaentrega.substr(0,10)}}</span>
                                                 <span *ngIf="fact.status != false">-</span> -->
                                             </td>
                                             <td>
-                                                <div *ngFor="let sta of status">
-                                                    <span *ngIf="sta.id == fact.status">{{sta.nombre}}</span>
+                                                <div *ngFor="let sta of statusfact">
+                                                    <span *ngIf="sta.id == fact.statusfact">{{sta.nombre}}</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button *ngIf="fact.status" type="button" (click)="aceptarFactura(fact,content2)" tooltip="Definir Fecha Entrega" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/accept2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>
+                                                <div *ngIf="fact.statusfact == 1">
+                                                    <span> - </span>
+                                                </div> 
+                                                <button *ngIf="fact.statusfact == 0" type="button" (click)="aceptarFactura(fact,content2)" tooltip="Definir Fecha Entrega" placement="left" style="border-radius:60px" class="btn btn-sm btn-pill">
+                                                    <svg-icon src="assets/accept2.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon>
+                                                </button>
                                                 <!--<button *ngIf="fact.status" type="button" (click)="cancelarFactura(fact)" tooltip="Cancelar" placement="right" style="border-radius:60px" class="btn btn-sm btn-pill"><svg-icon src="assets/cancelar.svg" [svgStyle]="{ 'height.px':17,'width.px':17 }"></svg-icon></button>-->
                                             </td>
                                         </tr>
@@ -229,8 +237,8 @@
                     </div>
                     <div class="col-2">
                         <label><b>Estatus</b></label><br>
-                        <div *ngFor="let sta of status">
-                            <span *ngIf="sta.id == factguia[0].status">{{sta.nombre}}</span>
+                        <div *ngFor="let sta of statusfact">
+                            <span *ngIf="sta.id == factguia[0].statusfact">{{sta.nombre}}</span>
                         </div>
                     </div>
                 </div>
