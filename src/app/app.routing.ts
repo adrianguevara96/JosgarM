@@ -9,6 +9,9 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
+import { RoleGuardService } from './guards/role-guard.service';
+import { LoginGuardService } from './guards/login-guard.service';
+
 export const routes: Routes = [
   {
     path: '',
@@ -53,18 +56,22 @@ export const routes: Routes = [
       /* ####### R U T A S   D E L    M E N U    U S E R ####### */
       {
         path: 'profile',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/profile/profile.module').then(m => m.ProfileModule)
       },
       {
         path: 'destinatarios',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/destinatarios/destinatarios.module').then(m => m.DestinatariosModule)
       },
       {
         path: 'relaciondespacho',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/ordenescargas/ordenescargas.module').then(m => m.OrdenescargasModule)
       },
       {
         path: 'tracking',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/tracking/tracking.module').then(m => m.TrackingModule)
       },
       {
@@ -73,11 +80,13 @@ export const routes: Routes = [
       },
       {
         path: 'solicitudrecolecta',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/solicitudrecolecta/solicitudrecolecta.module').then(m => m.SolicitudrecolectaModule)
       },
       /* ####### R U T A S   D E L    M E N U   A D M I N ####### */
       {
         path: 'administracion',
+        canActivate: [RoleGuardService],
         loadChildren: () => import('./views/dashboardadmin/dashboardadmin.module').then(m => m.DashboardadminModule)
       },
       /* ############################################# */
@@ -86,33 +95,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
       },
       {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      },
-      {
-        path: 'charts',
-        loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
-      },
-      {
         path: 'dashboard',
+        canActivate: [LoginGuardService],
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      }
     ]
   },
   { path: '**', component: P404Component }

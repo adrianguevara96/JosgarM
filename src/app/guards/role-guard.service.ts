@@ -7,7 +7,7 @@ import { ServicesService } from '../services/services.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuardGuard implements CanActivate {
+export class RoleGuardService implements CanActivate {
 
   role:any;
   constructor( 

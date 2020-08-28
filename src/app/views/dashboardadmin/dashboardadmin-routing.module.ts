@@ -8,6 +8,8 @@ import { SolicitudesrecolectasComponent } from './solicitudesrecolectas/solicitu
 import { GuiascargasComponent } from './guiascargas/guiascargas.component';
 import { TrackingComponent } from './tracking/tracking.component';
 
+import { RoleGuardService } from './../../guards/role-guard.service';
+
 const routes: Routes = [
   {
     path: '',
@@ -17,10 +19,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'inicio'
+        redirectTo: 'usuarios'
       },
       {
         path: 'inicio',
+        canActivate: [RoleGuardService],
         component: DashboardadminComponent,
         data: {
           title: 'Inicio'
@@ -28,6 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'usuarios',
+        canActivate: [RoleGuardService],
         component: UsersComponent,
         data: {
           title: 'Usuarios'
@@ -35,6 +39,7 @@ const routes: Routes = [
       },
       {
         path: 'relacionesdespachos',
+        canActivate: [RoleGuardService],
         component: RelacionesdespachosComponent,
         data: {
           title: 'Relaciones de Despacho'
@@ -42,6 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'solicitudesrecolectas',
+        canActivate: [RoleGuardService],
         component: SolicitudesrecolectasComponent,
         data: {
           title: 'Solicitudes de Recolecta'
@@ -49,6 +55,7 @@ const routes: Routes = [
       },
       {
         path: 'guiascarga',
+        canActivate: [RoleGuardService],
         component: GuiascargasComponent,
         data: {
           title: 'Guías de Carga'
@@ -56,6 +63,7 @@ const routes: Routes = [
       },
       {
         path: 'tracking',
+        canActivate: [RoleGuardService],
         component: TrackingComponent,
         data: {
           title: 'Tracking'

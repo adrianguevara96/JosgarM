@@ -9,6 +9,7 @@
 <html>
 <head>
   <base href="./">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,7 +51,7 @@
     
       // Loop through all table rows, and hide those who don't match the search query
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[4];
+        td = tr[i].getElementsByTagName("td")[0];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {

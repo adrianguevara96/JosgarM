@@ -63,7 +63,6 @@ export class RegisterComponent implements OnInit {
   
   onSubmit() {
     if (this.angForm.valid) {
-      console.log(this.angForm.value);
       this.llenarFormUser();
       this.registerUser();
     }
@@ -87,7 +86,6 @@ export class RegisterComponent implements OnInit {
     this.angForm.controls["password"].setValue("");
   }
   registerUser(){
-    console.log(this.user)
     this.service.postWithoutHeader(this.user,'user').then((result) => {
       this.data = result;
       if(this.data.message == `Usuario ${this.user.email} creado exitosamente.`){

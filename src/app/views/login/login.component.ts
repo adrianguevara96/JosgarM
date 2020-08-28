@@ -98,7 +98,6 @@ export class LoginComponent {
 
   onSubmitpassword(){
     if (this.passwordforgotForm.valid) {
-      //console.log(this.passwordforgotForm.value);
       this.regeneratePassword();
     }else{
       swal("Rellenar Campos", "Por favor, rellene todos los campos.", "info");
@@ -110,7 +109,6 @@ export class LoginComponent {
     const body = new FormData();
     body.append('email', this.loginForm.controls["email"].value);
     body.append('password',this.loginForm.controls["password"].value);
-    console.log("Body?: ", body.append)
     this.service.logIn(this.loginForm.controls["email"].value, this.loginForm.controls["password"].value).then((result) => {     
       this.data = result;
       if(this.data.message == "No existe usuario asociado con ese email en la BD"){
@@ -138,9 +136,7 @@ export class LoginComponent {
             this.data.user.password,
             this.data.token
           );
-          console.log("Usuario? ", this.service.getUser())
         }
-        console.log(this.data);
         if(this.data.user.tipousuario == 3){
           this.def.setnavItems(3);
           this.router.navigate(['/dashboard']);
@@ -168,7 +164,6 @@ export class LoginComponent {
       pregunta: this.passwordforgotForm.controls["preguntaseguridad"].value,
       respuesta: this.passwordforgotForm.controls["respuestaseguridad"].value
     }
-    console.log("Objeto de lostpassword? ", lostpassword)
         this.service.putWithoutHeader(lostpassword,'user/forgotpass', lostpassword.email).then((result) => {
           this.data = result
           if(this.data.message == "No existe el usuario en la BD"){
@@ -208,7 +203,7 @@ export class LoginComponent {
             swal("Error al actualizar contraseña", "Su contraseña no ha sido actualizada.", "info");
           }
         }, (err) => {
-          console.log("Error al modificar la contrasena. ", err);
+          swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
         });
   }
 }

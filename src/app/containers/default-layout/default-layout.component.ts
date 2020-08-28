@@ -31,7 +31,7 @@ export class DefaultLayoutComponent {
         this.navItemsUser.splice(0);
         this.navItemsUser.push(
           {title: true, name: 'Administración'},
-          {name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
+          //{name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
           {name: 'Usuarios', url: '/administracion/usuarios', icon: 'fa fa-server'},
           {name: 'Relaciones de Despacho',url: '/administracion/relacionesdespachos',icon: 'icon-drop'},
           {name: 'Solicitudes de Recolectas',url: '/administracion/solicitudesrecolectas',icon: 'icon-drop'},
@@ -97,7 +97,7 @@ export class DefaultLayoutComponent {
       this.navItemsUser.splice(0);
       this.navItemsUser.push(
         {title: true, name: 'Administración'},
-        {name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
+        //{name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
         {name: 'Usuarios', url: '/administracion/usuarios', icon: 'fa fa-server'},
         {name: 'Relaciones de Despacho',url: '/administracion/relacionesdespachos',icon: 'icon-drop'},
         {name: 'Solicitudes de Recolectas',url: '/administracion/solicitudesrecolectas',icon: 'icon-drop'},
