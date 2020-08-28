@@ -9,6 +9,7 @@
 <html>
 <head>
   <base href="https://adrianguevara96.github.io/JosgarM/">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,7 +51,7 @@
     
       // Loop through all table rows, and hide those who don't match the search query
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[4];
+        td = tr[i].getElementsByTagName("td")[0];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -107,5 +108,5 @@
 <link rel="stylesheet" href="styles.0c6fcc4e70c9b847d4d1.css"></head>
 <body class="app">
   <!-- App Loading... -->
-<script src="runtime.ec94a85bcfd96e05f7fd.js" defer></script><script src="polyfills-es5.a1d9da7041bac96badaf.js" nomodule defer></script><script src="polyfills.af60935647b3c2dcc91c.js" defer></script><script src="scripts.3fc27d1200f48ff1d71a.js" defer></script><script src="main.2a6be45e3460ef8cadd5.js" defer></script></body>
+<script src="runtime.3595bd26a177a35b8e65.js" defer></script><script src="polyfills-es5.fe5059989713268c737c.js" nomodule defer></script><script src="polyfills.ecc53b3625e60468ef5d.js" defer></script><script src="scripts.3fc27d1200f48ff1d71a.js" defer></script><script src="main.4a13b2004c65702f9779.js" defer></script></body>
 </html>
