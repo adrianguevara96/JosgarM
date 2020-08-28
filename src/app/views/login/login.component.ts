@@ -48,7 +48,9 @@ export class LoginComponent {
     });
     this.passwordforgotForm = this.formBuilder.group({
       emailforpassforgot: ["", Validators.required],
-      passwordforpassforgot: ["", Validators.required]
+      passwordforpassforgot: ["", Validators.required],
+      preguntaseguridad: ["", Validators.required],
+      respuestaseguridad: ["", Validators.required]
     })
   }
   //Para Iniciar Sesion
@@ -160,34 +162,29 @@ export class LoginComponent {
   }
 
   regeneratePassword(){
-    this.service.get('user/forgotpass/'+ this.passwordforgotForm.controls["emailforpassforgot"].value).then((result) => {
-      this.data = result;
-      console.log(this.data);
-      if(this.data.message == "No existe usuario asociado con ese email en la BD"){
-        //Emitir un swal con un error de no encontrar email
-        swal({
-          title: "El email no existe",
-          text: `El email introducido no pertenece a ningun usuario. Por favor, ingrese nuevamente su email.`,
-          icon: 'warning',
-          closeOnClickOutside: false,
-          buttons: {
-            ok: true
-          }
-        } as any).then( (value) => {
-          switch(value){
-            case "ok": 
-            this.passwordforgotForm.controls["passwordforpassforgot"].setValue(" ");
-            break;
-          }
-        })
-      }else{
-        let password = {
-          password: this.passwordforgotForm.controls["passwordforpassforgot"].value
-        }
-        let correo = this.data[0].email;
-        this.service.put(password,'user/forgotpass', correo).then((result) => {
+    let lostpassword = {
+      email: this.passwordforgotForm.controls["emailforpassforgot"].value,
+      password: this.passwordforgotForm.controls["passwordforpassforgot"].value,
+      pregunta: this.passwordforgotForm.controls["preguntaseguridad"].value,
+      respuesta: this.passwordforgotForm.controls["respuestaseguridad"].value
+    }
+    console.log("Objeto de lostpassword? ", lostpassword)
+        this.service.putWithoutHeader(lostpassword,'user/forgotpass', lostpassword.email).then((result) => {
           this.data = result
-          if(this.data.message == "Password cambiada correctamente."){
+          if(this.data.message == "No existe el usuario en la BD"){
+            swal({
+              title: "El email no existe",
+              text: `El email introducido no pertenece a ningun usuario. Por favor, ingrese nuevamente su email.`,
+              icon: 'warning',
+              closeOnClickOutside: false,
+              buttons: {ok: true}} as any).then( (value) => {
+              switch(value){
+                case "ok": 
+                //this.passwordforgotForm.controls["passwordforpassforgot"].setValue(" ");
+                break;
+              }
+            })
+          }else if(this.data.message == "Password cambiada correctamente."){
             swal({
               title: "Contraseña Actualizada",
               text: `Se ha actualizado su contraseña correctamente. Le invitamos a iniciar sesión.`,
@@ -199,26 +196,20 @@ export class LoginComponent {
             } as any).then( (value) => {
               switch(value){
                 case "ok": 
-                this.passwordforgotForm.controls["emailforpassforgot"].setValue(" ");
-                this.passwordforgotForm.controls["passwordforpassforgot"].setValue(" ");
+                //this.passwordforgotForm.controls["emailforpassforgot"].setValue(" ");
+                //this.passwordforgotForm.controls["passwordforpassforgot"].setValue(" ");
                 this.primaryModal.hide();
                 break;
               }
             })
+          }else if(this.data.message == "Pregunta y respuesta de seguridad erroneas."){
+            swal("Datos de Seguridad Erroneos", "Su pregunta y respuesta de seguridad son incorrectas.", "info");
           }else{
             swal("Error al actualizar contraseña", "Su contraseña no ha sido actualizada.", "info");
           }
         }, (err) => {
           console.log("Error al modificar la contrasena. ", err);
-        })
-      }
-    }, (err) => {
-      console.log("Error al intentar recuperar la contrase#a", err);
-    })
-
+        });
   }
-
-
-
 }
 

@@ -67,8 +67,7 @@ export class ModalcrearordenComponent implements OnInit {
    }
 
   ngOnInit() {
-    if(this.accion == "see" || this.accion == "seeadmin"){
-      console.log("Entre aqui por la opcion SEE")
+    if(this.accion == "see"){
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las facturas que hayan en la relacion de despacho
@@ -90,7 +89,6 @@ export class ModalcrearordenComponent implements OnInit {
       this.esconderBoton = false;
       this.getDestinatarios();
     }
-    console.log("Que trae al iniciar modal?: ",this.relacionDespacho, this.accion, this.estados, this.ciudades, this.tipoAccion, this.reldespacho)
   }
 
   llenarTotales(){
@@ -118,11 +116,8 @@ export class ModalcrearordenComponent implements OnInit {
   }
 
   editarRow(factura:any){
-    //console.log(this.facturas)
     let validarFactura:boolean = true
-    //console.log(factura)
     for(let i =0; i<this.facturas.length; i++){
-      //console.log(this.facturas[i].status);
       if(this.facturas[i].status == false){
         validarFactura = false;
       }
@@ -142,7 +137,6 @@ export class ModalcrearordenComponent implements OnInit {
 
   onSubmit() {
     if (this.facturaForm.valid) {
-      console.log(this.facturaForm.value);
       this.agregarFactura();
     }else {
       swal("Rellenar Campos", "Por favor, rellene todos los campos.", "info");
@@ -161,7 +155,6 @@ export class ModalcrearordenComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "guardar":
-          console.log("Facturas?: ", this.facturas);
           //Crear relacion de despacho
           let relacionDespacho = {
             fecha: moment().format('L'),
@@ -170,7 +163,6 @@ export class ModalcrearordenComponent implements OnInit {
           }
           this.service.post(relacionDespacho, 'relaciondespacho').then((result) => {
             this.data = result
-            console.log("Creando relacion despacho", this.data);
             this.nrorelaciond = this.data.nro;
             for(let i = 0; i<this.facturas.length; i++){
               let fact = {
@@ -190,14 +182,12 @@ export class ModalcrearordenComponent implements OnInit {
               }
               this.service.post(fact, 'factura').then((result) => {
                 this.data2 = result;
-                console.log(`Guardando factura ${i+1}`);
-                console.log("Que resultado trae al guardar factura? ", this.data2);
               }, (err) => {
-                console.log(`Error al guardar la factura ${i+1}`, err)
+                swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
               })
             }
           }, (err) => {
-            console.log("Error al crear la relacion de despacho ", err)
+            swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
           })
           swal("¿Desea imprimir esta relación de despacho?", {
             icon: "info",
@@ -210,7 +200,6 @@ export class ModalcrearordenComponent implements OnInit {
           .then((value) => {
             switch (value) {
               case "imprimir":
-                console.log("Generando PDF ...");
                 this.generatePDF();
                 //this.activeModal.close(this.facturas)
                 swal.close();
@@ -246,10 +235,9 @@ export class ModalcrearordenComponent implements OnInit {
         fecha: moment().format('L'),
         status: true
       });
-      console.log("Agregando una factura: ", this.facturas);
       this.llenarTotales();
     }else{
-      console.log("Solo se permiten 10 facturas ")
+      swal("Limite de Facturas", `Sólo se permiten 10 facturas.`, "warning");
     }
   }
 
@@ -258,17 +246,6 @@ export class ModalcrearordenComponent implements OnInit {
       this.facturas.splice(pos,1);
       this.llenarTotales();
     }
-    console.log("factura: ", fact, "posicion: ", pos)
-    /*if(this.accion == 'editadmin'){
-      this.service.delete('factura', fact.nro).then( (result) => {
-        let data:any = result;
-        if(data.message == `La factura #${fact.nro} ha sido eliminada fisicamente.`){
-          swal("Factura Eliminada", `Su factura #${fact.nro} de la relación de despacho #${fact.nrorelaciondespacho} ha sido eliminada exitosamente.`, "success");
-        }
-      }, (err) => {
-        console.log("Ha ocurrido un error al borrar la factura(admin)", err)
-      })
-    }*/
   }
 
   generatePDF(){
@@ -286,21 +263,17 @@ export class ModalcrearordenComponent implements OnInit {
  
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
-      //console.log("Que me trae result al cerrar modal del pdf? ", result)
       if(result){
         let dataa:any[] = result
         if(dataa.length > 0){
           this.activeModal.close(dataa);
         }
-
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
   CiudadxEstado(idestado:any){
-    console.log(idestado)
     this.ciudadxEstado = [];
     for(let j = 0; j<this.ciudades.length; j++){
       if(this.ciudades[j].idestado == idestado){
@@ -308,8 +281,8 @@ export class ModalcrearordenComponent implements OnInit {
       }
     }
   }
+  
   CiudadxEstados(idestado:any){
-    console.log(idestado)
     this.ciudadxEstados = [];
     for(let j = 0; j<this.ciudades.length; j++){
       if(this.ciudades[j].idestado == idestado){
@@ -319,7 +292,6 @@ export class ModalcrearordenComponent implements OnInit {
   }
 
   updateFactura(factura:any){
-    console.log("Actualizando factura de la relacion de despacho");
     let fact = {
       nro: factura.nro,
       bultos: factura.bultos,
@@ -344,9 +316,7 @@ export class ModalcrearordenComponent implements OnInit {
           //this.activeModal.close();
         }
       }
-      //console.log(`Guardando factura #${fact.nro} editada: `, this.data)
     }, (err) => {
-      console.log(`No se pudo actualizar la factura ${fact.nro}`, err)
       swal("Factura no modificada", `Lo sentimos, hubo un error al actualizar la factura #${factura.nro}. Por favor, intentalo de nuevo.`, "warning");
     })
   }
@@ -361,12 +331,11 @@ export class ModalcrearordenComponent implements OnInit {
         this.destinatarios = result;
       }
     }, (err) => {
-      console.log("Error al solicitar los destinatarios.")
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 
   openModal(content:any, dest:any) {
-    console.log("Abriendo modal: ", dest);
     this.destinatario = [];
     let destinatar = {
       nombres: dest.nombresd,
@@ -377,7 +346,6 @@ export class ModalcrearordenComponent implements OnInit {
       rif:  dest.rifd
     }
     this.destinatario.push(destinatar);
-    console.log("destinatario???? ", this.destinatario);
 
     this.spinner2.show();
     setTimeout(() => {
@@ -395,7 +363,6 @@ export class ModalcrearordenComponent implements OnInit {
 
   //Metodo para seleccionar la direccion del destinatario
   seleccionar(objeto:any){
-    console.log("Que objeto? :", objeto);
     this.facturaForm.controls['tipoidentificacion'].setValue(this.destinatario[0].tipoidentificacion);
     this.facturaForm.controls['rif'].setValue(this.destinatario[0].rif);
     this.facturaForm.controls['razonsocial'].setValue(objeto.nombres);
@@ -422,7 +389,7 @@ export class ModalcrearordenComponent implements OnInit {
       }
 
     }, (err) => {
-      console.log("Error en la busqueda de direcciones de entrega ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 

@@ -45,9 +45,7 @@ export class DestinatariosComponent implements OnInit {
 
 
   openModal(accion:any, dest:any) { 
-    console.log("destinatario de openModal", dest);
     this.getDireccionesEntxDestinatario(dest.idd);
-    console.log("dest.idd en ver ", dest.idd)
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -61,19 +59,15 @@ export class DestinatariosComponent implements OnInit {
       modalRef.componentInstance.identificacion = this.id;
 
       modalRef.result.then((result) => {
-        console.log("Que me trae result al cerrar modal crear? ", result)
         if(result){
           let dataa:any[] = result
-          console.log("Que me trae data? :", dataa);
           if(dataa){
             //Solicitar relaciones de despacho al API
             this.getDestinatarios();
           }
         }
       }, (reason)=> {
-        console.log("Reason? :", reason)
       })
-
     }, 5000);
   }
   openModalCrear(){
@@ -90,13 +84,10 @@ export class DestinatariosComponent implements OnInit {
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
   OpenModalBuscar(accion:any,dest:any){
-    console.log("destinatario de openModalBuscar", dest);
     this.getDireccionesEntxDestinatario(dest.idd);
-    console.log("dest.idd ", dest.idd)
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -122,6 +113,7 @@ export class DestinatariosComponent implements OnInit {
     this.service.get(`destinatarios/${this.user.id}`).then((result) =>{
       this.data = result;
       if(this.data.message == "No existen destinatarios asociados al usuario en la BD."){
+        this.destinatarios = [];
         swal("No existen destinatario.", "Ud no posee destinatarios, le invitamos a crear uno para disfrutar de nuestros servicios.","info");
       }else if(this.data.length>0){
         this.allDestinatarios = this.data;
@@ -129,7 +121,6 @@ export class DestinatariosComponent implements OnInit {
       }
     },
     (err) => {
-      console.log("Error en el get de destinatarios", err)
     }
   );
   }
@@ -138,9 +129,8 @@ getDireccionesEntxDestinatario(iddestinarario:any){
   this.service.get(`direccionesentrega/${iddestinarario}`).then((result) => {
     let dato:any = result;
     this.direccionesentrega = dato;
-    console.log("getDireccionesEntrega ", this.direccionesentrega);
   }, (err) => {
-    console.log("Error en la busqueda de direcciones de entrega ", err)
+    swal("Error del Sistema", "Error en la busqueda de direcciones de entrega.","warning");
   });
 }
 
@@ -148,7 +138,6 @@ buscarDestinatarios(accion:any){
   if(this.inputBuscar==""){
     swal("Rellenar Campo", "Por favor, rellene el campo con el rif del destinatario.","info");
   }else{
-    console.log(`destinatario/${this.inputBuscar}/user/${this.user.id}`);
     this.service.get(`destinatario/${this.inputBuscar}/user/${this.user.id}`).then((result) => {
       let data:any = result;
       if(data.message == "No existe el destinatario en la BD."){
@@ -159,7 +148,6 @@ buscarDestinatarios(accion:any){
             this.inputBuscar = "";
           }else{
             this.destinatario = data[0];
-            console.log("Destinatario sin direcciones ", this.destinatario);
             //this.spinner.show();
             this.inputBuscar = "";
             this.OpenModalBuscar(accion, this.destinatario);
@@ -167,13 +155,12 @@ buscarDestinatarios(accion:any){
         })
       }else{
         this.destinatario = data[0];
-        console.log("Destinatarios trae en data ",this.destinatario);
         //this.spinner.show();
         this.inputBuscar = "";
         this.OpenModalBuscar(accion,this.destinatario);
       }
     }, (err) => {
-      console.log("Error en la busqueda de destinatario ");
+      swal("Error del Sistema", "Error en la busqueda de destinatario.","warning");
     })
   }
 }
@@ -193,7 +180,7 @@ cancelarDestinatario(dest:any){
     switch (value) {
       case "aceptar":
         this.eliminarDestinatarios(dest);
-        this.getDestinatarios();
+        //this.getDestinatarios();
         break;
       case "rechazar":
       swal.close();
@@ -203,10 +190,10 @@ cancelarDestinatario(dest:any){
 }
 
 eliminarDestinatarios(dest:any){
-  this.service.put(null, 'destinatario/cancel', dest.idd).then((result) =>{
+  this.service.delete('destinatario', dest.idd).then((result) =>{
     let data:any = result;
-    console.log("data en eliminar ", data);
-    if(data.message == "El destinatario ha sido eliminado logicamente."){
+    if(data.message == "El destinatario ha sido eliminado fisicamente."){
+      this.getDestinatarios();
       swal("Destinatario Eliminado","El destinatario ha sido eliminado satisfactoriamente. ","success");
     }
   })
@@ -217,7 +204,7 @@ getEstados(){
   this.service.get('estados').then((result) => {
     this.estados = result;
   }, (err) => {
-    console.log("Error en el get de estados ", err);
+    swal("Error del Sistema", "Error al obtener los estados.","warning");
   });
 }
 
@@ -225,7 +212,7 @@ getCiudades(){
   this.service.get('ciudades').then((result) => {
     this.ciudades = result;
   }, (err) => {
-    console.log("Error en el get de ciudades ", err);
+    swal("Error del Sistema", "Error al obtener las ciudades.","warning");
   });
 }
 
@@ -234,7 +221,7 @@ getTiposIdentificacion(){
     this.id = result;
   }, 
   (err) => {
-    console.log("Error al hacer get a tipoIdentificacion ", err)
+    swal("Error del Sistema", "Error al obtener los tipos de identificacion.","warning");
   });
 }
  //Para la paginacion

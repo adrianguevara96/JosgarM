@@ -62,7 +62,6 @@ export class SolicitudesrecolectasComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          console.log("Aceptando ...")
           this.acceptSolicitudRecolecta(solicitudrecolecta);
           this.getSolicitudesRecolecta();
           break;
@@ -85,7 +84,6 @@ export class SolicitudesrecolectasComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          //console.log("Cancelando ...")
           this.cancelSolicitudRecolecta(solicitudrecolecta)
           this.getSolicitudesRecolecta();
           break;
@@ -115,13 +113,11 @@ export class SolicitudesrecolectasComponent implements OnInit {
     modalRef1.result.then((result) => {
       if(result){
         let dataa:any[] = result
-        console.log("que trae al cerrar el modal? " ,dataa);
         if(dataa){
           this.getSolicitudesRecolecta();
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
@@ -130,7 +126,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -139,7 +135,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
       this.tiposidentificacion = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tipos de identificacion ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -148,7 +144,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -157,7 +153,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
       this.tiposmercancia = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -172,7 +168,7 @@ export class SolicitudesrecolectasComponent implements OnInit {
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a todas solicitudes recolecta ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 

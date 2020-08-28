@@ -6,7 +6,9 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 })
 export class ServicesService {
 
-  url = "https://apijosgarm.herokuapp.com/api/";
+  //url = "https://apijosgarm.herokuapp.com/api/";
+  
+  url = "http://localhost:3001/api/";
   user: any;
   business: any = {
     nombre: 'Inversiones & Servicios Josgar M C.A'
@@ -14,11 +16,11 @@ export class ServicesService {
 
   constructor(public http: HttpClient) { }
 
-  //GET
+  //GET CON HEADER
   get(entidad:string){
     const head = new HttpHeaders({
       'Content-Type': 'application/json',
-       //Authorization: 'Bearer: ' + this.getUserToken()
+       Authorization: 'Bearer: ' + this.getUserToken()
     })
     return new Promise(resolve => {
       this.http.get(this.url + entidad, { headers: head }).subscribe( (data) => {
@@ -30,10 +32,26 @@ export class ServicesService {
     });
   }
 
-  //POST
+  //GET SIN HEADER
+  getWithoutHeader(entidad:string){
+    return new Promise(resolve => {
+      this.http.get(this.url + entidad).subscribe( (data) => {
+        console.log("Que me trae data en GET sin header", data);
+        resolve(data);
+      }, (err) => {
+        console.log(`Ha ocurrido un error al realizar el get en ${entidad}`, err);
+      });
+    });
+  }
+
+  //POST CON HEADER
   post(datos, entidad:string) {
+    const head = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer: ' + this.getUserToken()
+    })
     return new Promise((resolve, reject) => {
-      this.http.post(this.url + entidad, datos)
+      this.http.post(this.url + entidad, datos, { headers: head })
         .subscribe(res => {
           console.log("Que me trae res en POST", res);
           resolve(res);
@@ -44,12 +62,40 @@ export class ServicesService {
     });
   }
 
-  //PUT
+    //POST SIN HEADER
+    postWithoutHeader(datos, entidad:string) {
+      return new Promise((resolve, reject) => {
+        this.http.post(this.url + entidad, datos)
+          .subscribe(res => {
+            console.log("Que me trae res en POST", res);
+            resolve(res);
+          }, (err) => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    }
+
+  //PUT CON HEADER
   put(datos, entidad: string, valor) {
     const head = new HttpHeaders({
       'Content-Type': 'application/json',
-       //Authorization: 'Bearer: ' + this.getUserToken()
+      Authorization: 'Bearer: ' + this.getUserToken()
     })
+    return new Promise((resolve, reject) => {
+      this.http.put(this.url + entidad + '/' + valor, (datos),  { headers: head })
+        .subscribe(res => {
+          console.log(res);
+          resolve(res);
+        }, (err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
+  //PUT SIN HEADER
+  putWithoutHeader(datos:any, entidad: string, valor:any) {
     return new Promise((resolve, reject) => {
       this.http.put(this.url + entidad + '/' + valor, (datos))
         .subscribe(res => {
@@ -66,11 +112,11 @@ export class ServicesService {
   delete(entidad: string, valor) {
     const head = new HttpHeaders({
       'Content-Type': 'application/json',
-       //Authorization: 'Bearer: ' + this.getUserToken()
+       Authorization: 'Bearer: ' + this.getUserToken()
     })
     return new Promise((resolve, reject) => {
       console.log(this.url + entidad + '/'+ valor);
-      this.http.delete(this.url + entidad + '/' + valor)
+      this.http.delete(this.url + entidad + '/' + valor, { headers: head })
         .subscribe(res => {
           console.log(res);
           resolve(res);
@@ -129,6 +175,10 @@ export class ServicesService {
       nombre: nombre
     }
   }
+
+  getTipoU(){
+    return this.user.tipousuario
+  }
   getBusiness(){
     return this.business;
   }
@@ -142,6 +192,9 @@ export class ServicesService {
   }
   getIDUser(){
     return this.user.id;
+  }
+  deleteUser(){
+    this.user = null
   }
 
   /*  === INICIAR SESION ===  */

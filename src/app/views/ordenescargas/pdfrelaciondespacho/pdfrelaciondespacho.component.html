@@ -70,10 +70,7 @@
                         <div class="col-4">
                             <div class="form-group" style="margin-bottom: 0.3rem;">
                                 <h6><strong>C.I:</strong></h6><h6 class="texto">{{relacionDespachoPDFForm.controls['cedChofer'].value}}</h6><br>
-                                <input style="width: 80%; position: relative;display:inline-block;" *ngIf="!esconderInputyBoton" formControlName="cedChofer" type="text" class="form-control" placeholder="Cedula del Chofer" required>
-                                <button *ngIf="!esconderInputyBoton" style="position: relative;display:inline-block;" type="button" class="btn btn-sm btn-pill" tooltip="Buscar Chofer" placement="bottom">
-                                    <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':20,'width.px':20 }"></svg-icon>
-                                </button>
+                                <input *ngIf="!esconderInputyBoton" formControlName="cedChofer" type="text" class="form-control" placeholder="Cedula del Chofer" required>
                             </div>
                             <div *ngIf="relacionDespachoPDFForm.controls['cedChofer'].invalid &&(relacionDespachoPDFForm.controls['cedChofer'].dirty || relacionDespachoPDFForm.controls['cedChofer'].touched)" class="text-danger">
                                 <div *ngIf="relacionDespachoPDFForm.controls['cedChofer'].errors.required">

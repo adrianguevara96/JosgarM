@@ -40,11 +40,11 @@
                       <table id="myTable2" class="table">
                         <thead>
                           <tr>
+                            <th># Relación</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Razón Social</th>
                             <th>RIF</th>
-                            <th># Relación</th>
                             <th tooltip="Fecha(YYYY/MM/DD)" placement="top">Fecha</th>
                             <th>Hora</th>
                             <th>Acciones</th>
@@ -52,6 +52,7 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let reladespa of relacionesdespacho">
+                            <td>{{reladespa.nro}}</td>
                             <td>{{reladespa.nombres}}</td>
                             <td>{{reladespa.apellidos}}</td>
                             <td>{{reladespa.razonsocial}}</td>
@@ -62,7 +63,6 @@
                                 </span>
                               </div>
                             </td>
-                            <td>{{reladespa.nro}}</td>
                             <td>{{reladespa.fecha.substr(0,10)}}</td>
                             <td>{{reladespa.hora}}</td>
                             <td>

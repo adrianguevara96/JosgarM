@@ -55,17 +55,14 @@ export class OrdenescargasComponent{
 
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
-      console.log("Que me trae result al cerrar modal crear? ", result)
       if(result){
         let dataa:any[] = result
-        console.log("Que me trae data? :", dataa);
         if(dataa.length > 0){
           //Solicitar relaciones de despacho al API
           this.getRelacionesDespacho();
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
@@ -97,7 +94,7 @@ export class OrdenescargasComponent{
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -106,7 +103,7 @@ export class OrdenescargasComponent{
       this.tiposidentificacion = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tipos de identificacion ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -115,7 +112,7 @@ export class OrdenescargasComponent{
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -125,7 +122,7 @@ export class OrdenescargasComponent{
       this.facturas = dato;
     }, 
     (err) => {
-      console.log("Error al hacer get a en facturasxNroRelacionDespacho ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -140,7 +137,7 @@ export class OrdenescargasComponent{
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -168,7 +165,7 @@ export class OrdenescargasComponent{
           }, 5000);
         }
       }, (err) => {
-        console.log("Error al buscar esa relacion de despacho. ", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }
   }

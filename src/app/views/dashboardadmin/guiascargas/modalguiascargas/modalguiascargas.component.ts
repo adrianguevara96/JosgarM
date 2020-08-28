@@ -52,7 +52,6 @@ export class ModalguiascargasComponent implements OnInit {
 
   ngOnInit(){
     if(this.accion == "see"){
-      console.log("Entre aqui por la opcion SEE")
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       this.numero = `# ${this.guia.nro}`;
@@ -82,7 +81,6 @@ export class ModalguiascargasComponent implements OnInit {
       this.numero = "";
       this.esconderBoton = false;
     }
-    console.log("Rutas: ", this.rutas, "Ciu: ", this.ciudades, "Acc", this.accion, "Guia ",this.guia, "facturas ",this.facturas, this.guiacarga);
   }
 
   createForm() {
@@ -104,7 +102,6 @@ export class ModalguiascargasComponent implements OnInit {
 
   onSubmit() {
     if (this.guiaForm.valid) {
-      console.log(this.guiaForm.value);
       this.buscarFacturas(this.guiaForm.controls['ciudad'].value);
       this.guiaForm.controls['ruta'].setValue(0);
       this.guiaForm.controls['ciudad'].setValue(0);
@@ -117,7 +114,6 @@ export class ModalguiascargasComponent implements OnInit {
   //Para el modal
   onSubmit2() {
     if (this.modalForm.valid) {
-      console.log(this.modalForm.value);
       this.buscarFacturas(this.modalForm.controls['ciudad2'].value);
       this.modalForm.controls['ruta2'].setValue(0);
       this.modalForm.controls['ciudad2'].setValue(0);
@@ -146,7 +142,7 @@ export class ModalguiascargasComponent implements OnInit {
           this.guiacarga2 = data;
         }
       }, (err) => {
-        console.log("Error al hacer get a buscarFacturas.", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }else if(this.accion == 'create'){
       this.service.get(`facturas/ciudad/${ciudad}`).then( (result) => {
@@ -161,14 +157,16 @@ export class ModalguiascargasComponent implements OnInit {
           }
         }
       }, (err) => {
-        console.log("Error al hacer get a buscarFacturas.", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }
   }
 
   llenarTotales(){
+    this.totalBultos = 0;
+    this.totalBsS = 0;
     for(let i=0;i<this.guiacarga.length;i++){
-      this.totalBultos = this.totalBultos + this.guiacarga[i].bultos;
+      this.totalBultos = this.totalBultos + parseInt(this.guiacarga[i].bultos);
       this.totalBsS = this.totalBsS + parseInt(this.guiacarga[i].valor);
     }
   }
@@ -191,22 +189,19 @@ export class ModalguiascargasComponent implements OnInit {
     let fact = {
       nroguiacarga: this.facturas[0].nroguiacarga
     }
-    console.log("Que trae??: ", this.facturas[0].nroguiacarga)
     this.service.put(fact, 'factura/nroguiacarga', g.nrof+"/"+g.nrorelaciondespacho).then((result) => {
       this.data2 = result;
       if(this.data2.message == `La factura #${g.nrof} ha sido modificada.`){
         this.guiacarga2.splice(i,1);
         this.getFacturasxNroGuiaCarga(this.guia.nro);
-        this.llenarTotales();
+        
       }
-      console.log("Que resultado trae al guardar factura en la guia de carga? ", this.data2);
     }, (err) => {
-      console.log(`Error al guardar la factura`, err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 
   quitarFacturaGuiaCarga(guia:any){
-    console.log(guia)
     this.service.put(null,'factura/cancelunnroguiacarga', guia.nroguiacarga+"/"+guia.nrorelaciondespacho+"/"+guia.nrof).then((result) => {
       this.data = result;
       if(this.data.message == "El nroguiacarga de la factura ha sido eliminado logicamente."){
@@ -227,9 +222,8 @@ export class ModalguiascargasComponent implements OnInit {
     for(let i = 0; i<this.guiacarga2.length; i++){
       this.service.put(fact, 'factura/nroguiacarga', this.guiacarga2[i].nrof+"/"+this.guiacarga2[i].nrorelaciondespacho).then((result) => {
         this.data2 = result;
-        console.log("Que resultado trae al guardar factura? ", this.data2);
       }, (err) => {
-        console.log(`Error al guardar la factura ${i+1}`, err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }
   }
@@ -261,7 +255,6 @@ export class ModalguiascargasComponent implements OnInit {
             }
             this.service.post(guiacarga, 'guiacarga').then((result) => {
               this.data = result
-              console.log("Creando guia de carga", this.data);
               this.nroguiacarga = this.data.nro;
               let fact = {
                 nroguiacarga: this.nroguiacarga
@@ -269,13 +262,12 @@ export class ModalguiascargasComponent implements OnInit {
               for(let i = 0; i<this.guiacarga.length; i++){
                 this.service.put(fact, 'factura/nroguiacarga', this.guiacarga[i].nrof+"/"+this.guiacarga[i].nrorelaciondespacho).then((result) => {
                   this.data2 = result;
-                  console.log("Que resultado trae al guardar factura? ", this.data2);
                 }, (err) => {
-                  console.log(`Error al guardar la factura ${i+1}`, err)
+                  swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
                 })
               }
             }, (err) => {
-              console.log("Error al crear la guia de carga ", err)
+              swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
             })
             this.activeModal.close(this.guiacarga);
             break;
@@ -308,9 +300,7 @@ export class ModalguiascargasComponent implements OnInit {
 
     //Lo que me trae el modal al cerrarse
     modalx.result.then((result) => {
-      //console.log("Que me trae result al cerrar modal? ", result);
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
@@ -319,9 +309,10 @@ export class ModalguiascargasComponent implements OnInit {
       let dato:any = result;
       this.guiacarga = [];
       this.guiacarga = dato;
+      this.llenarTotales();
     }, 
     (err) => {
-      console.log("Error al hacer get a en facturasxNroGuiaCarga ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -336,12 +327,10 @@ export class ModalguiascargasComponent implements OnInit {
       if(data.message == "El chofer y su cedula han sido agregados a la guia de carga correctamente."){
         swal("Guia de Carga Modificada", `Se ha modificado la guia de carga #${this.facturas[0].nroguiacarga} satisfactoriamente`, "success");
         this.activeModal.close(this.guiacarga)
-        console.log("Se ha agregado el chofer y cedula");
       }else{
-        console.log("Maldito maduro");
       }
     }, (err) => {
-      console.log("Error al guardar chofer y cedula en la guia de carga ", err);
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 

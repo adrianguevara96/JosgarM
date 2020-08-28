@@ -78,6 +78,45 @@
                       Por favor, ambas contraseñas deben coincidir.
                     </div>
                   </div>
+                  <!--   PREGUNTA   -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                      </div>
+                      <input formControlName="pregunta" type="text" class="form-control" placeholder="Pregunta de Seguridad" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['pregunta'].invalid &&(angForm.controls['pregunta'].dirty || angForm.controls['pregunta'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['pregunta'].errors.required">
+                        Por favor, ingrese una pregunta de seguridad.
+                      </div>
+                    </div>
+                  </div>
+                  <!--   RESPUESTA   -->
+                  <div class="form-group" style="margin-bottom: 0.3rem;">
+                    <div class="input-group mb-1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                      </div>
+                      <input formControlName="respuesta" type="text" class="form-control" placeholder="Respuesta de Seguridad" required>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <div *ngIf="angForm.controls['respuesta'].invalid &&(angForm.controls['respuesta'].dirty || angForm.controls['respuesta'].touched)" class="text-danger">
+                      <div *ngIf="angForm.controls['respuesta'].errors.required">
+                        Por favor, ingrese una respuesta de seguridad.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-2">
+                    <re-captcha (resolved)="resolved($event)" 
+                    formControlName="recaptchaReactive" 
+                    [siteKey]="SITE_KEY" required>  
+                    </re-captcha>
+                  </div>
+                  <p class="text-muted">Por favor, ingrese y guarde su pregunta y clave de seguridad.</p>
                   <!--   BOTON DE REGISTRAR   -->
                   <button type="submit" class="btn btn-block btn-success">Registrarse</button>
                   <div class="col-12 text-center">

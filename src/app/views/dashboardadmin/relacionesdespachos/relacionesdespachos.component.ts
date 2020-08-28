@@ -35,7 +35,6 @@ export class RelacionesdespachosComponent implements OnInit {
   }
 
   openModal(accion:any, relaciondespacho:any) {
-    console.log("???: ",relaciondespacho)
     this.getFacturasxNroRelacionDespacho(relaciondespacho.nro);
     this.spinner.show();
     setTimeout(() => {
@@ -56,7 +55,7 @@ export class RelacionesdespachosComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -65,7 +64,7 @@ export class RelacionesdespachosComponent implements OnInit {
       this.tiposidentificacion = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tiposidentificacion ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -74,7 +73,7 @@ export class RelacionesdespachosComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -84,7 +83,7 @@ export class RelacionesdespachosComponent implements OnInit {
       this.facturas = dato;
     }, 
     (err) => {
-      console.log("Error al hacer get a en facturasxNroRelacionDespacho ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -100,7 +99,7 @@ export class RelacionesdespachosComponent implements OnInit {
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
   
@@ -124,7 +123,6 @@ export class RelacionesdespachosComponent implements OnInit {
   }
 
   cancelarRelacionDespacho(nro:any){
-    console.log("??? ", nro);
     swal("¿Está seguro de eliminar ésta relación de despacho?", {
       icon: "warning",
       closeOnClickOutside: false,
@@ -136,7 +134,6 @@ export class RelacionesdespachosComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          console.log("Cancelando ...")
           this.cancelRelacionDespacho(nro)
           this.getRelacionesDespacho();
           break;

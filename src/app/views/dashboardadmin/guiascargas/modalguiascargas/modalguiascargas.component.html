@@ -16,7 +16,7 @@
             <form [formGroup]="guiaForm" (ngSubmit)="onSubmit()">
                 <div *ngIf="accion == 'create'" class="form-row">
                     <!-- Nombre del Chofer -->
-                    <div class="col-2">
+                    <div class="col-auto">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado"><b>Nombre del Chofer</b></label>
                             <input formControlName="nombrechofer" type="text" class="form-control" placeholder="Nombre del Chofer" required>
@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <!-- Cedula del Chofer -->
-                    <div class="col-2">
+                    <div class="col-auto">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado"><b>Cédula del Chofer</b></label>
-                            <input formControlName="cedulachofer" type="text" class="form-control" placeholder="Nombre del Chofer" required>
+                            <input formControlName="cedulachofer" type="text" class="form-control" placeholder="Cédula del Chofer" required>
                         </div>
                         <div *ngIf="guiaForm.controls['cedulachofer'].invalid &&(guiaForm.controls['cedulachofer'].dirty || guiaForm.controls['cedulachofer'].touched)" class="text-danger">
                             <div *ngIf="guiaForm.controls['cedulachofer'].errors.required">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <!-- Monto Liquidacion del Chofer -->
-                    <div class="col-2">
+                    <div class="col-auto">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado"><b>Monto de Liquidación</b></label>
                             <input formControlName="montoliquidacion" type="text" class="form-control" placeholder="Nombre del Chofer" required>
@@ -51,8 +51,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="accion == 'create'" class="form-row">
                     <!-- Rutas -->
-                    <div class="col-3">
+                    <div class="col-auto">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado">Ruta</label>
                             <select (change)="CiudadesxRuta($event.target.value)" formControlName="ruta" class="form-control" required>
@@ -69,7 +71,7 @@
                         </div>
                     </div>
                     <!-- Ciudad -->
-                    <div class="col-3">
+                    <div class="col-auto">
                         <div class="form-group" style="margin-bottom: 0.3rem;">
                             <label for="estado">Ciudad</label>
                             <select formControlName="ciudad" class="form-control" required>
@@ -85,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-auto">
                         <label class="invisible">Boton</label><br>
                         <button type="submit" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar facturas" placement="right">
                             <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon><span style="color: black">Buscar Facturas</span>
@@ -163,6 +165,7 @@
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
+                                        <th># Guia</th>
                                         <th># Factura</th>
                                         <th>Remitente</th>
                                         <th>Destino</th>
@@ -173,6 +176,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let guia of guiacarga; let i=index">
+                                        <td>{{guia.nroguia}}</td>
                                         <td>{{guia.nrof}}</td>
                                         <td>{{guia.remitente}}</td>
                                         <td>
@@ -196,6 +200,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td><b>Total de Bultos: {{totalBultos}}</b></td>

@@ -1,5 +1,6 @@
 import {Component, Injectable} from '@angular/core';
 import { navItemsUser } from '../../_nav';
+import { ServicesService } from '../../services/services.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,8 +15,14 @@ export class DefaultLayoutComponent {
   //Lo que tiene el menu por defecto
   public navItemsUser = navItemsUser;
 
+  constructor(private service: ServicesService){
+  }
   toggleMinimize(e) {
     this.sidebarMinimized = e;
+  }
+
+  logOut(){
+    this.service.deleteUser();
   }
 
   setnavItems(valor:any){
@@ -88,6 +95,14 @@ export class DefaultLayoutComponent {
     //tipoUsuario = Operador
     }else if(valor == 2){
       this.navItemsUser.splice(0);
+      this.navItemsUser.push(
+        {title: true, name: 'Administración'},
+        {name: 'Dashboard Administrativo', url: '/administracion', icon:'fa fa-star'},
+        {name: 'Usuarios', url: '/administracion/usuarios', icon: 'fa fa-server'},
+        {name: 'Relaciones de Despacho',url: '/administracion/relacionesdespachos',icon: 'icon-drop'},
+        {name: 'Solicitudes de Recolectas',url: '/administracion/solicitudesrecolectas',icon: 'icon-drop'},
+        {name: 'Guías de Carga',url: '/administracion/guiascarga',icon: 'icon-drop'},
+        {name: 'Tracking',url: '/administracion/tracking',icon: 'icon-drop'},)
     //tipoUsuario = Usuario Comun
     }else{
       this.navItemsUser.splice(0);
@@ -121,11 +136,11 @@ export class DefaultLayoutComponent {
           url: '/tracking',
           icon: 'fa fa-map-marker'
         },
-        {
+        /*{
           name: 'Facturación',
           url: '/estadocuenta',
           icon: 'fa fa-money'
-        },
+        },*/
         {
           name: 'Solicitud Recolecta',
           url: '/solicitudrecolecta',

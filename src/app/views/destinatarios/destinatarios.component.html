@@ -20,13 +20,13 @@
             <div class="col-8">
               <div class="form-row">
                   <div class="col-8">
-                      <label for="destinatario">Buscar Destinatario</label><br>
+                      <label for="destinatario"><b>Buscar Destinatario</b> (Sin colocar tipo de identificación)</label><br>
                       <input type="text" [(ngModel)]="inputBuscar" class="form-control" id="destinatario" placeholder="Indique el rif del destinatario">
                   </div>
                   <div class="col-4">
                       <label class="invisible" for="destinatario">Destinatario</label><br>
                       <button type="button" (click)="buscarDestinatarios('see')" class="btn btn btn-primary btn-sm btn-pill" tooltip="Buscar Destinatario" placement="right">
-                        <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon>
+                        <svg-icon src="assets/search.svg" [svgStyle]="{ 'height.px':25,'width.px':25 }"></svg-icon> <span style="color:black"> Buscar</span>
                       </button>
                   </div>
               </div>

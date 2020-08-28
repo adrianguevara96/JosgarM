@@ -45,16 +45,13 @@ export class GuiascargasComponent implements OnInit {
 
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
-      console.log("Que me trae result al cerrar modal crear? ", result)
       if(result){
         let dataa:any[] = result
-        console.log("Que me trae data? :", dataa);
         if(dataa.length > 0){
           this.getGuiasCarga();
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
@@ -72,16 +69,13 @@ export class GuiascargasComponent implements OnInit {
 
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
-      console.log("Que me trae result al cerrar modal crear? ", result)
       if(result){
         let dataa:any[] = result
-        console.log("Que me trae data? :", dataa);
         if(dataa.length > 0){
           this.getGuiasCarga();
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
     }, 5000);
 
@@ -94,7 +88,7 @@ export class GuiascargasComponent implements OnInit {
       this.facturas = dato;
     }, 
     (err) => {
-      console.log("Error al hacer get a en facturasxNroGuiaCarga ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -109,7 +103,7 @@ export class GuiascargasComponent implements OnInit {
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a guias de carga ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -119,7 +113,7 @@ export class GuiascargasComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -128,7 +122,7 @@ export class GuiascargasComponent implements OnInit {
       this.rutas = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -136,7 +130,7 @@ export class GuiascargasComponent implements OnInit {
     this.service.put(null,'factura/cancelnroguiacarga', nro).then((result) => {
       this.data = result;
       if(this.data.message == "El nroguiacarga de la factura ha sido eliminado logicamente."){
-        this.service.put(null,'guiacarga', nro).then((result) =>{
+        this.service.delete('guiacarga', nro).then((result) =>{
           this.data = result;
           if(this.data.message == `La guia de carga ha sido eliminada fisicamente.`){
             swal("Guia de Carga Eliminada", `Se ha eliminado la guia de carga #${nro} satisfactoriamente`, "success");
@@ -152,7 +146,6 @@ export class GuiascargasComponent implements OnInit {
   }
 
   cancelarGuiaCarga(nro:any){
-    console.log("??? ", nro);
     swal("¿Está seguro de eliminar esta guía de carga?", {
       icon: "warning",
       closeOnClickOutside: false,
@@ -164,7 +157,6 @@ export class GuiascargasComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          console.log("Cancelando ...")
           this.cancelGuiaCarga(nro)
           this.getGuiasCarga();
           break;

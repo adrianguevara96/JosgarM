@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -37,22 +37,16 @@ export class PdfrelaciondespachoComponent implements OnInit {
   user:any={};
   tipoidentificacionusuario:any;
 
-  
-
-
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
     public service: ServicesService) {
       this.esconderInputyBoton = false;
-      //this.spinner.show();
-      //this.user = this.service.getUser();
     }
 
   ngOnInit() {
     this.user = this.service.getUser();
-    console.log("FACTURASPDF? ", this.facturasPDF);
     this.createForm(); 
     this.rellenarPDF();
   }
@@ -82,7 +76,6 @@ export class PdfrelaciondespachoComponent implements OnInit {
 
   onSubmit() {
     if (this.relacionDespachoPDFForm.valid) {
-      //console.log(this.relacionDespachoPDFForm.value);
       swal("¿Está seguro de generar este PDF? En caso de equivocarse, debe generarlo nuevamente.", {
         icon: "warning",
         closeOnClickOutside: false,
@@ -137,9 +130,6 @@ export class PdfrelaciondespachoComponent implements OnInit {
       var imgWidth = 210;   
       var pageHeight = 295;    
       var imgHeight = canvas.height * imgWidth / canvas.width;  
-      console.log("Canvas ",canvas.height);
-      console.log("imgWidth: ", imgWidth)
-      console.log("imgHeight: ", imgHeight)
       var heightLeft = imgHeight;  
   
       const contentDataURL = canvas.toDataURL('image/png')  
@@ -147,7 +137,6 @@ export class PdfrelaciondespachoComponent implements OnInit {
       var position = 0;  
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.save(`${this.user.nombres+" "+this.user.apellidos}_${this.user.razonsocial}_Relacion_Despacho_Nro_${this.facturasPDF[0].nrorelaciondespacho}.pdf`); // Generated PDF 
-      return console.log("PDF?") 
     });  
   } 
 

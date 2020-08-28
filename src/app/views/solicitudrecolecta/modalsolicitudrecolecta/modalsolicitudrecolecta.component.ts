@@ -123,27 +123,31 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
   }
 
   agregarSolicitudRecolecta(){
-    let solicitudrecolecta = {
-      bultos: this.solicitudRecolectaForm.controls["bultos"].value,
-      tipomercancia: this.solicitudRecolectaForm.controls["tipomercancia"].value,
-      fecha: this.solicitudRecolectaForm.controls["fecha"].value,
-      hora: moment(this.solicitudRecolectaForm.controls["hora"].value, "H:mm").format("HH:mm:ss"),
-      estado: this.solicitudRecolectaForm.controls["estado"].value,
-      ciudad: this.solicitudRecolectaForm.controls["ciudad"].value,
-      direccion: this.solicitudRecolectaForm.controls["direccion"].value,
-      observacion: this.solicitudRecolectaForm.controls["observacion"].value,
-      iduser: this.iduser
-    }
-    console.log("Esta solicitud de recolecta? ", solicitudrecolecta);
-    this.service.post(solicitudrecolecta,'solicitudrecolecta').then((result) => {
-      let daata:any = result;
-      if(daata.nro){
-        swal("Solicitud de Recolecta Creada", `Su solicitud de recolecta #${daata.nro} ha sido creada exitosamente.`, "success");
-        this.activeModal.close(solicitudrecolecta);
+    if(moment(this.solicitudRecolectaForm.controls["fecha"].value, "YYYY-MM-DD").format("YYYY-MM-DD") > moment().format()){
+      let solicitudrecolecta = {
+        bultos: this.solicitudRecolectaForm.controls["bultos"].value,
+        tipomercancia: this.solicitudRecolectaForm.controls["tipomercancia"].value,
+        fecha: this.solicitudRecolectaForm.controls["fecha"].value,
+        hora: moment(this.solicitudRecolectaForm.controls["hora"].value, "H:mm").format("HH:mm:ss"),
+        estado: this.solicitudRecolectaForm.controls["estado"].value,
+        ciudad: this.solicitudRecolectaForm.controls["ciudad"].value,
+        direccion: this.solicitudRecolectaForm.controls["direccion"].value,
+        observacion: this.solicitudRecolectaForm.controls["observacion"].value,
+        iduser: this.iduser
       }
-    }, (err) => {
-      swal("Error del Sistema", "Ha ocurrido un error al crear su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
-    })
+      console.log("Esta solicitud de recolecta? ", solicitudrecolecta);
+      this.service.post(solicitudrecolecta,'solicitudrecolecta').then((result) => {
+        let daata:any = result;
+        if(daata.nro){
+          swal("Solicitud de Recolecta Creada", `Su solicitud de recolecta #${daata.nro} ha sido creada exitosamente.`, "success");
+          this.activeModal.close(solicitudrecolecta);
+        }
+      }, (err) => {
+        swal("Error del Sistema", `Ha ocurrido un error al crear su solicitud de recolecta. Por favor, intentelo de nuevo: ${err}.`, "warning");
+      })
+    }else{
+      swal("Fecha Incorrecta", "Ingrese una fecha mayor a la actual.", "info");
+    }
   }
 
   saveSolicitudRecolecta(){

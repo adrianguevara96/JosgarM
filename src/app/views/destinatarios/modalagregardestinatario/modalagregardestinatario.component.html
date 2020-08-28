@@ -101,7 +101,7 @@
                         <div *ngIf="destForm.controls['tlfijo'].errors.required">
                             Por favor, ingrese el número de tlf fijo del destinatario
                         </div>
-                        <div *ngIf="profileForm.controls['tlfmovil'].errors.pattern">
+                        <div *ngIf="destForm.controls['tlfijo'].errors.pattern">
                             Ingrese un nº de tlf. fijo válido (Ej: 1234-1234567)
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                         <div *ngIf="destForm.controls['tlfmovil'].errors.required">
                             Ingrese el número de tlf móvil del destinatario
                         </div>
-                        <div *ngIf="profileForm.controls['tlfmovil'].errors.pattern">
+                        <div *ngIf="destForm.controls['tlfmovil'].errors.pattern">
                             Ingrese un nº de tlf. móvil válido (Ej: 1234-1234567)
                         </div>
                     </div>

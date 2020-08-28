@@ -63,15 +63,8 @@ import { PdfguiascargasComponent } from './views/dashboardadmin/guiascargas/pdfg
 import { ModalguiascargasComponent } from './views/dashboardadmin/guiascargas/modalguiascargas/modalguiascargas.component';
 import { ModaladminrelacionesdespachosComponent } from './views/dashboardadmin/relacionesdespachos/modaladminrelacionesdespachos/modaladminrelacionesdespachos.component';
 
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
-/*import { TablasbasicasComponent } from './views/tablasbasicas/tablasbasicas.component';
-import { DashboardadminComponent } from './views/dashboardadmin/dashboardadmin.component';
-import { SolicitudrecolectaComponent } from './views/solicitudrecolecta/solicitudrecolecta.component';
-import { DestinatariosComponent } from './views/destinatarios/destinatarios.component';
-import { OrdenescargasComponent } from './views/ordenescargas/ordenescargas.component';
-import { TrackingComponent } from './views/tracking/tracking.component';
-import { EstadocuentaComponent } from './views/estadocuenta/estadocuenta.component';
-import { ProfileComponent } from './views/profile/profile.component';*/
 
 @NgModule({
   imports: [
@@ -95,7 +88,9 @@ import { ProfileComponent } from './views/profile/profile.component';*/
     AngularSvgIconModule.forRoot(),
     NgbModule,
     TooltipModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    RecaptchaModule,  //this is the recaptcha main module
+    RecaptchaFormsModule, //this is the module for form incase form validation
   ],
   declarations: [
     AppComponent,

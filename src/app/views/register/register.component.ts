@@ -10,13 +10,16 @@ import { Router } from '@angular/router';
   templateUrl: 'register.component.html'
 })
 export class RegisterComponent implements OnInit {
+  SITE_KEY = "6LcMlcMZAAAAAIT1sNJxf8XD7RDPQIxopFn3MAtE"
   user:any = {
-    nombres: "",
-    apellidos: "",
+    nombres: null,
+    apellidos: null,
     razonsocial: "",
     email: "",
     password: "",
-    tipousuario : 1
+    tipousuario : 1,
+    pregunta: "",
+    respuesta: ""
   }
   business:any;
 
@@ -35,12 +38,19 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(){}
 
+  resolved(captchaResponse: string, res) {
+    //console.log(`Resolved response token: ${captchaResponse}`);
+  }
+
   createForm() {
     this.angForm = this.formBuilder.group({
       razonsocial: ["", Validators.required],
       email: ["", Validators.required],
       password: ["", Validators.required],
-      repassword: ["", Validators.required]
+      repassword: ["", Validators.required],
+      pregunta: ["", Validators.required],
+      respuesta: ["", Validators.required],
+      recaptchaReactive: ["", Validators.required]
     });
     
     /*this.angForm.controls["razonsocial"].valueChanges.subscribe(data => {
@@ -53,7 +63,7 @@ export class RegisterComponent implements OnInit {
   
   onSubmit() {
     if (this.angForm.valid) {
-      //console.log(this.angForm.value);
+      console.log(this.angForm.value);
       this.llenarFormUser();
       this.registerUser();
     }
@@ -65,6 +75,8 @@ export class RegisterComponent implements OnInit {
     this.user.razonsocial = this.angForm.controls["razonsocial"].value;
     this.user.email = this.angForm.controls["email"].value;
     this.user.password = this.angForm.controls["password"].value;
+    this.user.pregunta = this.angForm.controls["pregunta"].value;
+    this.user.respuesta = this.angForm.controls["respuesta"].value;
   }
   vaciarFormUser(){
     this.user.razonsocial = "";
@@ -75,7 +87,8 @@ export class RegisterComponent implements OnInit {
     this.angForm.controls["password"].setValue("");
   }
   registerUser(){
-    this.service.post(this.user,'user').then((result) => {
+    console.log(this.user)
+    this.service.postWithoutHeader(this.user,'user').then((result) => {
       this.data = result;
       if(this.data.message == `Usuario ${this.user.email} creado exitosamente.`){
         swal({
@@ -94,10 +107,12 @@ export class RegisterComponent implements OnInit {
             break;
           }
         })
+      }else if(this.data.message == "Ya existe un usuario con ese correo"){
+        swal("Correo en uso", "Ya existe un usuario registrado con ese correo, por favor ingrese otro correo.", "info");
       }
     },
     (err) => {
-      console.log("Error al registrar el usuario.", err)
+      swal("Error del Sistema", "Ha ocurrido un error, por favor intentelo de nuevo.", "warning");
     })
   }
   

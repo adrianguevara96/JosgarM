@@ -52,7 +52,6 @@ export class TrackingComponent implements OnInit {
     this.getEstados();
   }
 
-
   //Para la paginacion
   pageChanged(event: PageChangedEvent){
     //Event page: Pagina actual  ItemsPerPage: Datos por pagina.
@@ -62,7 +61,6 @@ export class TrackingComponent implements OnInit {
   }
 
   createForm() {
-    //this.solicitudRecolecta = [];
     this.trackingForm = this.formBuilder.group({
       buscar: [0],
       inputBuscar: ["", Validators.required],
@@ -107,7 +105,6 @@ export class TrackingComponent implements OnInit {
   }
 
   placehold(){
-    console.log("aqui estoy", this.trackingForm.controls['buscar'].value)
     setTimeout( () => {
       if(this.trackingForm.controls['buscar'].value == 1){
         this.placeholderInput = 'Indique el nro de factura a buscar';
@@ -118,7 +115,6 @@ export class TrackingComponent implements OnInit {
       }
     },200);
   }
-
 
   getFacturasxUsuario(){
     this.service.get(`facturas/user/${this.user.id}`).then((result) => {
@@ -133,7 +129,7 @@ export class TrackingComponent implements OnInit {
         }
       }
     }, (err) => {
-      console.log("Error al solicitar las facturas asociadas al usuario");
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
   getEstados(){
@@ -141,7 +137,7 @@ export class TrackingComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -150,10 +146,9 @@ export class TrackingComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
-
 
   open(content) {
     this.modalService.open(content, {size: 'lg'});

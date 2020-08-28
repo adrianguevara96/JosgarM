@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     public service: ServicesService) {
     this.user = this.service.getUser();
-
    }
 
   ngOnInit(){
@@ -42,9 +41,7 @@ export class ProfileComponent implements OnInit {
       nombres: [this.user.nombres, Validators.required],
       apellidos: [this.user.apellidos, Validators.required],
       email: [this.user.email, Validators.required],
-      //codigoareatlfijo: ["", Validators.required],
       tlfijo: [this.user.tlfijo, Validators.required],
-      //codigoareatlmovil: ["", Validators.required],
       tlfmovil: [this.user.tlfmovil, Validators.required],
       tipoidentificacion: [this.user.tipoidentificacion, Validators.required],
       rif: [this.user.rif, Validators.required],
@@ -115,15 +112,13 @@ export class ProfileComponent implements OnInit {
   }
   
   modifyUser(){
-    this.service.put(this.profileForm.value, 'user', this.user.id).then((result) => {
+    this.service.put(this.profileForm.value, 'user', this.user.id).then( (result) => {
       this.data = result
       if(this.data.message){
         swal("Perfil Actualizado", "Su perfil ha sido actualizado correctamente.", "success");
       }
-    },
-    (err) => {
-      console.log("Error al editar el usuario ", err)
+    }, (err) => {
+      swal("Error", "Error al editar su perfil.", "warning");
     })
   }
-
 }

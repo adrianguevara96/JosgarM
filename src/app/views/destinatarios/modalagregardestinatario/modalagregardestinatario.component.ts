@@ -54,15 +54,12 @@ export class ModalagregardestinatarioComponent implements OnInit {
 
   ngOnInit() {
     if(this.accion == "see"){
-      console.log("Entre aqui por la opcion SEE");     
-      console.log("direccionesEntrega ", this.direccionesEntrega);
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las direcciones de entrega que tenga el destinatario
       //this.destinatario = [];
       this.direntrega = [];
       this.direntrega = this.direccionesEntrega;
-      console.log("Destinatario trae ", this.destinatario);
       this.nombre = this.nombreDest;
 
     }else if(this.accion == "edit"){
@@ -82,8 +79,6 @@ export class ModalagregardestinatarioComponent implements OnInit {
       this.esconderBoton = false;
       this.editrow = true;
     }
-    console.log("Que trae al iniciar modal?: ",this.destinatario, this.accion, this.identificacion, this.estados, this.ciudades)
-    console.log(this.tipoAccion);
   }
 
   createForm() {
@@ -104,7 +99,6 @@ export class ModalagregardestinatarioComponent implements OnInit {
       direccion: ["", Validators.required],
       estado: ["", Validators.required],
       ciudad: ["", Validators.required],
-
     });
   }
 
@@ -117,10 +111,8 @@ llenardestForm(){
   this.destForm.controls['tlfmovil'].setValue(this.destinatario.tlfmovild);
   this.destForm.controls['identificacion'].setValue(this.destinatario.tid);
   this.destForm.controls['rif'].setValue(this.destinatario.rifd)
-  console.log("casi entro");
   this.ciudadesxEstado = [];
   for(let i = 0; i< this.ciudades.length; i++){
-    console.log(" entro");
     if(this.ciudades[i].id == this.destinatario.ciudadd){
       this.ciudadesxEstado.push(this.ciudades[i]);
     }
@@ -128,11 +120,8 @@ llenardestForm(){
 }
 
 editarRow(direntrega:any){
-  console.log(this.direntrega)
   let validarFactura:boolean = true
-  console.log(direntrega)
   for(let i =0; i<this.direntrega.length; i++){
-    console.log(this.direntrega[i].status);
     if(this.direntrega[i].status == false){
       validarFactura = false;
     }
@@ -162,7 +151,7 @@ editarRow(direntrega:any){
           swal("Direccion de Entrega Creada", "Ud ha agregado una direccion de entrega al destinatario satisfactoriamente.","success");
         }
       }, (err) => {
-        console.log(`Ha ocurrido un error con el sistema: ${err}`);
+        swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");
       })
 
       setTimeout(() => {
@@ -186,8 +175,6 @@ editarRow(direntrega:any){
       this.direccionEntrega.controls['direccion'].setValue(" ");
       this.direccionEntrega.controls['estado'].setValue(" ");
       this.direccionEntrega.controls['ciudad'].setValue(" ");
-  
-      console.log('Direccion entrega ',this.direntrega);
     }
 
   }
@@ -199,9 +186,7 @@ editarRow(direntrega:any){
   }
 
   crearDestinatario(){
-    console.log("Entrando al metodo crearDestinatario ");
     if (this.destForm.valid) {
-      console.log("DIRENTREGA ", this.direntrega);
       if(this.direntrega.length==0 || this.direntrega == []){
         swal("¿Desea guardar el destinatario sin dirección de entrega?", {
           icon: "warning",
@@ -228,12 +213,11 @@ editarRow(direntrega:any){
               if(this.tipoAccion == "Modificar"){
                 this.service.put(destinatario, 'destinatario', this.destinatario.idd).then((result) => {
                   let answer:any = result;
-                  console.log("answer ", answer);
                   if(answer.message == "Destinatario actualizado correctamente."){
                     swal("Modificación exitosa", "Destinatario actualizado correctamente.","info");
                     this.activeModal.close(this.direntrega);
                   }else{
-                    console.log("Error al modificar el destinatario");
+                    swal("Error", `Error al modificar el destinatario.`,"warning");
                   }
                 })
               }else{
@@ -245,7 +229,7 @@ editarRow(direntrega:any){
                     swal.close();
                   }
                 }, (err) => {
-                  console.log(`Ha ocurrido un error: ${err}`);
+                  swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");
                 })
               }
               break;
@@ -255,7 +239,6 @@ editarRow(direntrega:any){
           }
         });
       }else{
-        console.log("Else: Si tengo direcciones de entrega.");
         let destinatario = {
           iduser: this.iduser,
           nombres: this.destForm.controls['nombre'].value,
@@ -270,21 +253,20 @@ editarRow(direntrega:any){
         if(this.tipoAccion == "Modificar"){
           this.service.put(destinatario, 'destinatario', this.destinatario.idd).then((result) => {
             let answer:any = result;
-            console.log("answer ", answer);
             if(answer.message == "Destinatario actualizado correctamente."){
               swal("Modificación exitosa", "Destinatario actualizado correctamente.","info");
               this.activeModal.close(this.direntrega);
             }else{
-              console.log("Error al modificar el destinatario");
+              swal("Error", `Ha ocurrido un error.`,"warning");
             }
           })
         }else{
           this.service.post(destinatario, 'destinatario').then((result)=> {
           this.data1 = result;
-          //console.log("data1 result ", this.data1);
-
+          if(this.data1.message == `El destinatario ${destinatario.nombres} ha sido creado.`){
+            swal("Destinatario Creado", `El destinatario ${destinatario.nombres} ha sido creado satisfactoriamente.`,"success");
+          }
           for (let i=0; i<this.direntrega.length; i++){
-          //console.log("Entrando al for ", this.data1.id);
           let directrega = {
             nombres: this.direntrega[i].nombres,
             direccion: this.direntrega[i].direccion,
@@ -294,14 +276,15 @@ editarRow(direntrega:any){
           }
           this.service.post(directrega, 'direccionentrega').then((result) => {
             let data2 = result;
+            console.log("Al registrar un destinatario con direccion de entrega: ", result)
             this.activeModal.close(destinatario);
           },(err) => {
-            console.log("Error al guardar la direccion de entrega ", err);
+            swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");
           })
         }
         },(err) => {
-          console.log("Error al crear el destinatario ", err);
-          })
+          swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");
+        })
         }
       }
     }else{
@@ -324,7 +307,6 @@ editarRow(direntrega:any){
 
   ciudadesxEstados(idest:any){
     this.ciudadesxEstado = [];
-    //console.log("Ciudades x estado ")
     for(let i=0; i<this.ciudades.length; i++){
       if(this.ciudades[i].idestado == idest){
         this.ciudadesxEstado.push(this.ciudades[i]);
@@ -334,7 +316,6 @@ editarRow(direntrega:any){
 
   ciudadesxEstados2(idest:any){
     this.ciudadesxEstado2 = [];
-    //console.log("Ciudades x estado ")
     for(let i=0; i<this.ciudades.length; i++){
       if(this.ciudades[i].idestado == idest){
         this.ciudadesxEstado2.push(this.ciudades[i]);
@@ -344,7 +325,6 @@ editarRow(direntrega:any){
 
   ciudadesxEstados3(idest:any){
     this.ciudadesxEstado3 = [];
-    console.log("Ciudades x estado ")
     for(let i=0; i<this.ciudades.length; i++){
       if(this.ciudades[i].idestado == idest){
         this.ciudadesxEstado3.push(this.ciudades[i]);
@@ -353,7 +333,6 @@ editarRow(direntrega:any){
   }
 
   updateDireccionEntrega(dire:any){
-    console.log("Actualizando direccion entrega del destinatario: ", dire);
     let directrega = {
       nombres: dire.nombres,
       direccion: dire.direccion,
@@ -361,7 +340,6 @@ editarRow(direntrega:any){
       ciudad: dire.ciudad,
       destinatario: dire.destinatario
     }
-    console.log("Lo que envio al actualizar: ", directrega)
     this.service.put(directrega, 'direccionentrega', dire.id).then((result) => {
       this.data = result;
       if(this.data){
@@ -371,9 +349,7 @@ editarRow(direntrega:any){
           //this.activeModal.close();
         }
       }
-      //console.log(`Guardando factura #${fact.nro} editada: `, this.data)
     }, (err) => {
-      console.log(`No se pudo actualizar la factura ${dire.id}`, err)
       swal("Factura no modificada", `Lo sentimos, hubo un error al actualizar la factura. Por favor, intentalo de nuevo.`, "warning");
     })
   }
@@ -383,7 +359,7 @@ editarRow(direntrega:any){
       let dato:any = result;
       this.direntrega = dato;
     }, (err) => {
-      console.log("Error en la busqueda de direcciones de entrega ", err)
+      swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");
     });
   }
 

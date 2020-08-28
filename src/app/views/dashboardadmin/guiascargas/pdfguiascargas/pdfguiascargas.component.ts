@@ -37,14 +37,12 @@ export class PdfguiascargasComponent implements OnInit {
    }
 
   ngOnInit(){
-    console.log(this.guiacarga, this.ciudades, this.nroguiacarga);
     this.createForm(); 
     this.fecha = moment().format('DD/MM/YYYY');
     if(this.gc != undefined){
       this.guiacargaPDFForm.controls['nombre'].setValue(this.gc.nombre);
       this.guiacargaPDFForm.controls['cedula'].setValue(this.gc.cedula);
       this.accion = this.gc.accion;
-      console.log(this.accion)
     }
   }
 
@@ -62,7 +60,6 @@ export class PdfguiascargasComponent implements OnInit {
 
   onSubmit() {
     if (this.guiacargaPDFForm.valid) {
-      //console.log(this.relacionDespachoPDFForm.value);
       swal("¿Está seguro de generar este PDF? En caso de equivocarse, debe generarlo nuevamente.", {
         icon: "warning",
         closeOnClickOutside: false,
@@ -104,9 +101,6 @@ export class PdfguiascargasComponent implements OnInit {
       var imgWidth = 210;   
       var pageHeight = 295;    
       var imgHeight= canvas.height * imgWidth / canvas.width;  
-      console.log("Canvas ",canvas.height);
-      console.log("imgWidth: ", imgWidth)
-      console.log("imgHeight: ", imgHeight)
       var heightLeft = imgHeight;  
   
       const contentDataURL = canvas.toDataURL('image/png')  
@@ -114,7 +108,7 @@ export class PdfguiascargasComponent implements OnInit {
       var position = 0;  
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.save(`GuiadeCarga-Chofer:${this.guiacargaPDFForm.controls['nombre'].value}.pdf`); // Generated PDF 
-      return console.log("PDF?") 
+      //return console.log("PDF?") 
     });  
   } 
 
@@ -127,12 +121,10 @@ export class PdfguiascargasComponent implements OnInit {
     this.service.put(guiacarga,'guiacarga/chofer',this.nroguiacarga).then((result) =>{
       let data:any = result;
       if(data.message == "El chofer y su cedula han sido agregados a la guia de carga correctamente."){
-        console.log("Se ha agregado el chofer y cedula");
       }else{
-        console.log("Maldito maduro");
       }
     }, (err) => {
-      console.log("Error al guardar chofer y cedula en la guia de carga ", err);
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 

@@ -68,7 +68,6 @@ export class SolicitudrecolectaComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          console.log("Cancelando ...")
           this.cancelSolicitudRecolecta(solicitudrecolecta)
           this.getSolicitudesRecolecta();
           break;
@@ -91,22 +90,20 @@ export class SolicitudrecolectaComponent implements OnInit {
     modalRef.result.then((result) => {
       if(result){
         let data:any = result
-        console.log("Que me trae data? :", data);
         if(data.bultos){
           this.getSolicitudesRecolecta();
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
   //Para la paginacion
   pageChanged(event: PageChangedEvent){
-      //Event page: Pagina actual  ItemsPerPage: Datos por pagina.
-      const startItem = (event.page - 1) * event.itemsPerPage;
-      const endItem = event.page * event.itemsPerPage;
-      this.solicitudesRecolecta10 = this.solicitudesRecolecta.slice(startItem, endItem);
+    //Event page: Pagina actual  ItemsPerPage: Datos por pagina.
+    const startItem = (event.page - 1) * event.itemsPerPage;
+    const endItem = event.page * event.itemsPerPage;
+    this.solicitudesRecolecta10 = this.solicitudesRecolecta.slice(startItem, endItem);
   }
 
   //Metodo para ver las solicitudes de recolecta
@@ -130,7 +127,7 @@ export class SolicitudrecolectaComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -139,7 +136,7 @@ export class SolicitudrecolectaComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -148,7 +145,7 @@ export class SolicitudrecolectaComponent implements OnInit {
       this.tiposmercancia = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -163,18 +160,18 @@ export class SolicitudrecolectaComponent implements OnInit {
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error al eliminar su solicitud de recolecta. Por favor, intentelo de nuevo. ${err}`, "warning");
     });
   };
 
   cancelSolicitudRecolecta(solicitudrecolecta:any){
-    this.service.put(null,'solicitudrecolecta/cancel',solicitudrecolecta.nro).then((result) =>{
+    this.service.delete('solicitudrecolecta',solicitudrecolecta.nro).then((result) =>{
       this.data = result;
-      if(this.data.message == `La solicitud de recolecta #${solicitudrecolecta.nro} ha sido eliminada logicamente.`){
-        swal("Solicitud de Recolecta Cancelada", `Se ha cancelado su solicitud de recolecta #${solicitudrecolecta.nro} satisfactoriamente`, "success");
+      if(this.data.message == `La solicitud de recolecta ha sido eliminada fisicamente.`){
+        swal("Solicitud de Recolecta Eliminada", `Se ha eliminado su solicitud de recolecta #${solicitudrecolecta.nro} satisfactoriamente`, "success");
       }
     }, (err) => {
-      swal("Error del Sistema", "Ha ocurrido un error al cancelar su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
+      swal("Error del Sistema", `Ha ocurrido un error al eliminar su solicitud de recolecta. Por favor, intentelo de nuevo. ${err}`, "warning");
     })
   }
 
@@ -202,7 +199,7 @@ export class SolicitudrecolectaComponent implements OnInit {
           }, 5000);
         }
       }, (err) => {
-        console.log("Error al buscar esa relacion de despacho. ", err)
+        swal("Error del Sistema", "Ha ocurrido un error al cancelar su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
       })
     }
   }

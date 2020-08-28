@@ -49,7 +49,6 @@ export class UsersComponent implements OnInit {
         }
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
@@ -77,13 +76,13 @@ export class UsersComponent implements OnInit {
   }
 
   cancelUsuario(user:any){
-    this.service.put(null,'user/cancel',user.id).then((result) =>{
+    this.service.put(null,'user/cancel', user.id).then( (result) =>{
       this.data = result;
-      if(this.data.message == "El Usuario ha sido eliminado."){
+      if(this.data.message == "El usuario ha sido eliminado."){
         swal("Usuario Eliminado", `Se ha eliminado el usuario ${user.nombres +" "+ user.apellidos} satisfactoriamente`, "success");
       }
     }, (err) => {
-      swal("Error del Sistema", "Ha ocurrido un error al cancelar su solicitud de recolecta. Por favor, intentelo de nuevo.", "warning");
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 
@@ -92,7 +91,7 @@ export class UsersComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a usuarios ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -101,7 +100,7 @@ export class UsersComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a usuarios ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -112,7 +111,7 @@ export class UsersComponent implements OnInit {
       this.users = data;
     }, 
     (err) => {
-      console.log("Error al hacer get a usuarios ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -121,7 +120,7 @@ export class UsersComponent implements OnInit {
       this.tiposMercancia = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tiposMercancia ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 
@@ -130,7 +129,7 @@ export class UsersComponent implements OnInit {
       this.tiposIdentificacion = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tiposMercancia ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 

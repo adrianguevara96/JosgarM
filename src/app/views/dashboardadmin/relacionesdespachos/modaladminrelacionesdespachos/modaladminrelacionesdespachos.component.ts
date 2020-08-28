@@ -67,7 +67,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
 
    ngOnInit() {
     if(this.accion == "seeadmin"){
-      console.log(`Entre aqui por la accion ${this.accion}`);
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       //Hacer un for para ver las facturas que hayan en la relacion de despacho
@@ -76,7 +75,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
       this.llenarTotales();
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
     }else if(this.accion == "editadmin"){
-      console.log(`Entre aqui por la accion ${this.accion}`);
       this.tipoAccion = "Modificar";
       this.esconderBoton = true;
       this.facturas = [];
@@ -85,20 +83,13 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
       this.numero = `# ${this.facturas[0].nrorelaciondespacho}`;
       //Hacer un for para editar las facturas que hayan en la relacion de despacho
     }
-    console.log("Que trae al iniciar modal?: ",
-    "relacionDespacho: ", this.relacionDespacho, 
-    "accion: ", this.accion, 
-    "estados: ", this.estados, 
-    "ciudades: ", this.ciudades, 
-    "tipoAccion: ", this.tipoAccion, 
-    "relaciondespacho: ", this.reldespacho)
   }
 
   llenarTotales(){
     this.totalBultos = 0;
     this.totalBsS = 0;
     for(let i=0;i<this.facturas.length;i++){
-      this.totalBultos = this.totalBultos + this.facturas[i].bultos;
+      this.totalBultos = this.totalBultos + parseInt(this.facturas[i].bultos);
       this.totalBsS = this.totalBsS + parseInt(this.facturas[i].valor);
     }
   }
@@ -119,17 +110,13 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
   }
 
   editarRow(factura:any){
-    console.log(this.facturas)
     let validarFactura:boolean = true
-    console.log(factura)
     for(let i =0; i<this.facturas.length; i++){
-      console.log(this.facturas[i].status);
       if(this.facturas[i].status == false){
         validarFactura = false;
       }
     }
     if(validarFactura){
-      //this.visible = true;
       this.ciudadxEstado = [];
       for(let i = 0; i<this.ciudades.length; i++){
         if(this.ciudades[i].id == factura.ciudad){
@@ -142,123 +129,8 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    if (this.facturaForm.valid) {
-      console.log(this.facturaForm.value);
-      this.agregarFactura();
-    }else {
-      swal("Rellenar Campos", "Por favor, rellene todos los campos.", "info");
-    }
-  }
-
-  crearRelacion(){
-    swal("¿Está seguro de crear esta nueva relación de despacho?", {
-      icon: "warning",
-      closeOnClickOutside: false,
-      buttons: {
-        cancel: "Cancelar",
-        guardar: true
-      },
-    } as any)
-    .then((value) => {
-      switch (value) {
-        case "guardar":
-          console.log("Facturas?: ", this.facturas);
-          //Crear relacion de despacho
-          let relacionDespacho = {
-            fecha: moment().format('L'),
-            hora: moment().format('LTS'),
-            idusuario: this.iduser
-          }
-          this.service.post(relacionDespacho, 'relaciondespacho').then((result) => {
-            this.data = result
-            console.log("Creando relacion despacho", this.data);
-            this.nrorelaciond = this.data.nro;
-            for(let i = 0; i<this.facturas.length; i++){
-              let fact = {
-                nro: this.facturas[i].nro,
-                bultos: this.facturas[i].bultos,
-                valor: this.facturas[i].valor,
-                tipoidentificacion: this.facturas[i].tipoidentificacion,
-                rif: this.facturas[i].rif,
-                razonsocial: this.facturas[i].razonsocial,
-                fletedestino: this.facturas[i].fletedestino,
-                estado: this.facturas[i].estado,
-                ciudad: this.facturas[i].ciudad,
-                direccion:this.facturas[i].direccion,
-                nrorelaciondespacho: this.data.nro,
-                fecha: moment().format('L'),
-                status: true
-              }
-              this.service.post(fact, 'factura').then((result) => {
-                this.data2 = result;
-                console.log(`Guardando factura ${i+1}`);
-                console.log("Que resultado trae al guardar factura? ", this.data2);
-              }, (err) => {
-                console.log(`Error al guardar la factura ${i+1}`, err)
-              })
-            }
-          }, (err) => {
-            console.log("Error al crear la relacion de despacho ", err)
-          })
-          swal("¿Desea imprimir esta relación de despacho?", {
-            icon: "info",
-            closeOnClickOutside: false,
-            buttons: {
-              rechazar: "No",
-              imprimir: true
-            }
-          } as any)
-          .then((value) => {
-            switch (value) {
-              case "imprimir":
-                console.log("Generando PDF ...");
-                this.generatePDF();
-                //this.activeModal.close(this.facturas)
-                swal.close();
-                break;
-              case "rechazar":
-                this.activeModal.close(this.facturas)
-                swal.close();
-                break;
-            }
-          });
-          break;
-        case "cancel":
-        swal.close();
-        break;
-      }
-    });
-  }
-
-  agregarFactura(){
-    if(this.facturas.length <10){
-      this.facturas.push({
-        nro: this.facturaForm.controls["nro"].value,
-        bultos: this.facturaForm.controls["bultos"].value,
-        valor: this.facturaForm.controls["valor"].value,
-        rif: this.facturaForm.controls["rif"].value,
-        tipoidentificacion: this.facturaForm.controls["tipoidentificacion"].value,
-        razonsocial: this.facturaForm.controls["razonsocial"].value,
-        fletedestino: this.facturaForm.controls["fletedestino"].value,
-        estado: this.facturaForm.controls["estado"].value,
-        ciudad: this.facturaForm.controls["ciudad"].value,
-        direccion: this.facturaForm.controls["direccion"].value,
-        nrorelaciondespacho: this.iduser,
-        fecha: moment().format('L'),
-        status: true
-      });
-      console.log("Agregando una factura: ", this.facturas)
-    }else{
-      console.log("Solo se permiten 10 facturas ")
-    }
-  }
 
   eliminarFactura(fact:any, pos:any){
-    /*if(this.facturas.length > 0){
-      this.facturas.splice(pos,1);
-    }*/
-    console.log("factura: ", fact, "posicion: ", pos);
     this.service.delete('factura', fact.nro).then( (result) => {
       let data:any = result;
       if(data.message == `La factura #${fact.nro} ha sido eliminada fisicamente.`){
@@ -268,7 +140,7 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
         
       }
     }, (err) => {
-      console.log("Ha ocurrido un error al borrar la factura(admin)", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 
@@ -287,7 +159,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
  
     //Lo que me trae el modal al cerrarse
     modalRef.result.then((result) => {
-      //console.log("Que me trae result al cerrar modal del pdf? ", result)
       if(result){
         let dataa:any[] = result
         if(dataa.length > 0){
@@ -296,12 +167,10 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
 
       }
     }, (reason)=> {
-      console.log("Reason? :", reason)
     })
   }
 
   CiudadxEstado(idestado:any){
-    console.log(idestado)
     this.ciudadxEstado = [];
     for(let j = 0; j<this.ciudades.length; j++){
       if(this.ciudades[j].idestado == idestado){
@@ -310,7 +179,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
     }
   }
   CiudadxEstados(idestado:any){
-    console.log(idestado)
     this.ciudadxEstados = [];
     for(let j = 0; j<this.ciudades.length; j++){
       if(this.ciudades[j].idestado == idestado){
@@ -320,7 +188,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
   }
 
   updateFactura(factura:any){
-    console.log("Actualizando factura de la relacion de despacho");
     let fact = {
       nro: factura.nro,
       bultos: factura.bultos,
@@ -346,9 +213,7 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
           //this.activeModal.close();
         }
       }
-      //console.log(`Guardando factura #${fact.nro} editada: `, this.data)
     }, (err) => {
-      console.log(`No se pudo actualizar la factura ${fact.nro}`, err)
       swal("Factura no modificada", `Lo sentimos, hubo un error al actualizar la factura #${factura.nro}. Por favor, intentalo de nuevo.`, "warning");
     })
   }
@@ -363,12 +228,11 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
         this.destinatarios = result;
       }
     }, (err) => {
-      console.log("Error al solicitar los destinatarios.")
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 
   openModal(content:any, dest:any) {
-    console.log("Abriendo modal: ", dest);
     this.destinatario = [];
     let destinatar = {
       nombres: dest.nombresd,
@@ -379,7 +243,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
       rif:  dest.rifd
     }
     this.destinatario.push(destinatar);
-    console.log("destinatario???? ", this.destinatario);
 
     this.spinner2.show();
     setTimeout(() => {
@@ -397,7 +260,6 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
 
   //Metodo para seleccionar la direccion del destinatario
   seleccionar(objeto:any){
-    console.log("Que objeto? :", objeto);
     this.facturaForm.controls['tipoidentificacion'].setValue(this.destinatario[0].tipoidentificacion);
     this.facturaForm.controls['rif'].setValue(this.destinatario[0].rif);
     this.facturaForm.controls['razonsocial'].setValue(objeto.nombres);
@@ -424,7 +286,7 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
       }
 
     }, (err) => {
-      console.log("Error en la busqueda de direcciones de entrega ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 

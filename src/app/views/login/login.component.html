@@ -96,7 +96,31 @@
                                   Ingrese una contrasena
                               </div>
                             </div>
-                            <p class="text-muted">Por favor, introduzca el correo electrónico asociado a su cuenta para recuperar su contraseña.</p>
+                            <!--   PREGUNTA   -->
+                              <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input formControlName="preguntaseguridad" type="text" class="form-control" placeholder="Pregunta de Seguridad" required>
+                              </div>
+                              <div *ngIf="passwordforgotForm.controls['preguntaseguridad'].invalid &&(passwordforgotForm.controls['preguntaseguridad'].dirty || passwordforgotForm.controls['preguntaseguridad'].touched)" class="text-danger">
+                                <div *ngIf="passwordforgotForm.controls['preguntaseguridad'].errors.required">
+                                  Por favor, ingrese su pregunta de seguridad.
+                                </div>
+                              </div>
+                            <!--   RESPUESTA   -->
+                              <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input formControlName="respuestaseguridad" type="text" class="form-control" placeholder="Respuesta de Seguridad" required>
+                              </div>
+                              <div *ngIf="passwordforgotForm.controls['respuestaseguridad'].invalid &&(passwordforgotForm.controls['respuestaseguridad'].dirty || passwordforgotForm.controls['respuestaseguridad'].touched)" class="text-danger">
+                                <div *ngIf="passwordforgotForm.controls['respuestaseguridad'].errors.required">
+                                  Por favor, ingrese su respuesta de seguridad.
+                                </div>
+                              </div>
+                            <p class="text-muted">Por favor, introduzca el correo electrónico asociado a su cuenta, una contrasena nueva y la pregunta y respuesta de seguridad para cambiar su contraseña.</p>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Cerrar</button>

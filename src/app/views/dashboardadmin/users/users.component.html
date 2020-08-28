@@ -37,7 +37,13 @@
                             <tr *ngFor="let user of users">
                                 <td>{{user.nombres}}</td>
                                 <td>{{user.apellidos}}</td>
-                                <td>{{user.rif}}</td>
+                                <td>
+                                    <div *ngFor="let ti of tiposIdentificacion">
+                                        <span *ngIf="ti.id == user.tipoidentificacion">
+                                            {{ti.nombre}}-{{user.rif}}
+                                        </span>
+                                    </div>
+                                </td>
                                 <td>{{user.razonsocial}}</td>
                                 <td>{{user.tlfijo}}</td>
                                 <td>{{user.tlfmovil}}</td>
