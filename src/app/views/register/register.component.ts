@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(){}
 
-  resolved(captchaResponse: string, res) {
+  resolved(captchaResponse: string) {
     //console.log(`Resolved response token: ${captchaResponse}`);
   }
 

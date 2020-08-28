@@ -290,4 +290,79 @@ export class ModaladminrelacionesdespachosComponent implements OnInit {
     });
   }
 
+  crearRelacion(){
+    swal("¿Está seguro de crear esta nueva relación de despacho?", {
+      icon: "warning",
+      closeOnClickOutside: false,
+      buttons: {
+        cancel: "Cancelar",
+        guardar: true
+      },
+    } as any)
+    .then((value) => {
+      switch (value) {
+        case "guardar":
+          //Crear relacion de despacho
+          let relacionDespacho = {
+            fecha: moment().format('L'),
+            hora: moment().format('LTS'),
+            idusuario: this.iduser
+          }
+          this.service.post(relacionDespacho, 'relaciondespacho').then((result) => {
+            this.data = result
+            this.nrorelaciond = this.data.nro;
+            for(let i = 0; i<this.facturas.length; i++){
+              let fact = {
+                nro: this.facturas[i].nro,
+                bultos: this.facturas[i].bultos,
+                valor: this.facturas[i].valor,
+                tipoidentificacion: this.facturas[i].tipoidentificacion,
+                rif: this.facturas[i].rif,
+                razonsocial: this.facturas[i].razonsocial,
+                fletedestino: this.facturas[i].fletedestino,
+                estado: this.facturas[i].estado,
+                ciudad: this.facturas[i].ciudad,
+                direccion:this.facturas[i].direccion,
+                nrorelaciondespacho: this.data.nro,
+                fecha: moment().format('L'),
+                status: true
+              }
+              this.service.post(fact, 'factura').then((result) => {
+                this.data2 = result;
+              }, (err) => {
+                swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
+              })
+            }
+          }, (err) => {
+            swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
+          })
+          swal("¿Desea imprimir esta relación de despacho?", {
+            icon: "info",
+            closeOnClickOutside: false,
+            buttons: {
+              rechazar: "No",
+              imprimir: true
+            }
+          } as any)
+          .then((value) => {
+            switch (value) {
+              case "imprimir":
+                this.generatePDF();
+                //this.activeModal.close(this.facturas)
+                swal.close();
+                break;
+              case "rechazar":
+                this.activeModal.close(this.facturas)
+                swal.close();
+                break;
+            }
+          });
+          break;
+        case "cancel":
+        swal.close();
+        break;
+      }
+    });
+  }
+
 }
