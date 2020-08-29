@@ -7,8 +7,9 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 export class ServicesService {
 
   //url = "https://apijosgarm.herokuapp.com/api/";
+  //url = "http://localhost:3001/api/";
+  url = "http://inversionesjosgar.com/api/";
   
-  url = "http://localhost:3001/api/";
   user: any;
   business: any = {
     nombre: 'Inversiones & Servicios Josgar M C.A'
