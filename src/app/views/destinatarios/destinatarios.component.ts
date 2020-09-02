@@ -121,6 +121,7 @@ export class DestinatariosComponent implements OnInit {
       }
     },
     (err) => {
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     }
   );
   }

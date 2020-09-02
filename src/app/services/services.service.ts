@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import swal from 'sweetalert';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class ServicesService {
 
   //url = "https://apijosgarm.herokuapp.com/api/";
   //url = "http://localhost:3001/api/";
-  url = "http://inversionesjosgar.com/api/";
+  url = "https://inversionesjosgar.com/api/";
   
   user: any;
   business: any = {
@@ -25,10 +26,13 @@ export class ServicesService {
     })
     return new Promise(resolve => {
       this.http.get(this.url + entidad, { headers: head }).subscribe( (data) => {
-        console.log("Que me trae data en GET", data);
+        //console.log("Que me trae data en GET", data);
         resolve(data);
       }, (err) => {
-        console.log(`Ha ocurrido un error al realizar el get en ${entidad}`, err);
+        if(err.error.message){
+          resolve(err.error);
+        }
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema al hacer get: ${err}.`, "warning");
       });
     });
   }
@@ -37,10 +41,10 @@ export class ServicesService {
   getWithoutHeader(entidad:string){
     return new Promise(resolve => {
       this.http.get(this.url + entidad).subscribe( (data) => {
-        console.log("Que me trae data en GET sin header", data);
+        //console.log("Que me trae data en GET sin header", data);
         resolve(data);
       }, (err) => {
-        console.log(`Ha ocurrido un error al realizar el get en ${entidad}`, err);
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema al hacer get: ${err}.`, "warning");
       });
     });
   }
@@ -54,10 +58,9 @@ export class ServicesService {
     return new Promise((resolve, reject) => {
       this.http.post(this.url + entidad, datos, { headers: head })
         .subscribe(res => {
-          console.log("Que me trae res en POST", res);
+          //console.log("Que me trae res en POST", res);
           resolve(res);
         }, (err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -68,10 +71,9 @@ export class ServicesService {
       return new Promise((resolve, reject) => {
         this.http.post(this.url + entidad, datos)
           .subscribe(res => {
-            console.log("Que me trae res en POST", res);
+            //console.log("Que me trae res en POST", res);
             resolve(res);
           }, (err) => {
-            console.log(err);
             reject(err);
           });
       });
@@ -86,10 +88,9 @@ export class ServicesService {
     return new Promise((resolve, reject) => {
       this.http.put(this.url + entidad + '/' + valor, (datos),  { headers: head })
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         }, (err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -100,10 +101,9 @@ export class ServicesService {
     return new Promise((resolve, reject) => {
       this.http.put(this.url + entidad + '/' + valor, (datos))
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         }, (err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -116,13 +116,11 @@ export class ServicesService {
        Authorization: 'Bearer: ' + this.getUserToken()
     })
     return new Promise((resolve, reject) => {
-      console.log(this.url + entidad + '/'+ valor);
       this.http.delete(this.url + entidad + '/' + valor, { headers: head })
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         }, (err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -137,10 +135,9 @@ export class ServicesService {
     return new Promise((resolve, reject) => {
       this.http.put(this.url + entidad + '/' + valor, null)
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         }, (err) => {
-          console.log(err);
           reject(err);
         });
     });

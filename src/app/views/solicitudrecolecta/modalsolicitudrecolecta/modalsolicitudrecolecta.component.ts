@@ -38,7 +38,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
 
   ngOnInit(){
     if(this.accion == "see"){
-      //console.log("Entre aqui por la opcion SEE")
       this.tipoAccion = "Ver"; //Lo que se muestra en el titulo del card en HTML
       this.esconderBoton = true; //Esconde los botones de agregar, eliminar fila, guardar y limpiar
       this.see = true;
@@ -75,8 +74,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
 
   onSubmit() {
     if (this.solicitudRecolectaForm.valid) {
-      console.log(typeof this.solicitudRecolectaForm.controls["hora"].value)
-      console.log(this.solicitudRecolectaForm.value);
       swal("¿Está seguro de crear esta solicitud de recolecta?", {
         icon: "warning",
         closeOnClickOutside: false,
@@ -88,7 +85,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
       .then((value) => {
         switch (value) {
           case "guardar":
-            console.log("Guardando ...");
             this.agregarSolicitudRecolecta();
             break;
           case "cancel":
@@ -135,7 +131,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
         observacion: this.solicitudRecolectaForm.controls["observacion"].value,
         iduser: this.iduser
       }
-      console.log("Esta solicitud de recolecta? ", solicitudrecolecta);
       this.service.post(solicitudrecolecta,'solicitudrecolecta').then((result) => {
         let daata:any = result;
         if(daata.nro){
@@ -162,7 +157,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
       observacion: this.solicitudRecolectaForm.controls["observacion"].value,
       iduser: this.solicitudRecolecta[0].id
     }
-    console.log(solrec)
     this.service.put(solrec,'solicitudrecolecta',this.solicitudRecolecta[0].nro).then((result) =>{
       let data:any = result;
       if(data.message == `La solicitud de recolecta ha sido modificada.`){
@@ -186,7 +180,6 @@ export class ModalsolicitudrecolectaComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          //console.log("Cancelando ...")
           this.saveSolicitudRecolecta();
           this.activeModal.close(this.solicitudRecolecta);
           break;

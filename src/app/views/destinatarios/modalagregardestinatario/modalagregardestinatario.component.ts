@@ -276,7 +276,6 @@ editarRow(direntrega:any){
           }
           this.service.post(directrega, 'direccionentrega').then((result) => {
             let data2 = result;
-            console.log("Al registrar un destinatario con direccion de entrega: ", result)
             this.activeModal.close(destinatario);
           },(err) => {
             swal("Error del Sistema", `Ha ocurrido un error: ${err}.`,"warning");

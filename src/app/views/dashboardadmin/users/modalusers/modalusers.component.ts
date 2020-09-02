@@ -87,7 +87,6 @@ export class ModalusersComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid) {
-      console.log(this.userForm.value)
       if(this.accion == 'edit'){
 
       }else{
@@ -95,7 +94,6 @@ export class ModalusersComponent implements OnInit {
       }
     }else {
       swal("Rellenar Campos", "Por favor, rellene todos los campos.", "info");
-      console.log(this.userForm.value)
     }
   }
 
@@ -117,10 +115,7 @@ export class ModalusersComponent implements OnInit {
   }
 
   modifyUser(){
-    console.log(this.userForm.value)
     if(this.userForm.controls['password'].value != this.usuario.password){
-      console.log(this.userForm.controls['password'].value)
-      console.log(this.usuario.password)
       this.passwordforUser = this.userForm.controls['password'].value;
 
       let user1 = {
@@ -140,7 +135,6 @@ export class ModalusersComponent implements OnInit {
         password: this.passwordforUser,
       }
 
-      console.log("Que trae user1 (user/complete)- API: ", user1)
       this.service.put(user1, 'user/complete', this.usuario.id).then((result) => {
         this.data = result
         if(this.data.message == "Usuario actualizado correctamente."){
@@ -149,7 +143,7 @@ export class ModalusersComponent implements OnInit {
         }
       },
       (err) => {
-        console.log("Error al editar el usuario ", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }else if (this.userForm.controls['password'].value == this.usuario.password){
       let user2 = {
@@ -167,7 +161,6 @@ export class ModalusersComponent implements OnInit {
         ciudad: this.userForm.controls['ciudad'].value,
         tipomercancia: this.userForm.controls['tipomercancia'].value,
       }
-      console.log("Que trae user2 (user/completewp)- API: ", user2)
       this.service.put(user2, 'user/completewp', this.usuario.id).then((result) => {
         this.data = result
         if(this.data.message == "Usuario actualizado correctamente."){
@@ -176,7 +169,7 @@ export class ModalusersComponent implements OnInit {
         }
       },
       (err) => {
-        console.log("Error al editar el usuario ", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }
 
@@ -212,7 +205,7 @@ export class ModalusersComponent implements OnInit {
       }
     },
     (err) => {
-      console.log("Error al registrar el usuario.", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 

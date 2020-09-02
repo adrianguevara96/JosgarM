@@ -112,7 +112,6 @@ export class TrackingComponent implements OnInit {
 
   onSubmit2() {
     if (this.tracking2Form.valid) {
-      //console.log(this.tracking2Form.value);
       this.buscarFacturasxRuta(this.tracking2Form.controls['ruta'].value);
       //this.tracking2Form.controls['ruta'].setValue(0);
       //this.tracking2Form.controls['ciudad'].setValue(0);
@@ -123,7 +122,6 @@ export class TrackingComponent implements OnInit {
   }
 
   placehold(){
-    console.log("aqui estoy", this.trackingForm.controls['buscar'].value)
     setTimeout( () => {
       if(this.trackingForm.controls['buscar'].value == 1){
         this.placeholderInput = 'Indique el nro de factura a buscar';
@@ -148,7 +146,7 @@ export class TrackingComponent implements OnInit {
         }
       }
     }, (err) => {
-      console.log("Error al solicitar las facturas asociadas al usuario");
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
   getEstados(){
@@ -156,7 +154,7 @@ export class TrackingComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -165,7 +163,7 @@ export class TrackingComponent implements OnInit {
       this.ciudades = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -174,7 +172,7 @@ export class TrackingComponent implements OnInit {
       this.rutas = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   };
 
@@ -203,7 +201,7 @@ export class TrackingComponent implements OnInit {
           this.buscarFacturasxRuta(this.tracking2Form.controls['ruta'].value);
         }
       }, (err) => {
-        console.log("Ha ocurrido un error al guardar la fecha de entrega para la factura. ", err)
+        swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
       })
     }else{
       swal("Especifique una fecha", `Por favor, especifique una fecha inferior o igual a la fecha actual.`, "info");
@@ -220,7 +218,7 @@ export class TrackingComponent implements OnInit {
         this.facturas = data;
       }
     }, (err) => {
-      console.log("Error al hacer get a buscarFacturasxRuta.", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     })
   }
 

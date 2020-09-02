@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
       this.estados = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a estados ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
       }
     }, 
     (err) => {
-      console.log("Error al hacer get a ciudades ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 
@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
       this.tiposMercancia = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tiposMercancia ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
 
@@ -107,7 +107,7 @@ export class ProfileComponent implements OnInit {
       this.id = result;
     }, 
     (err) => {
-      console.log("Error al hacer get a tiposMercancia ", err)
+      swal("Error del Sistema", `Ha ocurrido un error en el sistema: ${err}.`, "warning");
     });
   }
   

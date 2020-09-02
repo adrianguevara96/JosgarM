@@ -16,7 +16,6 @@ export class LoginGuardService implements CanActivate {
   
   public canActivate() {
     this.user = this.service.getUser();
-    console.log(this.user);
     if(this.user){
       return true;
     }else{

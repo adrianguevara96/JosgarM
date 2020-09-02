@@ -43,7 +43,6 @@ export class UsersComponent implements OnInit {
     modalRef.result.then((result) => {
       if(result){
         let dataa:any[] = result
-        console.log(dataa);
         if(dataa){
           this.getUsuarios();
         }
@@ -64,7 +63,6 @@ export class UsersComponent implements OnInit {
     .then((value) => {
       switch (value) {
         case "aceptar":
-          console.log("Cancelando ...")
           this.cancelUsuario(user);
           this.getUsuarios();
           break;
@@ -76,7 +74,7 @@ export class UsersComponent implements OnInit {
   }
 
   cancelUsuario(user:any){
-    this.service.put(null,'user/cancel', user.id).then( (result) =>{
+    this.service.delete('user', user.id).then( (result) =>{
       this.data = result;
       if(this.data.message == "El usuario ha sido eliminado."){
         swal("Usuario Eliminado", `Se ha eliminado el usuario ${user.nombres +" "+ user.apellidos} satisfactoriamente`, "success");
