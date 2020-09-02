@@ -13,7 +13,7 @@ export class ServicesService {
   
   user: any;
   business: any = {
-    nombre: 'Inversiones & Servicios Josgar M C.A'
+    nombre: 'Inversiones Y Servicios Josgar M, C.A'
   };
 
   constructor(public http: HttpClient) { }
